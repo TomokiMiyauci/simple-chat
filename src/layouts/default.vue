@@ -4,7 +4,7 @@
     <v-content>
       <nuxt />
     </v-content>
-    <v-bottom-navigation app>
+    <v-bottom-navigation app dark>
       <v-post-box />
     </v-bottom-navigation>
   </v-app>

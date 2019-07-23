@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar color="red" dark app>
+  <v-app-bar dark app>
     <v-toolbar-title class="text-capitalize">
       {{ title }}
     </v-toolbar-title>
