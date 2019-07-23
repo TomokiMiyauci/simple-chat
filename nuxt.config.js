@@ -44,19 +44,24 @@ export default {
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
     '@nuxtjs/pwa',
     '@nuxtjs/eslint-module'
   ],
   devModules: ['@nuxtjs/vuetify'],
+  manifest: {
+    name: 'Simple Chat',
+    short_name: 'Simple Chat',
+    description: 'Chat application that can talk with anyone!',
+    lang: 'ja',
+    theme_color: '#2994e9',
+    background_color: '#f5fbff',
+    display: 'standalone'
+  },
 
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {
-    debug: true
-  },
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
