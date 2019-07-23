@@ -1,39 +1,34 @@
 <template>
   <div>
-    <v-btn color="success" @click="click">
-      text
-    </v-btn>
-    {{ messages }}
+    <v-layout column pa-1>
+      <v-flex v-for="(message, index) in messages" :key="index" py-3>
+        <v-avatar>
+          <v-img :src="src" />
+        </v-avatar>
+        <v-chip> {{ message.text }} </v-chip>
+        <span class="pl-1 overline">{{ message.timestamp | getHHMM }}</span>
+      </v-flex>
+    </v-layout>
   </div>
 </template>
 
 <script>
 import { firestore } from '~/plugins/firebase'
 export default {
+  filters: {
+    getHHMM(val) {
+      const date = val.toDate()
+      return date.getHours() + ':' + date.getMinutes()
+    }
+  },
   data() {
     return {
       messages: [],
-      subscribe: null
+      src: require('~/assets/images/anonymous.jpg')
     }
   },
   firestore: {
-    messages: firestore.collection('test')
-  },
-  methods: {
-    click() {
-      firestore
-        .collection('test')
-        .get()
-        .then((res) => {
-          console.log(res)
-          if (res.empty) {
-            console.log('No matching documents.')
-            return
-          }
-          res.forEach((doc) => this.messages.push(doc.data()))
-        })
-        .catch((err) => console.log('Error getting documents', err))
-    }
+    messages: firestore.collection('messages').orderBy('timestamp')
   }
 }
 </script>

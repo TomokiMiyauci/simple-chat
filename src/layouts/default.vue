@@ -4,17 +4,19 @@
     <v-content>
       <nuxt />
     </v-content>
-    <the-bottom-nav />
+    <v-bottom-navigation app>
+      <v-post-box />
+    </v-bottom-navigation>
   </v-app>
 </template>
 
 <script>
 import TheAppbar from '~/components/organisms/TheAppbar'
-import TheBottomNav from '~/components/organisms/TheBottomNav'
+import VPostBox from '~/components/organisms/VPostBox'
 export default {
   components: {
     TheAppbar,
-    TheBottomNav
+    VPostBox
   }
 }
 </script>

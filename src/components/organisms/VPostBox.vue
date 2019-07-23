@@ -6,7 +6,7 @@
     filled
     rounded
     clearable
-    label="Message"
+    label="メッセージを入力"
     type="text"
     @click:append-outer="sendMessage"
     @click:prepend="changeIcon"
@@ -15,14 +15,8 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { firestore } from '~/plugins/firebase'
 export default {
-  props: {
-    userid: {
-      type: String,
-      required: true
-    }
-  },
   data: () => ({
     message: '',
     iconIndex: 0,
@@ -39,25 +33,22 @@ export default {
   }),
 
   computed: {
-    ...mapState('message', ['messages']),
-    ...mapState('user', ['user']),
     icon() {
       return this.icons[this.iconIndex]
-    },
-    item() {
-      return this.messages
     }
   },
 
   methods: {
-    ...mapMutations('message', ['POST']),
     sendMessage() {
       const msg = {
         timestamp: new Date(),
-        text: this.message,
-        userID: this.userid
+        text: this.message
       }
-      this.POST(msg)
+      firestore
+        .collection('messages')
+        .add(msg)
+        .then((doc) => console.log(doc))
+        .catch((error) => console.log(error))
       this.resetIcon()
       this.clearMessage()
     },
