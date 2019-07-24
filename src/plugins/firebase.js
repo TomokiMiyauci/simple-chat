@@ -2,6 +2,8 @@ import Vue from 'vue'
 import { firestorePlugin } from 'vuefire'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
+// import 'firebase/auth'
+import 'firebase/auth'
 
 Vue.use(firestorePlugin)
 const firebaseConfig = {
@@ -17,4 +19,8 @@ const firebaseConfig = {
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig)
 }
-export const firestore = firebase.firestore()
+// export const firestore = firebase.firestore()
+export default firebase
+// export const auth = firebase.auth()
+
+// export const auth = firebase.auth()

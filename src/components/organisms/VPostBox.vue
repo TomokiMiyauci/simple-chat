@@ -15,7 +15,8 @@
 </template>
 
 <script>
-import { firestore } from '~/plugins/firebase'
+import firebase from '~/plugins/firebase'
+
 export default {
   data: () => ({
     message: '',
@@ -44,7 +45,8 @@ export default {
         timestamp: new Date(),
         text: this.message
       }
-      firestore
+      firebase
+        .firestore()
         .collection('messages')
         .add(msg)
         .then((doc) => console.log(doc))

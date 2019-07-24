@@ -21,7 +21,8 @@
 </template>
 
 <script>
-import { firestore } from '~/plugins/firebase'
+import firebase from '~/plugins/firebase'
+// import { firestore } from '~/plugins/firebase'
 export default {
   filters: {
     getHHMM(val) {
@@ -36,7 +37,10 @@ export default {
     }
   },
   firestore: {
-    messages: firestore.collection('messages').orderBy('timestamp')
+    messages: firebase
+      .firestore()
+      .collection('messages')
+      .orderBy('timestamp')
   }
 }
 </script>
