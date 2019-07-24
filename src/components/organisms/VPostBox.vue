@@ -40,16 +40,16 @@ export default {
   },
 
   methods: {
-    sendMessage() {
+    async sendMessage() {
       const msg = {
         timestamp: new Date(),
         text: this.message
       }
-      firebase
+      await firebase
         .firestore()
         .collection('messages')
         .add(msg)
-        .then((doc) => console.log(doc))
+        .then((doc) => this.scrollBottom())
         .catch((error) => console.log(error))
       this.resetIcon()
       this.clearMessage()
@@ -64,6 +64,11 @@ export default {
       this.iconIndex === this.icons.length - 1
         ? (this.iconIndex = 0)
         : this.iconIndex++
+    },
+    scrollBottom() {
+      this.$nextTick(() => {
+        window.scrollTo(0, document.body.clientHeight)
+      })
     }
   }
 }
