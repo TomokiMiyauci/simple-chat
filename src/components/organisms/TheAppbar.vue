@@ -5,12 +5,7 @@
     </v-toolbar-title>
     <v-spacer />
     <v-btn v-if="isLogin" fab absolute right @click="logout">
-      <v-img
-        src="https://vuetifyjs.com/apple-touch-icon-180x180.png"
-        alt="avatar"
-        max-height="40px"
-        max-width="40px"
-      />
+      <v-img :src="src" alt="avatar" max-height="40px" max-width="40px" />
     </v-btn>
 
     <v-btn v-if="!isLogin" icon @click="click">
@@ -25,7 +20,8 @@ import firebase from '~/plugins/firebase'
 export default {
   data() {
     return {
-      isLogin: null
+      isLogin: null,
+      src: null
     }
   },
   computed: {
@@ -40,11 +36,13 @@ export default {
       await firebase
         .auth()
         .signInWithPopup(provider)
-        .then(() => (this.isLogin = true))
+        .then(() => {
+          this.isLogin = true
+          this.src = firebase.auth().currentUser.photoURL
+        })
     },
     clic() {
-      console.log(!!firebase.auth().currentUser)
-      firebase.auth().signOut()
+      console.log(firebase.auth().currentUser.photoURL)
     },
     logout() {
       firebase.auth().signOut()
