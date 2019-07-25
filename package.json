@@ -20,7 +20,8 @@
     "firebase": "^6.3.1",
     "firebaseui": "^4.1.0",
     "nuxt": "^2.8.1",
-    "vuefire": "^2.1.0"
+    "vuefire": "^2.1.0",
+    "vuexfire": "^3.1.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^0.0.1",
