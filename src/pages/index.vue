@@ -6,7 +6,13 @@
           <v-layout column pa-1>
             <v-flex v-for="(message, index) in messages" :key="index" py-3>
               <v-avatar>
-                <v-img :src="src" />
+                <v-img
+                  :src="
+                    message.profilePicUrl
+                      ? message.profilePicUrl
+                      : require('~/assets/images/anonymous.jpg')
+                  "
+                />
               </v-avatar>
               <v-chip> {{ message.text }} </v-chip>
               <span class="pl-1 overline">{{
@@ -22,10 +28,12 @@
 
 <script>
 import firebase from '~/plugins/firebase'
-// import { firestore } from '~/plugins/firebase'
 export default {
   filters: {
     getHHMM(val) {
+      if (!val) {
+        return
+      }
       const date = val.toDate()
       return date.getHours() + ':' + date.getMinutes()
     }
@@ -41,6 +49,7 @@ export default {
       .firestore()
       .collection('messages')
       .orderBy('timestamp')
+      .limit(10)
   }
 }
 </script>
