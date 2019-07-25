@@ -1,5 +1,5 @@
 export const SET_NAME = 'SET_NAME'
 export const SET_PHOTO_URL = 'SET_PHOTO_URL'
-export const IS_AUTH = 'AUTH'
+export const IS_AUTH = 'IS_AUTH'
 export const LOGIN = 'LOGIN'
 export const LOGOUT = 'LOGOUT'
