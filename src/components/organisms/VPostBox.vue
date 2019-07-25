@@ -15,8 +15,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import firebase from '~/plugins/firebase'
-
 export default {
   data: () => ({
     message: '',
@@ -34,6 +34,7 @@ export default {
   }),
 
   computed: {
+    ...mapState('user', ['name', 'photoURL']),
     icon() {
       return this.icons[this.iconIndex]
     }
@@ -42,8 +43,10 @@ export default {
   methods: {
     async sendMessage() {
       const msg = {
-        timestamp: new Date(),
-        text: this.message
+        name: this.name,
+        text: this.message,
+        profilePicUrl: this.photoURL,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
       }
       await firebase
         .firestore()
