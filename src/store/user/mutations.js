@@ -1,12 +1,12 @@
-import { GET, LOGIN, LOGOUT } from './mutation-types'
+import { SET_NAME, SET_PHOTO_URL, IS_AUTH } from './mutation-types'
 export default {
-  [GET](state, payload) {
-    state.user = payload
+  [SET_NAME](state, payload) {
+    state.photoURL = payload
   },
-  [LOGIN](state, payload) {
-    state.user = payload
+  [SET_PHOTO_URL](state, payload) {
+    state.photoURL = payload
   },
-  [LOGOUT](state) {
-    state.user = null
+  [IS_AUTH](state, payload) {
+    state.isAuth = payload
   }
 }

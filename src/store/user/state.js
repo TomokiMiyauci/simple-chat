@@ -1,5 +1,7 @@
 export default () => ({
-  user: null
+  name: null,
+  photoURL: null,
+  isAuth: null
 })
 // user:{
 //   uuid:String,
