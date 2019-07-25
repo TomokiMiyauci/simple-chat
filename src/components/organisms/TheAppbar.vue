@@ -24,7 +24,7 @@ export default {
 
     src: function() {
       return this.photoURL
-        ? require(this.photoURL)
+        ? this.photoURL
         : require('~/assets/images/anonymous.jpg')
     }
   },
