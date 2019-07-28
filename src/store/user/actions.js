@@ -8,11 +8,18 @@ import {
 import firebase from '~/plugins/firebase'
 
 export default {
-  [LOGIN]({ commit }) {
-    const user = firebase.auth().currentUser
-    commit(SET_NAME, user.displayName)
-    commit(SET_PHOTO_URL, user.photoURL)
-    commit(IS_AUTH, !!user)
+  async [LOGIN]({ commit }) {
+    const provider = new firebase.auth.GoogleAuthProvider()
+    await firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then(() => {
+        const user = firebase.auth().currentUser
+        console.log(user.displayName)
+        commit(SET_NAME, user.displayName)
+        commit(SET_PHOTO_URL, user.photoURL)
+        commit(IS_AUTH, !!user)
+      })
   },
   async [LOGOUT]({ commit }) {
     await firebase
