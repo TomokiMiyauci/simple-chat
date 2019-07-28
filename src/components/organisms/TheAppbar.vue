@@ -11,16 +11,11 @@
     <v-btn v-if="!isAuth" icon @click="LOGIN()">
       <v-icon>exit_to_app</v-icon>
     </v-btn>
-    <the-firebase-ui v-if="!isAuth" />
   </v-app-bar>
 </template>
 <script>
 import { mapState, mapActions } from 'vuex'
-import TheFirebaseUi from '~/components/organisms/TheFirebaseUi'
 export default {
-  components: {
-    TheFirebaseUi
-  },
   computed: {
     ...mapState('navbar', ['title']),
     ...mapState('user', ['photoURL', 'isAuth']),

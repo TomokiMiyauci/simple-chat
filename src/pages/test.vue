@@ -1,14 +1,7 @@
 <template>
-  <div>
-    <the-firebase-ui />
-  </div>
+  <div />
 </template>
 
 <script>
-import TheFirebaseUi from '~/components/organisms/TheFirebaseUi'
-export default {
-  components: {
-    TheFirebaseUi
-  }
-}
+export default {}
 </script>
