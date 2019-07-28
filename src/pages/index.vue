@@ -49,7 +49,6 @@ export default {
       .firestore()
       .collection('messages')
       .orderBy('timestamp')
-      .limit(10)
   }
 }
 </script>
