@@ -49,9 +49,8 @@ export default {
           firebase.auth.GoogleAuthProvider.PROVIDER_ID,
           firebase.auth.EmailAuthProvider.PROVIDER_ID
         ],
-        signInFlow: 'popup',
 
-        signInSuccessUrl: '/test',
+        signInSuccessUrl: '/',
         tosUrl: '/tos',
         privacyPolicyUrl: '/privacy-policy',
         callbacks: {
