@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 import VDialogCard from '~/components/molecules/VDialogCard'
 export default {
@@ -61,11 +61,9 @@ export default {
   computed: {
     ...mapState('navbar', ['title']),
     ...mapState('user', ['photoURL', 'isAuth']),
-
+    ...mapGetters('user', ['photoURL']),
     src: function() {
       return this.photoURL
-        ? this.photoURL
-        : require('~/assets/images/anonymous.jpg')
     }
   },
   methods: {
