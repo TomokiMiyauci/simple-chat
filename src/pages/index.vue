@@ -1,10 +1,10 @@
 <template>
   <div>
-    <v-container>
+    <v-container v-for="(message, index) in messages" :key="index">
       <v-layout justify-center>
-        <v-flex xs12 sm10 md8 lg6 xl5>
-          <v-layout column pa-1>
-            <v-flex v-for="(message, index) in messages" :key="index" py-3>
+        <v-flex xs12 sm11 md9 lg6 xl4>
+          <v-layout wrap>
+            <v-flex d-flex xs2 sm1>
               <v-avatar>
                 <v-img
                   :src="
@@ -14,10 +14,17 @@
                   "
                 />
               </v-avatar>
-              <v-chip> {{ message.text }} </v-chip>
-              <span class="pl-1 overline">{{
-                message.timestamp | getHHMM
-              }}</span>
+            </v-flex>
+            <v-flex xs4 sm2>
+              <div class="pl-1">
+                {{ message.name || 'Anonimus' }}
+              </div>
+              <v-chip> {{ message.text }}</v-chip>
+            </v-flex>
+            <v-flex xs4 sm2 align-self-end>
+              <span class="pl-2 overline">
+                {{ message.timestamp | getHHMM }}
+              </span>
             </v-flex>
           </v-layout>
         </v-flex>
