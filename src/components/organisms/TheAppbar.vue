@@ -4,26 +4,16 @@
       {{ title }}
     </v-toolbar-title>
     <v-spacer />
-    <v-btn v-if="isAuth" fab absolute right @click="logout()">
-      <v-img :src="src" alt="avatar" max-height="40px" max-width="40px" />
-    </v-btn>
-
-    <v-btn v-if="!isAuth" icon @click="log()">
-      <v-icon>exit_to_app</v-icon>
-    </v-btn>
-    <v-snackbar
-      v-model="snackbar"
-      color="primary"
-      :timeout="timeout"
-      :top="true"
-    >
-      {{ text }}
-    </v-snackbar>
+    <the-firebase-ui />
   </v-app-bar>
 </template>
 <script>
 import { mapState, mapActions } from 'vuex'
+import TheFirebaseUi from '~/components/organisms/TheFirebaseUi'
 export default {
+  components: {
+    TheFirebaseUi
+  },
   data: () => ({
     snackbar: false,
     text: 'Success! Login',
