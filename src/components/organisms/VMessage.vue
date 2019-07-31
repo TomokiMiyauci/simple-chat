@@ -8,15 +8,15 @@
     </template>
     <!-- If logged in -->
     <template v-for="(message, index) in messages" v-else>
-      <v-others-message
+      <v-own-message
         v-if="isOwnPost(message)"
         :key="index"
         :message="message"
-      >
+      ></v-own-message>
+
+      <v-others-message v-else :key="index" :message="message">
         {{ message }}
       </v-others-message>
-
-      <v-own-message v-else :key="index" :message="message"></v-own-message>
     </template>
   </div>
 </template>
