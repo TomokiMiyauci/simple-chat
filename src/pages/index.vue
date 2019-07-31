@@ -1,6 +1,9 @@
 <template>
   <div>
-    <v-container v-for="(message, index) in messages" :key="index">
+    <v-container
+      v-for="(message, index) in messages.slice().reverse()"
+      :key="index"
+    >
       <v-layout justify-center>
         <v-flex xs12 sm11 md9 lg6 xl4>
           <v-layout wrap>
@@ -55,7 +58,8 @@ export default {
     messages: firebase
       .firestore()
       .collection('messages')
-      .orderBy('timestamp')
+      .orderBy('timestamp', 'desc')
+      .limit(10)
   }
 }
 </script>
