@@ -21,7 +21,7 @@
               </div>
               <v-chip> {{ message.text }}</v-chip>
               <span class="pl-2 overline">
-                {{ message.timestamp | getHHMM }}
+                {{ message.timestamp | toHHMM }}
               </span>
             </v-flex>
           </v-layout>
@@ -33,15 +33,6 @@
 
 <script>
 export default {
-  filters: {
-    getHHMM(val) {
-      if (!val) {
-        return
-      }
-      const date = val.toDate()
-      return date.getHours() + ':' + date.getMinutes()
-    }
-  },
   props: {
     message: {
       type: Object,
