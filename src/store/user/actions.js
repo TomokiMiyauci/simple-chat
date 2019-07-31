@@ -1,4 +1,5 @@
 import {
+  SET_ID,
   SET_NAME,
   SET_PHOTO_URL,
   IS_AUTH,
@@ -15,7 +16,8 @@ export default {
       .signInWithPopup(provider)
       .then(() => {
         const user = firebase.auth().currentUser
-        console.log(user.displayName)
+        console.log(user)
+        commit(SET_ID, user.uid)
         commit(SET_NAME, user.displayName)
         commit(SET_PHOTO_URL, user.photoURL)
         commit(IS_AUTH, !!user)
@@ -26,6 +28,7 @@ export default {
       .auth()
       .signOut()
       .then(() => {
+        commit(SET_ID, null)
         commit(SET_NAME, null)
         commit(SET_PHOTO_URL, null)
         commit(IS_AUTH, null)

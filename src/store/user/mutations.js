@@ -1,5 +1,8 @@
-import { SET_NAME, SET_PHOTO_URL, IS_AUTH } from './mutation-types'
+import { SET_ID, SET_NAME, SET_PHOTO_URL, IS_AUTH } from './mutation-types'
 export default {
+  [SET_ID](state, payload) {
+    state.id = payload
+  },
   [SET_NAME](state, payload) {
     state.name = payload
   },
