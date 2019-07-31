@@ -1,81 +1,55 @@
 <template>
   <div>
-    <v-container fill-height>
-      <v-layout column>
-        <template v-for="(i, index) in item">
-          <v-own-message
-            v-if="i.userID"
-            :key="index"
-            :avator="avator"
-            :message="i"
-          />
-          <v-others-message v-else :key="index" :avator="avator" :message="i" />
-        </template>
-      </v-layout>
-    </v-container>
+    <!-- If not logged in, set it to v-oters-message -->
+    <template v-if="!isSignin()">
+      <template v-for="(message, index) in messages">
+        <v-others-message :key="index" :message="message"></v-others-message>
+      </template>
+    </template>
+    <!-- If logged in -->
+    <template v-for="(message, index) in messages" v-else>
+      <v-others-message
+        v-if="isOwnPost(message)"
+        :key="index"
+        :message="message"
+      >
+        {{ message }}
+      </v-others-message>
+
+      <v-own-message v-else :key="index" :message="message"></v-own-message>
+    </template>
   </div>
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
-import VOwnMessage from '~/components/organisms/VOwnMessage'
+import { mapState } from 'vuex'
 import VOthersMessage from '~/components/organisms/VOthersMessage'
+import VOwnMessage from '~/components/organisms/VOwnMessage'
+
 export default {
   components: {
-    VOwnMessage,
-    VOthersMessage
+    VOthersMessage,
+    VOwnMessage
   },
-  filters: {
-    getHHMM(val) {
-      return val.getHours() + ':' + val.getMinutes()
+  props: {
+    messages: {
+      type: Array,
+      default: () => []
     }
   },
-  data: () => ({
-    avator: {
-      src: 'https://vuetifyjs.com/apple-touch-icon-180x180.png',
-      id: 'avatar'
-    },
-    message: '',
-    iconIndex: 0,
-    icons: [
-      'mdi-emoticon',
-      'mdi-emoticon-cool',
-      'mdi-emoticon-dead',
-      'mdi-emoticon-excited',
-      'mdi-emoticon-happy',
-      'mdi-emoticon-neutral',
-      'mdi-emoticon-sad',
-      'mdi-emoticon-tongue'
-    ]
-  }),
-
   computed: {
-    ...mapState('message', ['messages']),
-    icon() {
-      return this.icons[this.iconIndex]
-    },
-    item() {
-      return this.messages
-    }
+    ...mapState('user', ['isAuth', 'id'])
   },
-
   methods: {
-    ...mapMutations('message', ['GET']),
-    sendMessage() {
-      this.GET(this.message)
-      this.resetIcon()
-      this.clearMessage()
+    isSignin() {
+      if (this.isAuth) {
+        return true
+      }
     },
-    clearMessage() {
-      this.message = ''
-    },
-    resetIcon() {
-      this.iconIndex = 0
-    },
-    changeIcon() {
-      this.iconIndex === this.icons.length - 1
-        ? (this.iconIndex = 0)
-        : this.iconIndex++
+    isOwnPost(val) {
+      if (this.id === val.userID) {
+        return true
+      }
     }
   }
 }

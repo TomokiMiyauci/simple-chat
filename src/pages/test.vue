@@ -1,61 +1,33 @@
 <template>
   <div>
-    <v-container v-for="(message, index) in messages" :key="index">
-      <v-layout justify-center>
-        <v-flex xs12 sm11 md9 lg6 xl4>
-          <v-layout wrap>
-            <v-flex d-flex xs2 sm1>
-              <v-avatar>
-                <v-img
-                  :src="
-                    message.profilePicUrl
-                      ? message.profilePicUrl
-                      : require('~/assets/images/anonymous.jpg')
-                  "
-                />
-              </v-avatar>
-            </v-flex>
-            <v-flex xs4 sm2>
-              <div class="pl-1">
-                Anonimus
-              </div>
-              <v-chip> {{ message.text }}</v-chip>
-            </v-flex>
-            <v-flex xs4 sm2 align-self-end>
-              <span class="pl-2 overline">
-                {{ message.timestamp | getHHMM }}
-              </span>
-            </v-flex>
-          </v-layout>
-        </v-flex>
-      </v-layout>
-    </v-container>
+    <v-message :messages="messages.slice().reverse()"> </v-message>
   </div>
 </template>
 
 <script>
+import VMessage from '~/components/organisms/VMessage'
 import firebase from '~/plugins/firebase'
+
 export default {
-  filters: {
-    getHHMM(val) {
-      if (!val) {
-        return
-      }
-      const date = val.toDate()
-      return date.getHours() + ':' + date.getMinutes()
-    }
+  components: {
+    VMessage
   },
   data() {
     return {
-      messages: [],
-      src: require('~/assets/images/anonymous.jpg')
+      messages: []
     }
   },
   firestore: {
     messages: firebase
       .firestore()
       .collection('messages')
-      .orderBy('timestamp')
+      .orderBy('timestamp', 'desc')
+      .limit(10)
+  },
+  methods: {
+    click() {
+      this.j.push(2)
+    }
   }
 }
 </script>

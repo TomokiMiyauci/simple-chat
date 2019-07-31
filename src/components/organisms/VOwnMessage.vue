@@ -11,17 +11,17 @@
 export default {
   filters: {
     getHHMM(val) {
-      return val.getHours() + ':' + val.getMinutes()
+      if (!val) {
+        return
+      }
+      const date = val.toDate()
+      return date.getHours() + ':' + date.getMinutes()
     }
   },
   props: {
-    avator: {
-      type: Object,
-      default: null
-    },
     message: {
       type: Object,
-      default: null
+      default: () => {}
     }
   }
 }

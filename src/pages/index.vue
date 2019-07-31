@@ -1,13 +1,14 @@
 <template>
-  <v-others-message :messages="messages"></v-others-message>
+  <v-message :messages="messages.slice().reverse()"> </v-message>
 </template>
 
 <script>
-import VOthersMessage from '~/components/organisms/VOthersMessage'
+import VMessage from '~/components/organisms/VMessage'
 import firebase from '~/plugins/firebase'
+
 export default {
   components: {
-    VOthersMessage
+    VMessage
   },
   data() {
     return {
