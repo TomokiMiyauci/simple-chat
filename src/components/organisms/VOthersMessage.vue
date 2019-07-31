@@ -1,9 +1,6 @@
 <template>
   <div>
-    <v-container
-      v-for="(message, index) in messages.slice().reverse()"
-      :key="index"
-    >
+    <v-container>
       <v-layout justify-center>
         <v-flex xs12 sm11 md9 lg6 xl4>
           <v-layout wrap>
@@ -46,8 +43,8 @@ export default {
     }
   },
   props: {
-    messages: {
-      type: Array,
+    message: {
+      type: Object,
       required: true
     }
   }
