@@ -1,12 +1,36 @@
 <template>
   <div>
-    <v-layout align-center py-1>
-      <v-avatar>
-        <v-img :src="avator.src" :alt="avator.id ? avator.id : ''" />
-      </v-avatar>
-      <v-chip> {{ message.text }} </v-chip>
-      <span class="pl-1 overline">{{ message.timestamp | getHHMM }}</span>
-    </v-layout>
+    <v-container
+      v-for="(message, index) in messages.slice().reverse()"
+      :key="index"
+    >
+      <v-layout justify-center>
+        <v-flex xs12 sm11 md9 lg6 xl4>
+          <v-layout wrap>
+            <v-flex d-flex xs2 sm1>
+              <v-avatar>
+                <v-img
+                  :src="
+                    message.profilePicUrl
+                      ? message.profilePicUrl
+                      : require('~/assets/images/anonymous.jpg')
+                  "
+                />
+              </v-avatar>
+            </v-flex>
+            <v-flex xs4 sm2>
+              <div class="pl-1 overline">
+                {{ message.name || 'Anonimus' }}
+              </div>
+              <v-chip> {{ message.text }}</v-chip>
+              <span class="pl-2 overline">
+                {{ message.timestamp | getHHMM }}
+              </span>
+            </v-flex>
+          </v-layout>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </div>
 </template>
 
@@ -14,17 +38,17 @@
 export default {
   filters: {
     getHHMM(val) {
-      return val.getHours() + ':' + val.getMinutes()
+      if (!val) {
+        return
+      }
+      const date = val.toDate()
+      return date.getHours() + ':' + date.getMinutes()
     }
   },
   props: {
-    avator: {
-      type: Object,
-      default: null
-    },
-    message: {
-      type: Object,
-      default: null
+    messages: {
+      type: Array,
+      required: true
     }
   }
 }
