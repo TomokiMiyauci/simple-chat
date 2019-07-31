@@ -34,7 +34,7 @@ export default {
   }),
 
   computed: {
-    ...mapState('user', ['name', 'photoURL']),
+    ...mapState('user', ['id', 'name', 'photoURL']),
     icon() {
       return this.icons[this.iconIndex]
     }
@@ -43,6 +43,7 @@ export default {
   methods: {
     async sendMessage() {
       const msg = {
+        userID: this.id,
         name: this.name,
         text: this.message,
         profilePicUrl: this.photoURL,
