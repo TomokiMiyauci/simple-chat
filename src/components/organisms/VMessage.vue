@@ -3,6 +3,11 @@
     <!-- If not logged in, set it to v-oters-message -->
     <template v-if="!isSignin()">
       <template v-for="(message, index) in messages">
+        <v-message-date
+          v-show="c.includes(index)"
+          :key="index + 'surfix'"
+          :message="message"
+        ></v-message-date>
         <v-others-message :key="index" :message="message"></v-others-message>
       </template>
     </template>
@@ -18,18 +23,21 @@
         {{ message }}
       </v-others-message>
     </template>
+    <v-btn color="success" @click="bb">text</v-btn>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import VMessageDate from '~/components/organisms/VMessageDate'
 import VOthersMessage from '~/components/organisms/VOthersMessage'
 import VOwnMessage from '~/components/organisms/VOwnMessage'
 
 export default {
   components: {
     VOthersMessage,
-    VOwnMessage
+    VOwnMessage,
+    VMessageDate
   },
   props: {
     messages: {
@@ -37,9 +45,11 @@ export default {
       default: () => []
     }
   },
+  data: () => ({ b: [], c: [] }),
   computed: {
     ...mapState('user', ['isAuth', 'id'])
   },
+
   methods: {
     isSignin() {
       if (this.isAuth) {
@@ -50,6 +60,20 @@ export default {
       if (this.id === val.userID) {
         return true
       }
+    },
+    bb() {
+      this.b = []
+      this.c = []
+      this.messages.forEach((res, index) => {
+        // console.log(res, index)
+        if (!this.b.includes(res.timestamp.toDate().getDate())) {
+          this.b.push(res.timestamp.toDate().getDate())
+          this.c.push(index)
+          // console.log('pushed')
+        }
+      })
+      console.log(this.b)
+      console.log(this.c)
     }
   }
 }
