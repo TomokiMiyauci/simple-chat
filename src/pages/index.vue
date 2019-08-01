@@ -1,5 +1,12 @@
 <template>
   <div>
+    <div class="text-center">
+      <v-progress-circular
+        v-show="paging.isLoading"
+        indeterminate
+      ></v-progress-circular>
+    </div>
+
     <v-message :messages="messages.slice().reverse()"> </v-message>
   </div>
 </template>
