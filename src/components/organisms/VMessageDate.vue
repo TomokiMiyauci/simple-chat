@@ -1,5 +1,7 @@
 <template>
-  <div class="text-center">{{ message.timestamp | toDate }}</div>
+  <div class="text-center">
+    <v-chip>{{ message.timestamp | toDate }}</v-chip>
+  </div>
 </template>
 
 <script>
@@ -10,7 +12,7 @@ export default {
         return
       }
       const date = val.toDate()
-      return date.getMonth() + 1 + '/' + date.getDate()
+      return date.getMonth() + 1 + '月' + date.getDate() + '日'
     }
   },
   props: {
