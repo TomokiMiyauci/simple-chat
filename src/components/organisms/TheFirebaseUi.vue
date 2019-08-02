@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog-card v-if="!isAuth" icon="exit_to_app" button-color="white">
+    <v-dialog-card v-if="!isAuth" icon="mdi-login-variant" button-color="white">
       <template slot="card">
         <v-card>
           <v-card-title class="headline" primary-title>
@@ -12,7 +12,7 @@
               <v-flex py-2>
                 <v-btn color="primary" x-large @click="login()">
                   <v-icon class="ma-2">
-                    adjust
+                    mdi-google
                   </v-icon>
                   Sign in with Google
                 </v-btn>
@@ -20,7 +20,7 @@
               <v-flex py-2>
                 <v-btn color="red lighten-1" dark x-large>
                   <v-icon class="ma-2">
-                    email
+                    mdi-email
                   </v-icon>
                   Sign in with Email
                 </v-btn>
