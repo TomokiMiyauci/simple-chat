@@ -7,7 +7,7 @@ export default {
   filters: {
     toDate(val) {
       if (!val) {
-        return true
+        return
       }
       const date = val.toDate()
       return date.getMonth() + 1 + '/' + date.getDate()

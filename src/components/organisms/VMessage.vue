@@ -23,7 +23,6 @@
         {{ message }}
       </v-others-message>
     </template>
-    <v-btn color="success" @click="bb">text</v-btn>
   </div>
 </template>
 
@@ -49,6 +48,11 @@ export default {
   computed: {
     ...mapState('user', ['isAuth', 'id'])
   },
+  watch: {
+    messages() {
+      this.refreshRender()
+    }
+  },
 
   methods: {
     isSignin() {
@@ -61,12 +65,16 @@ export default {
         return true
       }
     },
-    bb() {
+    refreshRender() {
       this.b = []
       this.c = []
       this.messages.forEach((res, index) => {
         // console.log(res, index)
-        if (!this.b.includes(res.timestamp.toDate().getDate())) {
+
+        if (
+          res.timestamp &&
+          !this.b.includes(res.timestamp.toDate().getDate())
+        ) {
           this.b.push(res.timestamp.toDate().getDate())
           this.c.push(index)
           // console.log('pushed')
