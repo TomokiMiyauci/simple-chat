@@ -21,6 +21,7 @@ export default {
   },
   data: () => ({
     messages: [],
+    isInit: true,
     initQuery: 10,
     isInitialized: false,
     paging: {
@@ -46,6 +47,12 @@ export default {
     /* Load first page */
     this.handleQuestions(this.ref.questions)
   },
+  updated() {
+    if (this.isInit) {
+      this.isInit = false
+      this.scrollBottom()
+    }
+  },
   beforeMount() {
     window.addEventListener('scroll', this.scrollHandler)
   },
@@ -55,6 +62,10 @@ export default {
   methods: {
     loadMore() {
       if (this.paging.isEnd) {
+        return
+      }
+
+      if (this.isLoading) {
         return
       }
 
@@ -106,6 +117,11 @@ export default {
       if (!document.documentElement.scrollTop) {
         this.loadMore()
       }
+    },
+    scrollBottom() {
+      this.$nextTick(() => {
+        window.scrollTo(0, document.body.clientHeight)
+      })
     }
   }
 }
