@@ -30,9 +30,9 @@
         </v-card>
       </template>
     </v-dialog-card>
-    <v-btn v-else fab absolute right @click="logout()">
-      <v-img :src="src" alt="avatar" max-height="40px" max-width="40px" />
-    </v-btn>
+    <v-avatar v-else @click="logout()">
+      <v-img :src="src" alt="avatar" />
+    </v-avatar>
     <v-snackbar
       v-model="snackbar"
       color="primary"
