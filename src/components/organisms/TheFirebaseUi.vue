@@ -62,7 +62,7 @@ export default {
     ...mapState('navbar', ['title']),
     ...mapState('user', ['photoURL', 'isAuth']),
     ...mapGetters('user', ['photoURL']),
-    src: function() {
+    src() {
       return this.photoURL
     }
   },

@@ -36,19 +36,19 @@ export default {
     }
   },
   computed: {
-    isActive: function() {
+    isActive() {
       if (this.diff > 70) {
         return true
       }
       return false
     },
-    diff: function() {
+    diff() {
       return this.endY - this.startY
     },
-    isDisplay: function() {
+    isDisplay() {
       return this.diff > 0 ? 'block' : 'none'
     },
-    text: function() {
+    text() {
       if (this.indeterminate) {
         return 'Loading...'
       } else if (this.diff >= 70) {
@@ -57,7 +57,7 @@ export default {
         return '↓ Pull to load'
       }
     },
-    rotate: function() {
+    rotate() {
       return this.indeterminate ? 0 : -90
     }
   },
