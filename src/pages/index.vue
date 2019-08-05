@@ -1,23 +1,19 @@
 <template>
   <div>
-    <div class="text-center">
-      <v-progress-circular
-        v-show="paging.isLoading"
-        indeterminate
-      ></v-progress-circular>
-    </div>
-
+    <v-pull-to-refresh :callback="loadMore"></v-pull-to-refresh>
     <v-message :messages="messages.slice().reverse()"> </v-message>
   </div>
 </template>
 
 <script>
+import VPullToRefresh from '~/components/organisms/VPullToRefresh'
 import VMessage from '~/components/organisms/VMessage'
 import firebase from '~/plugins/firebase'
 
 export default {
   components: {
-    VMessage
+    VMessage,
+    VPullToRefresh
   },
   data: () => ({
     messages: [],
@@ -53,12 +49,7 @@ export default {
       this.scrollBottom()
     }
   },
-  beforeMount() {
-    window.addEventListener('scroll', this.scrollHandler)
-  },
-  beforeDestroy() {
-    window.removeEventListener('scroll', this.scrollHandler)
-  },
+
   methods: {
     loadMore() {
       if (this.paging.isEnd) {
@@ -113,11 +104,7 @@ export default {
         })
       })
     },
-    scrollHandler() {
-      if (!document.documentElement.scrollTop) {
-        this.loadMore()
-      }
-    },
+
     scrollBottom() {
       this.$nextTick(() => {
         window.scrollTo(0, document.body.clientHeight)
