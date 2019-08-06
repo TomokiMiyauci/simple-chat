@@ -56,12 +56,15 @@ export default {
       })
     },
     loadMore() {
-      const nextQuery = this.query()
-        .startAfter(this.lastVisible)
-        .limit(this.pading.limit)
-      this.pading.isLoading = true
-      this.queryHandler(nextQuery).then(() => {
-        this.pading.isLoading = false
+      return new Promise((resolve, reject) => {
+        const nextQuery = this.query()
+          .startAfter(this.lastVisible)
+          .limit(this.pading.limit)
+        this.pading.isLoading = true
+        this.queryHandler(nextQuery).then(() => {
+          this.pading.isLoading = false
+          resolve()
+        })
       })
     },
     query() {
