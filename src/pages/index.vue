@@ -15,96 +15,61 @@ export default {
     VMessage,
     VPullToRefresh
   },
-  data: () => ({
-    messages: [],
-    isInit: true,
-    initQuery: 10,
-    isInitialized: false,
-    paging: {
-      queryPerPages: 5,
-      isEnd: false,
-      isLoading: false
-    },
-    ref: {
-      questions: null,
-      questionsNext: null
+  data() {
+    return {
+      messages: [],
+      lastVisible: null,
+      pading: {
+        limit: 5,
+        isEnd: false,
+        isLoading: false
+      }
     }
-  }),
-
+  },
   created() {
-    /* Set common Firestore reference */
-    this.ref.questions = firebase
-      .firestore()
-      .collection('messages')
-      .orderBy('timestamp', 'desc')
-      .limit(this.initQuery)
-    this.$bind('messages', this.ref.questions)
-
-    /* Load first page */
-    this.handleQuestions(this.ref.questions)
-  },
-  updated() {
-    if (this.isInit) {
-      this.isInit = false
+    const firstQuery = this.query().limit(this.pading.limit)
+    this.$bind('messages', firstQuery)
+    firstQuery.get().then((documentSnapshots) => {
+      // Get the last visible document
+      const lastVisible =
+        documentSnapshots.docs[documentSnapshots.docs.length - 1]
+      this.lastVisible = lastVisible
       this.scrollBottom()
-    }
+    })
   },
-
   methods: {
-    loadMore() {
-      if (this.paging.isEnd) {
-        return
-      }
-
-      if (this.isLoading) {
-        return
-      }
-
-      this.paging.isLoading = true
-      this.handleQuestions(this.ref.questionsNext).then((documentSnapshots) => {
-        this.paging.isLoading = false
-
-        if (documentSnapshots.empty) {
-          /* If there is no more questions to load, set paging.end to true */
-          this.paging.isEnd = true
-        }
-      })
-    },
-    handleQuestions(ref) {
-      //  Fetch questions of given reference
+    queryHandler(ref) {
       return new Promise((resolve, reject) => {
         ref.get().then((documentSnapshots) => {
-          /* If documentSnapshots is empty, then we have loaded all of pages */
           if (documentSnapshots.empty) {
-            this.paging.isEnd = true
-            resolve(documentSnapshots)
+            this.pading.isEnd = true
+            resolve()
           }
-          if (this.isInitialized) {
-            documentSnapshots.forEach((doc) => {
-              const questionData = doc.data()
-              questionData.id = doc.id
-              this.messages.push(questionData)
-            })
-          } else {
-            this.isInitialized = true
-          }
-
-          /* Build reference for next page */
-          const lastVisible = documentSnapshots.docs[documentSnapshots.size - 1]
-
-          if (!lastVisible) {
+          if (this.pading.isEnd) {
+            resolve()
             return
           }
-
-          this.ref.questionsNext = this.ref.questions
-            .startAfter(lastVisible)
-            .limit(this.paging.queryPerPages)
-
-          resolve(documentSnapshots)
+          this.lastVisible = documentSnapshots.docs[documentSnapshots.size - 1]
+          documentSnapshots.forEach((res) => this.messages.push(res.data()))
+          resolve()
         })
       })
     },
-
+    loadMore() {
+      const nextQuery = this.query()
+        .startAfter(this.lastVisible)
+        .limit(this.pading.limit)
+      this.pading.isLoading = true
+      this.queryHandler(nextQuery).then(() => {
+        this.pading.isLoading = false
+      })
+    },
+    query() {
+      return firebase
+        .firestore()
+        .collection('messages')
+        .orderBy('timestamp', 'desc')
+    },
     scrollBottom() {
       this.$nextTick(() => {
         window.scrollTo(0, document.body.clientHeight)
