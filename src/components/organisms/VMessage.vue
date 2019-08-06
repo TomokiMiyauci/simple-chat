@@ -1,10 +1,10 @@
 <template>
   <div>
     <!-- If not logged in, set it to v-oters-message -->
-    <template v-if="!isSignin()">
+    <template v-if="!isSignin">
       <template v-for="(message, index) in messages">
         <v-message-date
-          v-show="c.includes(index)"
+          v-show="changeMessageNo.includes(index)"
           :key="index + 'surfix'"
           :message="message"
         ></v-message-date>
@@ -13,6 +13,11 @@
     </template>
     <!-- If logged in -->
     <template v-for="(message, index) in messages" v-else>
+      <v-message-date
+        v-show="changeMessageNo.includes(index)"
+        :key="index + 'surfix'"
+        :message="message"
+      ></v-message-date>
       <v-own-message
         v-if="isOwnPost(message)"
         :key="index"
@@ -27,7 +32,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import VMessageDate from '~/components/organisms/VMessageDate'
 import VOthersMessage from '~/components/organisms/VOthersMessage'
 import VOwnMessage from '~/components/organisms/VOwnMessage'
@@ -44,9 +49,10 @@ export default {
       default: () => []
     }
   },
-  data: () => ({ b: [], c: [] }),
+  data: () => ({ timestamps: [], changeMessageNo: [] }),
   computed: {
-    ...mapState('user', ['isAuth', 'id'])
+    ...mapState('user', ['isAuth', 'id']),
+    ...mapGetters('user', ['isSignin'])
   },
   watch: {
     messages() {
@@ -55,33 +61,23 @@ export default {
   },
 
   methods: {
-    isSignin() {
-      if (this.isAuth) {
-        return true
-      }
-    },
     isOwnPost(val) {
       if (this.id === val.userID) {
         return true
       }
     },
     refreshRender() {
-      this.b = []
-      this.c = []
+      this.timestamps = []
+      this.changeMessageNo = []
       this.messages.forEach((res, index) => {
-        // console.log(res, index)
-
         if (
           res.timestamp &&
-          !this.b.includes(res.timestamp.toDate().getDate())
+          !this.timestamps.includes(res.timestamp.toDate().getDate())
         ) {
-          this.b.push(res.timestamp.toDate().getDate())
-          this.c.push(index)
-          // console.log('pushed')
+          this.timestamps.push(res.timestamp.toDate().getDate())
+          this.changeMessageNo.push(index)
         }
       })
-      console.log(this.b)
-      console.log(this.c)
     }
   }
 }
