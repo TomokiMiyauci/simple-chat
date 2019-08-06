@@ -89,3 +89,9 @@ sw.*
 
 #firebase
 .firebase
+
+# playground
+src/pages/sandbox.vue
+
+# not recommended
+src/components/organisms/FirebaseUi.vue
