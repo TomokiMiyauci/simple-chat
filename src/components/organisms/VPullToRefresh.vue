@@ -4,16 +4,18 @@
       class="text-center"
       :style="{
         height: diff + 'px',
-        backgroundColor: 'rgba(189, 182, 189, 0.082)',
+        backgroundColor: 'rgba(189, 182, 189, 0.4)',
         display: isDisplay,
         maxHeight: '70px'
       }"
     >
+      <v-icon large>{{ icon }}</v-icon>
+
       {{ text }}<br />
       <v-progress-circular
         :value="(100 / 70) * diff"
         :rotate="rotate"
-        :indeterminate="indeterminate"
+        :indeterminate="isLoading"
       >
       </v-progress-circular>
     </div>
@@ -32,12 +34,12 @@ export default {
     return {
       startY: null,
       endY: null,
-      indeterminate: false
+      isLoading: false
     }
   },
   computed: {
     isActive() {
-      if (this.diff > 70) {
+      if (this.diff >= 70) {
         return true
       }
       return false
@@ -49,43 +51,59 @@ export default {
       return this.diff > 0 ? 'block' : 'none'
     },
     text() {
-      if (this.indeterminate) {
+      if (this.isLoading) {
         return 'Loading...'
-      } else if (this.diff >= 70) {
-        return '↑ Rerease to load'
+      } else if (this.isActive) {
+        return 'Rerease to load'
+      } else if (!this.isLoading) {
+        return 'Pull to load'
       } else {
-        return '↓ Pull to load'
+        return 'Finished!'
+      }
+    },
+    icon() {
+      if (this.isLoading) {
+        return 'mdi-reload'
+      } else if (this.isActive) {
+        return 'mdi-arrow-up-bold'
+      } else {
+        return 'mdi-arrow-down-bold'
       }
     },
     rotate() {
-      return this.indeterminate ? 0 : -90
+      return this.isLoading ? 0 : -90
     }
   },
   beforeMount() {
-    window.addEventListener(
-      'touchstart',
-      (e) => {
-        this.startY = e.touches[0].pageY
-      },
-      { passive: true }
-    )
+    window.addEventListener('touchstart', (e) => {
+      this.startY = e.touches[0].pageY
+    })
     window.addEventListener('touchmove', (e) => {
       this.endY = e.touches[0].pageY
     })
-    window.addEventListener('touchend', (e) => {
+    window.addEventListener('touchend', () => {
+      this.touchEnd()
+    })
+  },
+  methods: {
+    touchEnd() {
       if (this.isActive) {
-        setTimeout(() => {
-          this.callback()
-          this.indeterminate = false
-          this.startY = null
-          this.endY = null
-        }, 1000)
-        this.indeterminate = true
+        this.isLoading = true
+        this.callback().then(() => {
+          this.isLoading = false
+          this.finishLoad()
+        })
       } else {
         this.startY = null
         this.endY = null
       }
-    })
+    },
+    finishLoad() {
+      setTimeout(() => {
+        this.startY = null
+        this.endY = null
+      }, 1000)
+    }
   }
 }
 </script>
