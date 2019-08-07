@@ -30,9 +30,8 @@
         </v-card>
       </template>
     </v-dialog-card>
-    <v-avatar v-else @click="logout()">
-      <v-img :src="src" alt="avatar" />
-    </v-avatar>
+    <the-avatar v-else :src="src"></the-avatar>
+
     <v-snackbar
       v-model="snackbar"
       color="primary"
@@ -46,11 +45,12 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
-
+import TheAvatar from '~/components/organisms/TheAvatar'
 import VDialogCard from '~/components/molecules/VDialogCard'
 export default {
   components: {
-    VDialogCard
+    VDialogCard,
+    TheAvatar
   },
   data: () => ({
     snackbar: false,
@@ -67,13 +67,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions('user', ['LOGIN', 'LOGOUT']),
+    ...mapActions('user', ['LOGIN']),
     async login() {
       await this.LOGIN()
-      this.snackbar = true
-    },
-    async logout() {
-      await this.LOGOUT()
       this.snackbar = true
     }
   }
