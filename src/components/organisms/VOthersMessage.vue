@@ -15,15 +15,18 @@
                 />
               </v-avatar>
             </v-flex>
-            <v-flex xs4 sm2>
-              <div class="pl-1 overline">
+
+            <div>
+              <div class="name pl-1 overline">
                 {{ message.name || 'Anonimus' }}
               </div>
-              <v-callout>{{ message.text }}</v-callout>
-              <span class="pl-2 overline">
-                {{ message.timestamp | toHHMM }}
-              </span>
-            </v-flex>
+              <div>
+                <v-callout>{{ message.text }}</v-callout>
+                <div class="timestamp pl-2 overline">
+                  {{ message.timestamp | toHHMM }}
+                </div>
+              </div>
+            </div>
           </v-layout>
         </v-flex>
       </v-layout>
@@ -46,4 +49,12 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.name {
+  position: relative;
+  left: 15px;
+}
+.timestamp {
+  display: inline-block;
+}
+</style>
