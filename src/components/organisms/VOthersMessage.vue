@@ -19,7 +19,7 @@
               <div class="pl-1 overline">
                 {{ message.name || 'Anonimus' }}
               </div>
-              <v-chip> {{ message.text }}</v-chip>
+              <v-callout>{{ message.text }}</v-callout>
               <span class="pl-2 overline">
                 {{ message.timestamp | toHHMM }}
               </span>
@@ -32,7 +32,11 @@
 </template>
 
 <script>
+import VCallout from '~/components/atoms/VCallout'
 export default {
+  components: {
+    VCallout
+  },
   props: {
     message: {
       type: Object,
