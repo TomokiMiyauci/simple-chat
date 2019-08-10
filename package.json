@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@nuxtjs/pwa": "^3.0.0-beta.16",
-    "firebase": "^6.3.4",
+    "firebase": "^6.3.5",
     "firebaseui": "^4.1.0",
     "nuxt": "^2.8.1",
     "vuefire": "^2.1.2",
