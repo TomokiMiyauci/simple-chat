@@ -20,8 +20,8 @@ export default {
 div {
   position: relative; /* Set to fix triangle position */
   display: inline-block;
-  max-width: 300px;
-  margin: 10px 20px 20px;
+  max-width: 180px;
+  margin: 0px 10px 0px 0px;
   padding: 8px 15px;
   background: #f0f0f0;
   text-align: left;
