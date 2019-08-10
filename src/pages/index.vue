@@ -1,18 +1,18 @@
 <template>
   <div>
     <v-pull-to-refresh :callback="loadMore"></v-pull-to-refresh>
-    <v-message :messages="messages.slice().reverse()"> </v-message>
+    <the-messages :messages="messages.slice().reverse()"> </the-messages>
   </div>
 </template>
 
 <script>
 import VPullToRefresh from '~/components/organisms/VPullToRefresh'
-import VMessage from '~/components/organisms/VMessage'
+import TheMessages from '~/components/organisms/TheMessages'
 import firebase from '~/plugins/firebase'
 
 export default {
   components: {
-    VMessage,
+    TheMessages,
     VPullToRefresh
   },
   data() {
