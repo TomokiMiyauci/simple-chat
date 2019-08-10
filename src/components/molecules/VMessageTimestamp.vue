@@ -56,7 +56,7 @@ export default {
 }
 
 .nameMessage {
-  display: inline;
+  display: inline-block;
   position: relative;
   left: 70px;
 }
