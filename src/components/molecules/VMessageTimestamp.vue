@@ -7,7 +7,9 @@
       <v-callout v-if="message.text" :is-left="false">{{
         message.text
       }}</v-callout>
-      <v-callout v-else>{{ message.imageURL }}</v-callout>
+      <v-callout v-else :is-left="false"
+        ><v-img :src="message.imageURL"></v-img
+      ></v-callout>
     </div>
     <template v-else>
       <div class="avatar">
