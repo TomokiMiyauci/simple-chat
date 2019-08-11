@@ -1,6 +1,6 @@
 <template>
   <!-- Check if component’s slot is empty -->
-  <div v-if="$slots.default" :class="isLeft ? 'left' : 'right'">
+  <div v-if="$slots.default" class="callout" :class="isLeft ? 'left' : 'right'">
     <slot></slot>
   </div>
 </template>
@@ -17,7 +17,7 @@ export default {
 </script>
 
 <style scoped>
-div {
+.callout {
   position: relative; /* Set to fix triangle position */
   display: inline-block;
   max-width: 180px;
@@ -29,7 +29,7 @@ div {
   word-wrap: break-word;
   white-space: pre-line;
 }
-div::after {
+.callout::after {
   content: '';
   border: 14px solid transparent;
   border-top-color: #f0f0f0;
