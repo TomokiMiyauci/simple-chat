@@ -12,8 +12,8 @@ export default {
   data: () => ({
     bottomNav: null,
     items: [
-      { title: 'room', icon: 'home', to: '/rooms/' },
-      { title: 'setting', icon: 'settings', to: '/settings/' }
+      { title: 'room', icon: 'mdi-hexagon-slice-2', to: '/' },
+      { title: 'profile', icon: 'mdi-settings-outline', to: '/profile' }
     ]
   })
 }
