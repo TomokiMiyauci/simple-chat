@@ -1,6 +1,8 @@
 export const SET_ID = 'SET_ID'
 export const SET_NAME = 'SET_NAME'
 export const SET_PHOTO_URL = 'SET_PHOTO_URL'
+export const SET_USER = 'SET_USER'
+export const SET_USERS = 'SET_USERS'
 export const IS_AUTH = 'IS_AUTH'
 export const LOGIN = 'LOGIN'
 export const LOGOUT = 'LOGOUT'

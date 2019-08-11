@@ -2,6 +2,7 @@ import {
   SET_ID,
   SET_NAME,
   SET_PHOTO_URL,
+  SET_USERS,
   IS_AUTH,
   LOGIN,
   LOGOUT
@@ -9,18 +10,14 @@ import {
 import firebase from '~/plugins/firebase'
 
 export default {
-  async [LOGIN]({ commit }) {
+  async [LOGIN]({ commit, dispatch }) {
     const provider = new firebase.auth.GoogleAuthProvider()
     await firebase
       .auth()
       .signInWithPopup(provider)
       .then(() => {
         const user = firebase.auth().currentUser
-        console.log(user)
-        commit(SET_ID, user.uid)
-        commit(SET_NAME, user.displayName)
-        commit(SET_PHOTO_URL, user.photoURL)
-        commit(IS_AUTH, !!user)
+        dispatch(SET_USERS, user)
       })
   },
   async [LOGOUT]({ commit }) {
@@ -34,5 +31,11 @@ export default {
         commit(IS_AUTH, null)
       })
       .catch((error) => console.log(error))
+  },
+  [SET_USERS]({ commit }, payload) {
+    commit(SET_ID, payload.uid)
+    commit(SET_NAME, payload.displayName)
+    commit(SET_PHOTO_URL, payload.photoURL)
+    commit(IS_AUTH, !!payload)
   }
 }

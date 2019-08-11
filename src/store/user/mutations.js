@@ -1,4 +1,10 @@
-import { SET_ID, SET_NAME, SET_PHOTO_URL, IS_AUTH } from './mutation-types'
+import {
+  SET_ID,
+  SET_NAME,
+  SET_PHOTO_URL,
+  SET_USER,
+  IS_AUTH
+} from './mutation-types'
 export default {
   [SET_ID](state, payload) {
     state.id = payload
@@ -8,6 +14,9 @@ export default {
   },
   [SET_PHOTO_URL](state, payload) {
     state.photoURL = payload
+  },
+  [SET_USER](state, payload) {
+    state.user = payload
   },
   [IS_AUTH](state, payload) {
     state.isAuth = payload
