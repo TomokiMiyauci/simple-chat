@@ -4,7 +4,10 @@
       <div class="timestamp pr-2 overline">
         {{ message.timestamp | toHHMM }}
       </div>
-      <v-callout :is-left="false">{{ message.text }}</v-callout>
+      <v-callout v-if="message.text" :is-left="false">{{
+        message.text
+      }}</v-callout>
+      <v-callout v-else>{{ message.image }}</v-callout>
     </div>
     <template v-else>
       <div class="avatar">
@@ -23,7 +26,8 @@
         <div class="overline py-1">
           {{ message.name || 'Anonimus' }}
         </div>
-        <v-callout>{{ message.text }}</v-callout>
+        <v-callout v-if="message.text">{{ message.text }}</v-callout>
+        <v-callout v-else><v-img :src="message.image"></v-img></v-callout>
         <div class="timestamp overline">{{ message.timestamp | toHHMM }}</div>
       </div>
     </template>
