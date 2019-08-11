@@ -7,7 +7,7 @@
       <v-callout v-if="message.text" :is-left="false">{{
         message.text
       }}</v-callout>
-      <v-callout v-else>{{ message.image }}</v-callout>
+      <v-callout v-else>{{ message.imageURL }}</v-callout>
     </div>
     <template v-else>
       <div class="avatar">
@@ -27,7 +27,7 @@
           {{ message.name || 'Anonimus' }}
         </div>
         <v-callout v-if="message.text">{{ message.text }}</v-callout>
-        <v-callout v-else><v-img :src="message.image"></v-img></v-callout>
+        <v-callout v-else><v-img :src="message.imageURL"></v-img></v-callout>
         <div class="timestamp overline">{{ message.timestamp | toHHMM }}</div>
       </div>
     </template>
