@@ -1,5 +1,5 @@
 <template>
-  <v-footer app>
+  <v-footer app color="transparent" padless>
     <the-post> </the-post>
   </v-footer>
 </template>

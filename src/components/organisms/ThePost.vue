@@ -35,6 +35,7 @@ export default {
   height: 80px;
 }
 .container {
-  max-width: 500px;
+  max-width: 600px;
+  background: rgba(250, 250, 250, 0.95);
 }
 </style>
