@@ -61,10 +61,12 @@ export default {
   },
   beforeMount() {
     window.addEventListener('touchstart', (e) => {
-      this.startY = e.touches[0].pageY
+      if (window.scrollY === 0) {
+        this.startY = e.touches[0].pageY
+      }
     })
     window.addEventListener('touchmove', (e) => {
-      if (window.scrollY === 0 && !this.isLoading) {
+      if (this.startY && !this.isLoading) {
         this.isShow = true
         this.endY = e.touches[0].pageY
       }
