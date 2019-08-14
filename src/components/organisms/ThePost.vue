@@ -6,9 +6,7 @@
           <v-post-image></v-post-image>
         </v-flex>
         <v-flex xs2>
-          <v-btn icon>
-            <v-icon>mdi-tag</v-icon>
-          </v-btn>
+          <v-tag></v-tag>
         </v-flex>
         <v-flex xs8>
           <v-text-send></v-text-send>
@@ -20,11 +18,13 @@
 
 <script>
 import VPostImage from '~/components/molecules/VPostImage'
+import VTag from '~/components/molecules/VTag'
 import VTextSend from '~/components/molecules/VTextSend'
 export default {
   components: {
     VTextSend,
-    VPostImage
+    VPostImage,
+    VTag
   }
 }
 </script>
