@@ -54,17 +54,25 @@ export default {
     },
     icon() {
       return this.diff === 80 ? 'mdi-autorenew' : 'mdi-refresh'
+    },
+    isTop() {
+      return window.scrollY === 0
     }
   },
   beforeMount() {
     window.addEventListener('touchstart', (e) => {
       this.startY = e.touches[0].pageY
-      this.isShow = true
     })
     window.addEventListener('touchmove', (e) => {
-      this.endY = e.touches[0].pageY
+      if (window.scrollY === 0 && !this.isLoading) {
+        this.isShow = true
+        this.endY = e.touches[0].pageY
+      }
     })
     window.addEventListener('touchend', () => {
+      if (this.isLoading) {
+        return
+      }
       if (this.diff === 80) {
         this.isLoading = true
         this.callback().then(() => {
