@@ -29,7 +29,6 @@ export default {
       isShow: false,
       startY: null,
       endY: null,
-      spin: false,
       isLoaded: false,
       isLoading: false
     }
@@ -54,18 +53,13 @@ export default {
     },
     icon() {
       return this.diff === 80 ? 'mdi-autorenew' : 'mdi-refresh'
-    },
-    isTop() {
-      return window.scrollY === 0
     }
   },
   beforeMount() {
-    window.addEventListener('touchstart', (e) => {
-      if (window.scrollY === 0) {
+    window.addEventListener('touchmove', (e) => {
+      if (!window.scrollY && !this.startY) {
         this.startY = e.touches[0].pageY
       }
-    })
-    window.addEventListener('touchmove', (e) => {
       if (this.startY && !this.isLoading) {
         this.isShow = true
         this.endY = e.touches[0].pageY
@@ -93,8 +87,8 @@ export default {
       this.isShow = false
       this.isLoading = false
       this.isLoaded = false
-      this.startY = 0
-      this.endY = 0
+      this.startY = null
+      this.endY = null
     }
   }
 }
