@@ -1549,6 +1549,11 @@
     webpack-node-externals "^1.7.2"
     webpackbar "^3.2.0"
 
+"@nuxtjs/device@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/device/-/device-1.2.2.tgz#60ee910d976dd4a092e815ef8ce72620225e8df5"
+  integrity sha512-zIhuIbNZycSebVLSvrKf4SUDMopGJT6qoz2MFMRYmmmi+G/RnX8qGy7hiYNhQ+dq9iP7LG8FFiKr4G15VJv1dQ==
+
 "@nuxtjs/eslint-config@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@nuxtjs/eslint-config/-/eslint-config-1.1.2.tgz#cde4c950014a781bcc34abbfef9c62546d8fc34c"

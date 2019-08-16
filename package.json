@@ -21,6 +21,7 @@
     }
   },
   "dependencies": {
+    "@nuxtjs/device": "^1.2.2",
     "@nuxtjs/pwa": "^3.0.0-beta.16",
     "firebase": "^6.3.5",
     "firebaseui": "^4.1.0",
