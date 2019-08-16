@@ -1,5 +1,9 @@
 <template>
   <div>
+    <the-pull-to-refresh-desktop
+      v-if="$device.isDesktop"
+      :callback="callback"
+    ></the-pull-to-refresh-desktop>
     <transition name="slide-fade">
       <div v-show="isShow" class="main" :style="styles">
         <v-icon
@@ -17,7 +21,11 @@
 </template>
 
 <script>
+import ThePullToRefreshDesktop from '~/components/organisms/ThepullToRefreshDesktop.vue'
 export default {
+  components: {
+    ThePullToRefreshDesktop
+  },
   props: {
     callback: {
       type: Function,
@@ -94,7 +102,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .main {
   display: inline-block;
   position: fixed;
