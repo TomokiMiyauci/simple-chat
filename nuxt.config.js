@@ -38,7 +38,8 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/pwa',
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/device'
   ],
   devModules: ['@nuxtjs/vuetify'],
   manifest: {
