@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { mapState, mapActions, mapMutations } from 'vuex'
 import ThePullToRefresh from '~/components/organisms/ThePullToRefresh'
 import TheMessages from '~/components/organisms/TheMessages'
 import firebase from '~/plugins/firebase'
@@ -17,40 +18,38 @@ export default {
   },
   data() {
     return {
-      messages: [],
-      lastVisible: null,
-      pading: {
-        limit: 5,
-        isEnd: false,
-        isLoading: false
-      }
+      lastVisible: null
     }
   },
+  computed: {
+    ...mapState('message', ['messages', 'limit', 'isEnd', 'isLoading'])
+  },
   created() {
-    const firstQuery = this.query().limit(this.pading.limit)
-    this.$bind('messages', firstQuery)
+    const firstQuery = this.query().limit(this.limit)
+    this.QUERY_SNAPSHOT()
     firstQuery.get().then((documentSnapshots) => {
       // Get the last visible document
       const lastVisible =
         documentSnapshots.docs[documentSnapshots.docs.length - 1]
       this.lastVisible = lastVisible
-      this.scrollBottom()
     })
   },
   methods: {
+    ...mapMutations('message', ['GET', 'end', 'loading']),
+    ...mapActions('message', ['QUERY_SNAPSHOT']),
     queryHandler(ref) {
       return new Promise((resolve, reject) => {
         ref.get().then((documentSnapshots) => {
           if (documentSnapshots.empty) {
-            this.pading.isEnd = true
+            this.end(true)
             resolve()
           }
-          if (this.pading.isEnd) {
+          if (this.isEnd) {
             resolve()
             return
           }
           this.lastVisible = documentSnapshots.docs[documentSnapshots.size - 1]
-          documentSnapshots.forEach((res) => this.messages.push(res.data()))
+          documentSnapshots.forEach((res) => this.GET(res.data()))
           resolve()
         })
       })
@@ -59,10 +58,10 @@ export default {
       return new Promise((resolve, reject) => {
         const nextQuery = this.query()
           .startAfter(this.lastVisible)
-          .limit(this.pading.limit)
-        this.pading.isLoading = true
+          .limit(this.limit)
+        this.loading(true)
         this.queryHandler(nextQuery).then(() => {
-          this.pading.isLoading = false
+          this.loading(false)
           resolve()
         })
       })
@@ -72,11 +71,6 @@ export default {
         .firestore()
         .collection('messages')
         .orderBy('timestamp', 'desc')
-    },
-    scrollBottom() {
-      this.$nextTick(() => {
-        window.scrollTo(0, document.body.clientHeight)
-      })
     }
   }
 }
