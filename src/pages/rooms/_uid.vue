@@ -7,9 +7,9 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
+import { baseQuery } from '~/store/message/actions'
 import ThePullToRefresh from '~/components/organisms/ThePullToRefresh'
 import TheMessages from '~/components/organisms/TheMessages'
-import firebase from '~/plugins/firebase'
 
 export default {
   components: {
@@ -25,52 +25,39 @@ export default {
     ...mapState('message', ['messages', 'limit', 'isEnd', 'isLoading'])
   },
   created() {
-    const firstQuery = this.query().limit(this.limit)
     this.QUERY_SNAPSHOT()
-    firstQuery.get().then((documentSnapshots) => {
-      // Get the last visible document
-      const lastVisible =
-        documentSnapshots.docs[documentSnapshots.docs.length - 1]
-      this.lastVisible = lastVisible
-    })
+    this.init()
   },
   methods: {
     ...mapMutations('message', ['GET', 'end', 'loading']),
     ...mapActions('message', ['QUERY_SNAPSHOT']),
-    queryHandler(ref) {
-      return new Promise((resolve, reject) => {
-        ref.get().then((documentSnapshots) => {
-          if (documentSnapshots.empty) {
-            this.end(true)
-            resolve()
-          }
-          if (this.isEnd) {
-            resolve()
-            return
-          }
-          this.lastVisible = documentSnapshots.docs[documentSnapshots.size - 1]
-          documentSnapshots.forEach((res) => this.GET(res.data()))
-          resolve()
-        })
-      })
+    async init() {
+      const firstQuery = baseQuery().limit(this.limit)
+      const documentSnapshots = await firstQuery.get()
+      // Get the last visible document
+      const lastVisible =
+        documentSnapshots.docs[documentSnapshots.docs.length - 1]
+      this.lastVisible = lastVisible
     },
-    loadMore() {
-      return new Promise((resolve, reject) => {
-        const nextQuery = this.query()
-          .startAfter(this.lastVisible)
-          .limit(this.limit)
-        this.loading(true)
-        this.queryHandler(nextQuery).then(() => {
-          this.loading(false)
-          resolve()
-        })
-      })
+    async queryHandler(ref) {
+      const documentSnapshots = await ref.get()
+      if (documentSnapshots.empty) {
+        this.end(true)
+      }
+      if (this.isEnd) {
+        return
+      }
+      this.lastVisible = documentSnapshots.docs[documentSnapshots.size - 1]
+      documentSnapshots.forEach((res) => this.GET(res.data()))
     },
-    query() {
-      return firebase
-        .firestore()
-        .collection('messages')
-        .orderBy('timestamp', 'desc')
+    async loadMore() {
+      const nextQuery = baseQuery()
+        .startAfter(this.lastVisible)
+        .limit(this.limit)
+
+      this.loading(true)
+      await this.queryHandler(nextQuery)
+      this.loading(false)
     }
   }
 }
