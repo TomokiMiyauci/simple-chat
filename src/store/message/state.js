@@ -1,5 +1,8 @@
 export default () => ({
-  messages: []
+  messages: [],
+  limit: 5,
+  isEnd: false,
+  isLoading: false
 })
 // message:{
 //   uuid:String,

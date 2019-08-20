@@ -1,2 +1,2 @@
 export const GET = 'GET'
-export const POST = 'POST'
+export const QUERY_SNAPSHOT = 'QUERY_SNAPSHOT'

@@ -1,5 +1,5 @@
 <template>
-  <v-bottom-navigation v-model="bottomNav" dark shift app fixed>
+  <v-bottom-navigation v-model="bottomNav" dark app fixed>
     <v-btn v-for="item in items" :key="item.title" :to="item.to">
       <span class="text-capitalize">{{ item.title }}</span>
       <v-icon>{{ item.icon }}</v-icon>
@@ -12,8 +12,9 @@ export default {
   data: () => ({
     bottomNav: null,
     items: [
-      { title: 'room', icon: 'mdi-hexagon-slice-2', to: '/' },
-      { title: 'profile', icon: 'mdi-settings-outline', to: '/profile' }
+      { title: 'room', icon: 'mdi-hexagon-slice-2', to: '/rooms' },
+      { title: 'profile', icon: 'mdi-settings-outline', to: '/profile' },
+      { title: 'share', icon: 'mdi-share-variant', to: '/share' }
     ]
   })
 }
