@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <the-appbar />
+    <the-appbar back-to="/rooms" />
     <v-content>
       <nuxt />
     </v-content>
