@@ -5,17 +5,20 @@
       {{ title }}
     </v-toolbar-title>
     <v-spacer />
+    <the-pull-to-refresh></the-pull-to-refresh>
     <the-firebase-ui />
   </v-app-bar>
 </template>
 <script>
 import { mapState } from 'vuex'
+import ThePullToRefresh from '~/components/organisms/ThePullToRefresh'
 import VBackIcon from '~/components/atoms/VBackIcon'
 import TheFirebaseUi from '~/components/organisms/TheFirebaseUi'
 export default {
   components: {
     TheFirebaseUi,
-    VBackIcon
+    VBackIcon,
+    ThePullToRefresh
   },
   props: {
     backTo: {
