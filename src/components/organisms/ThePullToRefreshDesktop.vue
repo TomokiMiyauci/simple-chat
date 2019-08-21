@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn icon class="btn" @click="click">
+    <v-btn icon @click="click">
       <v-icon color="green">mdi-refresh</v-icon>
     </v-btn>
     <transition name="slide-fade">
@@ -19,34 +19,30 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
-  props: {
-    callback: {
-      type: Function,
-      required: true
-    }
-  },
   data() {
     return {
       isShow: false,
-      isLoaded: false,
-      isLoading: false
+      isLoaded: false
     }
   },
+  computed: {
+    ...mapState('message', ['isLoading'])
+  },
   methods: {
+    ...mapActions('message', ['LOAD_MORE']),
     click() {
       if (this.isLoading) {
         return
       }
       this.switch()
-      this.isLoading = true
 
-      this.callback().then(() => {
+      this.LOAD_MORE().then(() => {
         setTimeout(() => {
           this.isLoaded = false
           this.switch()
         }, 1000)
-        this.isLoading = false
         this.isLoaded = true
       })
     },
@@ -62,13 +58,6 @@ export default {
   position: fixed;
   top: 80px;
   left: 50%;
-  z-index: 5;
-}
-.btn {
-  display: inline-block;
-  position: fixed;
-  top: 4px;
-  right: 70px;
   z-index: 5;
 }
 .slide-fade-enter-active {

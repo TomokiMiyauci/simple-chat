@@ -2,7 +2,6 @@
   <div>
     <the-pull-to-refresh-desktop
       v-if="$device.isDesktop"
-      :callback="callback"
     ></the-pull-to-refresh-desktop>
     <transition name="slide-fade">
       <div v-show="isShow" class="main" :style="styles">
@@ -21,27 +20,23 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 import ThePullToRefreshDesktop from '~/components/organisms/ThepullToRefreshDesktop.vue'
 export default {
   components: {
     ThePullToRefreshDesktop
   },
-  props: {
-    callback: {
-      type: Function,
-      required: true
-    }
-  },
+
   data() {
     return {
       isShow: false,
       startY: null,
       endY: null,
-      isLoaded: false,
-      isLoading: false
+      isLoaded: false
     }
   },
   computed: {
+    ...mapState('message', ['isLoading']),
     diff() {
       if (this.endY - this.startY >= 80) {
         return 80
@@ -78,22 +73,22 @@ export default {
         return
       }
       if (this.diff === 80) {
-        this.isLoading = true
-        this.callback().then(() => {
+        this.LOAD_MORE().then(() => {
           this.isLoaded = true
-          setTimeout(() => {
-            this.init()
-          }, 1000)
         })
+        setTimeout(() => {
+          this.init()
+        }, 1000)
       } else {
         this.init()
       }
     })
   },
   methods: {
+    ...mapActions('message', ['LOAD_MORE']),
+
     init() {
       this.isShow = false
-      this.isLoading = false
       this.isLoaded = false
       this.startY = null
       this.endY = null
