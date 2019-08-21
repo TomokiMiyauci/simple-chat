@@ -1,14 +1,7 @@
 export default () => ({
   messages: [],
   limit: 5,
-  isEnd: false,
-  isLoading: false
+  isEndOfRecord: false,
+  isLoading: false,
+  lastVisible: null
 })
-// message:{
-//   uuid:String,
-//   userid:String,
-//   text:String,
-//   tag:Number,
-//   createdAt:Date,
-//   deletedAt:Date
-// }
