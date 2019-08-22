@@ -13,7 +13,6 @@ export default {
     bottomNav: null,
     items: [
       { title: 'room', icon: 'mdi-hexagon-slice-2', to: '/rooms' },
-      { title: 'profile', icon: 'mdi-settings-outline', to: '/profile' },
       { title: 'share', icon: 'mdi-share-variant', to: '/share' }
     ]
   })
