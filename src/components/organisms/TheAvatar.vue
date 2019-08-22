@@ -1,20 +1,19 @@
 <template>
-  <v-menu offset-y origin="center center" transition="scale-transition">
-    <template v-slot:activator="{ on }">
-      <v-avatar v-on="on">
-        <v-img :src="photoSrc" alt="avatar" />
-      </v-avatar>
-    </template>
-    <v-list-items :items="items" :click="click"></v-list-items>
-  </v-menu>
+  <div>
+    <v-avatar @click="dialog = true">
+      <v-img :src="photoSrc" alt="avatar" />
+    </v-avatar>
+    <v-dialog v-model="dialog" max-width="400px" persistent>
+      <the-profile @close="dialog = false"></the-profile>
+    </v-dialog>
+  </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import VListItems from '~/components/molecules/VListItems'
+import TheProfile from '~/components/organisms/TheProfile'
 export default {
   components: {
-    VListItems
+    TheProfile
   },
   props: {
     src: {
@@ -23,10 +22,7 @@ export default {
     }
   },
   data: () => ({
-    items: [
-      { text: 'Profile', icon: 'mdi-account-circle', to: '/profile' },
-      { text: 'Logout', icon: 'mdi-logout-variant' }
-    ]
+    dialog: false
   }),
   computed: {
     photoSrc() {
@@ -34,16 +30,6 @@ export default {
         return require('~/assets/images/anonymous.jpg')
       } else {
         return this.src
-      }
-    }
-  },
-  methods: {
-    ...mapActions('user', ['LOGOUT']),
-    click(val) {
-      if (val.to) {
-        this.$router.push(val.to)
-      } else {
-        this.LOGOUT()
       }
     }
   }
