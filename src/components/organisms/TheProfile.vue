@@ -1,10 +1,20 @@
 <template>
-  <v-container grid-list-xs>
+  <div>
     <v-hover>
       <template v-slot:default="{ hover }">
-        <v-card class="mx-auto" max-width="344">
-          <v-img :src="src" max-width="344" max-height="344">
-            <h2 class="title ml-1">Profile</h2>
+        <v-card>
+          <v-btn
+            icon
+            color="success"
+            x-large
+            absolute
+            class="close-button"
+            @click="$emit('close')"
+          >
+            <v-icon>mdi-close-circle</v-icon>
+          </v-btn>
+          <v-card-title>Profile</v-card-title>
+          <v-img :src="src" max-width="400px">
             <v-fade-transition>
               <v-overlay v-if="hover" absolute color="#036358">
                 <v-btn @click="click">upload image</v-btn>
@@ -18,11 +28,17 @@
           <v-card-actions>
             <v-btn color="success" @click="update">update</v-btn>
           </v-card-actions>
+
+          <v-divider></v-divider>
+
+          <v-card-actions>
+            <v-btn color="success" block @click="logout">logout</v-btn>
+          </v-card-actions>
         </v-card>
       </template>
     </v-hover>
     <input type="file" style="visibility: hidden;" @change="onFileChange" />
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -39,14 +55,20 @@ export default {
   computed: {
     ...mapState('user', ['name', 'photoURL']),
     src() {
-      return this.file ? this.renderImage : this.photoURL
+      if (this.file) {
+        return this.renderImage
+      } else if (this.photoURL) {
+        return this.photoURL
+      } else {
+        return require('~/assets/images/anonymous.jpg')
+      }
     }
   },
   created() {
     this.changeName = this.name
   },
   methods: {
-    ...mapActions('user', ['SET_USERS']),
+    ...mapActions('user', ['SET_USERS', 'LOGOUT']),
     click() {
       document.querySelector('input[type=file]').click()
     },
@@ -93,9 +115,18 @@ export default {
           })
         })
       }
+    },
+    logout() {
+      this.$emit('close')
+      this.LOGOUT()
     }
   }
 }
 </script>
 
-<style></style>
+<style>
+.close-button {
+  top: 0px;
+  right: 0px;
+}
+</style>
