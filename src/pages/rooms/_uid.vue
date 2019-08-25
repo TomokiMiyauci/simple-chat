@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 import { INIT } from '~/store/message/mutation-types'
 import TheMessages from '~/components/organisms/TheMessages'
 
@@ -13,13 +13,16 @@ export default {
   },
 
   computed: {
-    ...mapState('message', ['messages'])
+    ...mapState('room', ['messages'])
   },
   created() {
+    const uid = this.$route.params.uid
+    this.setUid(uid)
     this.INIT()
   },
   methods: {
-    ...mapActions('message', [INIT])
+    ...mapMutations('room', ['setUid']),
+    ...mapActions('room', [INIT])
   }
 }
 </script>

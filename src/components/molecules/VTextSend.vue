@@ -22,7 +22,8 @@ export default {
   }),
 
   computed: {
-    ...mapState('user', ['id', 'name', 'photoURL'])
+    ...mapState('user', ['id', 'name', 'photoURL']),
+    ...mapState('room', ['uid'])
   },
 
   methods: {
@@ -39,6 +40,8 @@ export default {
       }
       await firebase
         .firestore()
+        .collection('rooms')
+        .doc(this.uid)
         .collection('messages')
         .add(msg)
         .then((doc) => this.scrollBottom())
