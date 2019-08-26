@@ -11,28 +11,37 @@ import firebase from '~/plugins/firebase'
 
 const PAGENATION_KEY = 'timestamp'
 
-function baseQuery() {
-  return firebase
-    .firestore()
-    .collection('messages')
-    .orderBy(PAGENATION_KEY, 'desc')
-}
-
 async function getLastVisible(query) {
   const documentSnapshots = await query.get()
+  if (documentSnapshots.empty) {
+    return
+  }
   const lastDoc = documentSnapshots.docs.length - 1
   const lastVisible = documentSnapshots.docs[lastDoc].data()
   return lastVisible
 }
 
 export default {
-  bindMessagesRef: firestoreAction(({ bindFirestoreRef, state }) => {
-    bindFirestoreRef('messages', baseQuery().limit(state.limit))
-  }),
+  bindMessagesRef: firestoreAction(
+    async ({ bindFirestoreRef, state, dispatch }) => {
+      const baseQuery = await dispatch('baseQuery')
+      bindFirestoreRef('messages', baseQuery.limit(state.limit))
+    }
+  ),
 
-  [INIT]({ dispatch, state }) {
+  baseQuery({ rootState }) {
+    return firebase
+      .firestore()
+      .collection('rooms')
+      .doc(rootState.room.uid)
+      .collection('messages')
+      .orderBy(PAGENATION_KEY, 'desc')
+  },
+
+  async [INIT]({ dispatch, state }) {
     dispatch('bindMessagesRef')
-    const firstQuery = baseQuery().limit(state.limit)
+    const baseQuery = await dispatch('baseQuery')
+    const firstQuery = baseQuery.limit(state.limit)
     // Get the last visible document
     dispatch(SET_LAST_VISIBLE, firstQuery)
   },
@@ -50,7 +59,8 @@ export default {
   },
 
   async [LOAD_MORE]({ state, dispatch, commit }) {
-    const nextQuery = baseQuery()
+    const baseQuery = await dispatch('baseQuery')
+    const nextQuery = baseQuery
       .startAfter(state.lastVisible[PAGENATION_KEY])
       .limit(state.limit)
     const isEndOfRecord = await dispatch('isEndOfRecord', nextQuery)
