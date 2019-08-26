@@ -1,5 +1,7 @@
 <template>
-  <the-messages :messages="messages.slice().reverse()"> </the-messages>
+  <div>
+    <the-messages :messages="messages.slice().reverse()"> </the-messages>
+  </div>
 </template>
 
 <script>
@@ -13,7 +15,7 @@ export default {
   },
 
   computed: {
-    ...mapState('room', ['messages'])
+    ...mapState('message', ['messages'])
   },
   created() {
     const uid = this.$route.params.uid
@@ -22,7 +24,7 @@ export default {
   },
   methods: {
     ...mapMutations('room', ['setUid']),
-    ...mapActions('room', [INIT])
+    ...mapActions('message', [INIT])
   }
 }
 </script>
