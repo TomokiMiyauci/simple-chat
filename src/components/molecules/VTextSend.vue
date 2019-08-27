@@ -31,17 +31,23 @@ export default {
       if (!this.message) {
         return
       }
+      const timestamp = firebase.firestore.FieldValue.serverTimestamp()
       const msg = {
         userID: this.id,
         name: this.name,
         text: this.message,
         profilePicUrl: this.photoURL,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        timestamp
       }
-      await firebase
+      const docRef = firebase
         .firestore()
         .collection('rooms')
         .doc(this.uid)
+
+      docRef.update({
+        recent: msg
+      })
+      await docRef
         .collection('messages')
         .add(msg)
         .then((doc) => this.scrollBottom())
