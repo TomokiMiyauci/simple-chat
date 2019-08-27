@@ -46,21 +46,9 @@ export default {
         .firestore()
         .collection('rooms')
         .add({
-          rule: {},
-          recent: {
-            message: 'aiou',
-            name: 'author',
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-          },
-          avatar: require('~/assets/images/new.png'),
-          title: 'New room is created',
-          subtitle: 'No message',
+          name: 'New Room',
           timestamp: firebase.firestore.FieldValue.serverTimestamp()
         })
-      // const b = await ref.collection('messages').add({
-      //   text: 'aio',
-      //   author: 'afswf'
-      // })
       this.dialog = false
       console.log(ref)
       // console.log(b)
