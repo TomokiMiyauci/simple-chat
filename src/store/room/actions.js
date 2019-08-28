@@ -1,14 +1,18 @@
+import { firestoreAction } from 'vuexfire'
+import { INIT } from './mutation-types'
 import firebase from '~/plugins/firebase'
-
 export default {
-  async load({ commit }) {
-    const snapshot = await firebase
-      .firestore()
-      .collection('rooms')
-      .get()
-    snapshot.forEach((doc) => {
-      const document = Object.assign(doc.data(), { uid: doc.id })
-      commit('setRoom', document)
-    })
+  bindRoomsRef: firestoreAction(({ bindFirestoreRef }) => {
+    bindFirestoreRef(
+      'rooms',
+      firebase
+        .firestore()
+        .collection('rooms')
+        .orderBy('recent.timestamp', 'desc')
+    )
+  }),
+
+  [INIT]({ dispatch }) {
+    dispatch('bindRoomsRef')
   }
 }
