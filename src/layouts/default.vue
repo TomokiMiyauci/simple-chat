@@ -1,20 +1,20 @@
 <template>
   <v-app>
-    <the-appbar back-to="/rooms" />
+    <the-app-bar />
     <v-content>
       <nuxt />
     </v-content>
-    <the-post-footer></the-post-footer>
+    <the-bottom-nav></the-bottom-nav>
   </v-app>
 </template>
 
 <script>
-import ThePostFooter from '~/components/organisms/ThePostFooter'
-import TheAppbar from '~/components/organisms/TheAppbar'
+import TheBottomNav from '~/components/organisms/TheBottomNav'
+import TheAppBar from '~/components/organisms/TheAppBar'
 export default {
   components: {
-    TheAppbar,
-    ThePostFooter
+    TheAppBar,
+    TheBottomNav
   }
 }
 </script>

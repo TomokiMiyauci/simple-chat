@@ -10,6 +10,7 @@ import { INIT } from '~/store/message/mutation-types'
 import TheMessages from '~/components/organisms/TheMessages'
 
 export default {
+  layout: 'message',
   components: {
     TheMessages
   },

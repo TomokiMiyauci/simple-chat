@@ -10,9 +10,7 @@
 </template>
 
 <script>
-export default {
-  layout: 'index'
-}
+export default {}
 </script>
 
 <style></style>
