@@ -4,16 +4,16 @@
       <v-img :src="photoSrc" alt="avatar" />
     </v-avatar>
     <v-dialog v-model="dialog" max-width="400px" persistent>
-      <the-profile @close="dialog = false"></the-profile>
+      <v-profile @close="dialog = false"></v-profile>
     </v-dialog>
   </div>
 </template>
 
 <script>
-import TheProfile from '~/components/organisms/TheProfile'
+import VProfile from '~/components/molecules/VProfile'
 export default {
   components: {
-    TheProfile
+    VProfile
   },
   props: {
     src: {
