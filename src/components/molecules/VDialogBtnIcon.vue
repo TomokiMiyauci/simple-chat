@@ -1,5 +1,11 @@
 <template>
-  <v-dialog v-model="dialog" width="dialogWidth">
+  <v-dialog
+    v-model="dialog"
+    width="dialogWidth"
+    :fullscreen="fullscreen"
+    :hide-overlay="fullscreen"
+    :transition="transition"
+  >
     <template v-slot:activator="{ on }">
       <v-btn-icon v-bind="btnIcon" v-on="on"></v-btn-icon>
     </template>
@@ -14,6 +20,15 @@ export default {
     VBtnIcon
   },
   props: {
+    fullscreen: {
+      type: Boolean,
+      default: false
+    },
+    transition: {
+      type: String,
+      default: 'dialog-transition'
+    },
+
     dialogWidth: {
       type: [String, Number],
       default: 500
