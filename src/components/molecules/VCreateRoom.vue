@@ -7,17 +7,32 @@
       <v-toolbar-title>New Room</v-toolbar-title>
       <div class="flex-grow-1"></div>
       <v-toolbar-items>
-        <v-btn dark text @click="click">Save</v-btn>
+        <v-btn dark text @click="create">Save</v-btn>
       </v-toolbar-items>
     </v-toolbar>
   </v-card>
 </template>
 
 <script>
+import firebase from '~/plugins/firebase'
 export default {
   methods: {
     click() {
       this.$emit('click')
+    },
+    create() {
+      const timestamp = firebase.firestore.FieldValue.serverTimestamp()
+      firebase
+        .firestore()
+        .collection('rooms')
+        .add({
+          name: 'New Room',
+          timestamp,
+          recent: {
+            timestamp
+          }
+        })
+      this.click()
     }
   }
 }
