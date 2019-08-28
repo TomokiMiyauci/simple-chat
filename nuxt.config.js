@@ -41,7 +41,7 @@ export default {
     '@nuxtjs/eslint-module',
     '@nuxtjs/device'
   ],
-  devModules: ['@nuxtjs/vuetify'],
+  buildModules: ['@nuxtjs/vuetify'],
   manifest: {
     name: 'Simple Chat',
     short_name: 'Simple Chat',
