@@ -6,9 +6,10 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import TheRooms from '~/components/organisms/TheRooms'
 import TheToolbar from '~/components/organisms/TheToolbar'
+import { INIT } from '~/store/room/mutation-types'
 export default {
   components: {
     TheRooms,
@@ -18,15 +19,12 @@ export default {
   computed: {
     ...mapState('room', ['rooms'])
   },
-  mounted() {
-    this.load()
+  created() {
+    this.INIT()
   },
-  destroyed() {
-    this.resetRoom()
-  },
+
   methods: {
-    ...mapMutations('room', ['resetRoom']),
-    ...mapActions('room', ['load'])
+    ...mapActions('room', [INIT])
   }
 }
 </script>

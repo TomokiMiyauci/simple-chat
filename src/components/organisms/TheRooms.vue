@@ -2,7 +2,7 @@
   <v-card class="mx-auto" flat>
     <v-list two-line>
       <template v-for="(item, index) in rooms">
-        <v-list-item :key="item.uid" :to="`/rooms/${item.uid}`">
+        <v-list-item :key="item.uid" :to="`/rooms/${item.id}`">
           <v-list-item-avatar>
             <v-img
               :src="
@@ -17,7 +17,7 @@
             <v-list-item-title>{{
               item.name ? item.name : 'New Room'
             }}</v-list-item-title>
-            <v-list-item-subtitle v-if="item.recent" class="pt-1">
+            <v-list-item-subtitle v-if="item.recent.text" class="pt-1">
               <v-avatar size="30">
                 <v-img
                   :src="

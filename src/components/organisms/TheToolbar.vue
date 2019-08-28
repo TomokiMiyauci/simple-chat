@@ -42,12 +42,16 @@ export default {
   }),
   methods: {
     async click() {
+      const timestamp = firebase.firestore.FieldValue.serverTimestamp()
       const ref = await firebase
         .firestore()
         .collection('rooms')
         .add({
           name: 'New Room',
-          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          timestamp,
+          recent: {
+            timestamp
+          }
         })
       this.dialog = false
       console.log(ref)
