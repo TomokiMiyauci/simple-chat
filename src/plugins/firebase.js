@@ -1,12 +1,9 @@
-import Vue from 'vue'
-import { firestorePlugin } from 'vuefire'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/storage'
 import 'firebase/auth'
 import 'firebase/messaging'
 
-Vue.use(firestorePlugin)
 const firebaseConfig = {
   apiKey: 'AIzaSyDw8lIFcaFlEeb-6Ilu4cg6ySqu04M5soQ',
   authDomain: 'simplechat-6.firebaseapp.com',
