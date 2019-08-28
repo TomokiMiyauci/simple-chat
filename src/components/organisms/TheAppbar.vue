@@ -1,24 +1,23 @@
 <template>
   <v-app-bar dark app>
-    <v-back-icon v-if="backTo" :back-to="backTo"></v-back-icon>
-    <v-toolbar-title class="text-capitalize">
-      {{ title }}
-    </v-toolbar-title>
+    <v-text-field
+      rounded
+      hide-details
+      prepend-inner-icon="mdi-comment-search"
+      single-line
+    ></v-text-field>
     <v-spacer />
-    <the-pull-to-refresh></the-pull-to-refresh>
+    <the-create-room></the-create-room>
     <the-firebase-ui />
   </v-app-bar>
 </template>
 <script>
-import { mapState } from 'vuex'
-import ThePullToRefresh from '~/components/organisms/ThePullToRefresh'
-import VBackIcon from '~/components/atoms/VBackIcon'
 import TheFirebaseUi from '~/components/organisms/TheFirebaseUi'
+import TheCreateRoom from '~/components/organisms/TheCreateRoom'
 export default {
   components: {
     TheFirebaseUi,
-    VBackIcon,
-    ThePullToRefresh
+    TheCreateRoom
   },
   props: {
     backTo: {
@@ -26,8 +25,6 @@ export default {
       default: null
     }
   },
-  computed: {
-    ...mapState('navbar', ['title'])
-  }
+  computed: {}
 }
 </script>
