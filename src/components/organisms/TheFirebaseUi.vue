@@ -1,76 +1,42 @@
 <template>
   <div>
-    <v-dialog-card v-if="!isAuth" icon="mdi-login-variant" button-color="white">
-      <template slot="card">
-        <v-card>
-          <v-card-title class="headline" primary-title>
-            Sign In
-          </v-card-title>
-
-          <v-card-actions>
-            <v-layout column wrap align-center>
-              <v-flex py-2>
-                <v-btn color="primary" x-large @click="login()">
-                  <v-icon class="ma-2">
-                    mdi-google
-                  </v-icon>
-                  Sign in with Google
-                </v-btn>
-              </v-flex>
-              <v-flex py-2>
-                <v-btn color="red lighten-1" dark x-large>
-                  <v-icon class="ma-2">
-                    mdi-email
-                  </v-icon>
-                  Sign in with Email
-                </v-btn>
-              </v-flex>
-            </v-layout>
-          </v-card-actions>
-        </v-card>
+    <v-dialog-btn-icon v-if="!isAuth" ref="dialog" :btn-icon="btnIcon">
+      <template #content>
+        <v-firebase-ui @logged-in="forceClose"></v-firebase-ui>
       </template>
-    </v-dialog-card>
+    </v-dialog-btn-icon>
     <the-avatar v-else :src="src"></the-avatar>
-
-    <v-snackbar
-      v-model="snackbar"
-      color="primary"
-      :timeout="timeout"
-      :top="true"
-    >
-      {{ text }}
-    </v-snackbar>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import TheAvatar from '~/components/organisms/TheAvatar'
-import VDialogCard from '~/components/molecules/VDialogCard'
+import VFirebaseUi from '~/components/molecules/VFirebaseUi'
+import VDialogBtnIcon from '~/components/molecules/VDialogBtnIcon'
 export default {
   components: {
-    VDialogCard,
+    VDialogBtnIcon,
+    VFirebaseUi,
     TheAvatar
   },
-  data: () => ({
-    snackbar: false,
-    text: 'Success! Login',
-    timeout: 1500
-  }),
-
+  data() {
+    return {
+      btnIcon: {
+        icon: 'mdi-login-variant'
+      }
+    }
+  },
   computed: {
-    ...mapState('navbar', ['title']),
-    ...mapState('user', ['photoURL', 'isAuth']),
+    ...mapState('user', ['isAuth']),
     ...mapGetters('user', ['photoURL']),
     src() {
       return this.photoURL
     }
   },
   methods: {
-    ...mapActions('user', ['LOGIN']),
-    async login() {
-      await this.LOGIN()
-      this.snackbar = true
+    forceClose() {
+      this.$refs.dialog.forceClose()
     }
   }
 }
