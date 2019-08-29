@@ -1,5 +1,5 @@
 import { firestoreAction } from 'vuexfire'
-import { INIT, CREATE } from './mutation-types'
+import { INIT, CREATE, UPDATE } from './mutation-types'
 import firebase from '~/plugins/firebase'
 
 function collectionRef() {
@@ -18,6 +18,12 @@ export default {
     dispatch('bindRoomsRef')
   },
 
+  getOne({ state }, payload) {
+    return collectionRef()
+      .doc(payload || state.uid)
+      .get()
+  },
+
   [CREATE]() {
     const timestamp = firebase.firestore.FieldValue.serverTimestamp()
     collectionRef().add({
@@ -27,5 +33,11 @@ export default {
         timestamp
       }
     })
+  },
+
+  [UPDATE]({ state }, payload) {
+    collectionRef()
+      .doc(state.uid)
+      .update(payload)
   }
 }
