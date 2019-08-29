@@ -25,7 +25,7 @@
     "@nuxtjs/pwa": "^3.0.0-beta.16",
     "firebase": "^6.4.2",
     "firebaseui": "^4.1.0",
-    "nuxt": "^2.9.1",
+    "nuxt": "^2.9.2",
     "vuefire": "^2.1.2",
     "vuexfire": "^3.1.2"
   },
