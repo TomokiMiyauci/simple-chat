@@ -14,24 +14,16 @@
 </template>
 
 <script>
-import firebase from '~/plugins/firebase'
+import { mapActions } from 'vuex'
+import { CREATE } from '~/store/room/mutation-types'
 export default {
   methods: {
+    ...mapActions('room', [CREATE]),
     click() {
       this.$emit('click')
     },
     create() {
-      const timestamp = firebase.firestore.FieldValue.serverTimestamp()
-      firebase
-        .firestore()
-        .collection('rooms')
-        .add({
-          name: 'New Room',
-          timestamp,
-          recent: {
-            timestamp
-          }
-        })
+      this.CREATE()
       this.click()
     }
   }
