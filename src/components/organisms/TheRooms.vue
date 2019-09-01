@@ -31,6 +31,15 @@
             <v-list-item-subtitle v-else class="pt-1"
               >No message</v-list-item-subtitle
             >
+            <v-list-item-subtitle class="pt-1">
+              <v-chip label color="yellow darken-3" outlined>
+                <v-icon left>mdi-eye</v-icon>{{ item.viewer }}</v-chip
+              >
+              <v-chip label color="blue darken-1" outlined>
+                <v-icon left>mdi-message-text</v-icon
+                >{{ item.msgCount }}</v-chip
+              >
+            </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
             <v-btn icon @click.prevent="click">

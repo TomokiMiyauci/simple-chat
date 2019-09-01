@@ -45,7 +45,8 @@ export default {
         .doc(this.uid)
 
       docRef.update({
-        recent: msg
+        recent: msg,
+        msgCount: firebase.firestore.FieldValue.increment(1)
       })
       await docRef
         .collection('messages')
