@@ -24,14 +24,14 @@ export default {
     this.setUid(uid)
     this.INCREASE({
       field: 'viewer',
-      number: 1
+      increment: 1
     })
     this.INIT()
   },
   destroyed() {
     this.INCREASE({
       field: 'viewer',
-      number: -1
+      increment: -1
     })
   },
   methods: {

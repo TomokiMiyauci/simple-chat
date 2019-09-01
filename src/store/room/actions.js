@@ -1,8 +1,8 @@
 import { firestoreAction } from 'vuexfire'
-import { INIT, CREATE, UPDATE } from './mutation-types'
+import { INIT, CREATE, UPDATE, INCREASE } from './mutation-types'
 import firebase from '~/plugins/firebase'
 
-function collectionRef() {
+export function collectionRef() {
   return firebase.firestore().collection('rooms')
 }
 
@@ -31,7 +31,9 @@ export default {
       timestamp,
       recent: {
         timestamp
-      }
+      },
+      msgCount: 0,
+      viewer: 0
     })
   },
 
@@ -39,5 +41,11 @@ export default {
     collectionRef()
       .doc(state.uid)
       .update(payload)
+  },
+
+  [INCREASE]({ dispatch }, payload) {
+    const { field, increment, ...rest } = payload
+    rest[field] = firebase.firestore.FieldValue.increment(increment)
+    dispatch(UPDATE, rest)
   }
 }
