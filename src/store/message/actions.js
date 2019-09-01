@@ -5,11 +5,19 @@ import {
   LOAD_MORE,
   SET_LAST_VISIBLE,
   LOADING,
-  END_OF_RECORD
+  END_OF_RECORD,
+  POST,
+  POST_TEXT,
+  POST_IMAGE,
+  INCREASE
 } from './mutation-types'
+import { collectionRef } from '~/store/room/actions'
 import firebase from '~/plugins/firebase'
 
 const PAGENATION_KEY = 'timestamp'
+const TIMESTAMP = firebase.firestore.FieldValue.serverTimestamp()
+const IMAGE_MESSAGE = 'Image posted'
+const LOADING_IMAGE = require('~/assets/images/loader.gif')
 
 async function getLastVisible(query) {
   const documentSnapshots = await query.get()
@@ -19,6 +27,14 @@ async function getLastVisible(query) {
   const lastDoc = documentSnapshots.docs.length - 1
   const lastVisible = documentSnapshots.docs[lastDoc].data()
   return lastVisible
+}
+
+function getFirstPath(payload) {
+  if (payload) {
+    return payload + '/'
+  } else {
+    return 'anonymous/'
+  }
 }
 
 export default {
@@ -82,5 +98,61 @@ export default {
       return false
     }
     return true
+  },
+
+  baseMsg({ rootState }) {
+    const baseMsg = {
+      userID: rootState.user.id,
+      name: rootState.user.name,
+      profilePicUrl: rootState.user.photoURL,
+      timestamp: TIMESTAMP
+    }
+    return baseMsg
+  },
+
+  async [POST]({ dispatch, rootState }, payload) {
+    const docRef = collectionRef().doc(rootState.room.uid)
+    const baseMsg = await dispatch('baseMsg')
+    const msg = Object.assign(baseMsg, payload)
+
+    const ref = await docRef
+      .collection('messages')
+      .add(msg)
+      .catch((error) => console.log(error))
+
+    return { ref, msg }
+  },
+
+  async [INCREASE]({ dispatch }, payload) {
+    const recent = {
+      recent: payload,
+      field: 'msgCount',
+      increment: 1
+    }
+    await dispatch(`room/${INCREASE}`, recent, { root: true })
+  },
+
+  async [POST_TEXT]({ dispatch }, payload) {
+    const { msg } = await dispatch(POST, payload)
+    dispatch(INCREASE, msg)
+  },
+
+  async [POST_IMAGE]({ dispatch, rootState }, payload) {
+    const addMsg = {
+      imageURL: LOADING_IMAGE
+    }
+    const { ref, msg } = await dispatch(POST, addMsg)
+    msg.text = IMAGE_MESSAGE
+    dispatch(INCREASE, msg)
+    const firstPath = getFirstPath(rootState.user.isAuth)
+    const filePath = firstPath + ref.id + '/' + payload.name
+    const storageRef = firebase.storage().ref('images')
+    const fileSnapshot = await storageRef.child(filePath).put(payload)
+    const url = await fileSnapshot.ref.getDownloadURL()
+    ref
+      .update({
+        imageURL: url
+      })
+      .catch((error) => console.log(error))
   }
 }

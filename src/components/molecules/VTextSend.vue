@@ -14,46 +14,21 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import firebase from '~/plugins/firebase'
+import { mapActions } from 'vuex'
 export default {
   data: () => ({
     message: ''
   }),
 
-  computed: {
-    ...mapState('user', ['id', 'name', 'photoURL']),
-    ...mapState('room', ['uid'])
-  },
-
   methods: {
+    ...mapActions('message', ['POST_TEXT']),
     async sendMessage() {
       if (!this.message) {
         return
       }
-      const timestamp = firebase.firestore.FieldValue.serverTimestamp()
-      const msg = {
-        userID: this.id,
-        name: this.name,
-        text: this.message,
-        profilePicUrl: this.photoURL,
-        timestamp
-      }
-      const docRef = firebase
-        .firestore()
-        .collection('rooms')
-        .doc(this.uid)
-
-      docRef.update({
-        recent: msg,
-        msgCount: firebase.firestore.FieldValue.increment(1)
-      })
-      await docRef
-        .collection('messages')
-        .add(msg)
-        .then((doc) => this.scrollBottom())
-        .catch((error) => console.log(error))
+      await this.POST_TEXT({ text: this.message })
       this.clearMessage()
+      this.scrollBottom()
     },
     clearMessage() {
       this.message = ''

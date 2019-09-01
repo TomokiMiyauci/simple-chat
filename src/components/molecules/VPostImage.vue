@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn text icon @click="click">
+    <v-btn text icon :disabled="!isAuth" @click="click">
       <v-icon>mdi-image</v-icon>
     </v-btn>
     <input type="file" style="visibility: hidden;" @change="onFileChange" />
@@ -8,13 +8,13 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import firebase from '~/plugins/firebase'
+import { mapState, mapActions } from 'vuex'
 export default {
   computed: {
-    ...mapState('user', ['id', 'name', 'photoURL', 'isAuth'])
+    ...mapState('user', ['isAuth'])
   },
   methods: {
+    ...mapActions('message', ['POST_IMAGE']),
     click() {
       document.querySelector('input[type=file]').click()
     },
@@ -26,38 +26,13 @@ export default {
       this.sendImage(file)
     },
     async sendImage(file) {
-      const msg = {
-        userID: this.id,
-        name: this.name,
-        imageURL: require('~/assets/images/loader.gif'),
-        profilePicUrl: this.photoURL,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }
-      await firebase
-        .firestore()
-        .collection('messages')
-        .add(msg)
-        .then((messageRef) => {
-          let filePath
-          const storageRef = firebase.storage().ref('images')
-          if (this.isAuth) {
-            filePath = this.id + '/' + messageRef.id + '/' + file.name
-          } else {
-            filePath = 'anonimus' + '/' + messageRef.id + '/' + file.name
-          }
-          storageRef
-            .child(filePath)
-            .put(file)
-            .then((fileSnapshot) => {
-              fileSnapshot.ref.getDownloadURL().then((url) => {
-                console.log(url)
-                messageRef.update({
-                  imageURL: url
-                })
-              })
-            })
-        })
-        .catch((error) => console.log(error))
+      await this.POST_IMAGE(file)
+      this.scrollBottom()
+    },
+    scrollBottom() {
+      this.$nextTick(() => {
+        window.scrollTo(0, document.body.clientHeight)
+      })
     }
   }
 }
