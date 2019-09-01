@@ -7,6 +7,7 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
 import { INIT } from '~/store/message/mutation-types'
+import { INCREASE } from '~/store/room/mutation-types'
 import TheMessages from '~/components/organisms/TheMessages'
 
 export default {
@@ -21,11 +22,22 @@ export default {
   created() {
     const uid = this.$route.params.uid
     this.setUid(uid)
+    this.INCREASE({
+      field: 'viewer',
+      number: 1
+    })
     this.INIT()
+  },
+  destroyed() {
+    this.INCREASE({
+      field: 'viewer',
+      number: -1
+    })
   },
   methods: {
     ...mapMutations('room', ['setUid']),
-    ...mapActions('message', [INIT])
+    ...mapActions('message', [INIT]),
+    ...mapActions('room', [INCREASE])
   }
 }
 </script>
