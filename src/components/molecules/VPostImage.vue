@@ -1,30 +1,25 @@
 <template>
   <div>
-    <v-btn text icon :disabled="!isAuth" @click="click">
+    <v-btn text icon :disabled="!isAuth" @click="$refs.image.onClick()">
       <v-icon>mdi-image</v-icon>
     </v-btn>
-    <input type="file" style="visibility: hidden;" @change="onFileChange" />
+    <v-image ref="image" @onload="sendImage"></v-image>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import VImage from '~/components/atoms/VImage'
+
 export default {
+  components: {
+    VImage
+  },
   computed: {
     ...mapState('user', ['isAuth'])
   },
   methods: {
     ...mapActions('message', ['POST_IMAGE']),
-    click() {
-      document.querySelector('input[type=file]').click()
-    },
-    onFileChange(e) {
-      const files = e.target.files || e.dataTransfer.files
-      if (!files.length) return
-      const file = files[0]
-      // Store the file data encoded as data URL in the result property of reader
-      this.sendImage(file)
-    },
     async sendImage(file) {
       await this.POST_IMAGE(file)
       this.scrollBottom()
