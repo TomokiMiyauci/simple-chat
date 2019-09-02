@@ -6,10 +6,10 @@
           <v-post-image></v-post-image>
         </v-flex>
         <v-flex xs2>
-          <v-tag></v-tag>
+          <v-post-tag @onload="onload"></v-post-tag>
         </v-flex>
         <v-flex xs8>
-          <v-text-send></v-text-send>
+          <v-text-send :tag="tag"></v-text-send>
         </v-flex>
       </v-layout>
     </v-container>
@@ -18,13 +18,23 @@
 
 <script>
 import VPostImage from '~/components/molecules/VPostImage'
-import VTag from '~/components/molecules/VTag'
+import VPostTag from '~/components/molecules/VPostTag'
 import VTextSend from '~/components/molecules/VTextSend'
 export default {
   components: {
     VTextSend,
     VPostImage,
-    VTag
+    VPostTag
+  },
+  data() {
+    return {
+      tag: null
+    }
+  },
+  methods: {
+    onload(payload) {
+      this.tag = payload
+    }
   }
 }
 </script>

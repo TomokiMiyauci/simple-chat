@@ -16,6 +16,12 @@
 <script>
 import { mapActions } from 'vuex'
 export default {
+  props: {
+    tag: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data: () => ({
     message: ''
   }),
@@ -26,7 +32,11 @@ export default {
       if (!this.message) {
         return
       }
-      this.POST_TEXT({ text: this.message })
+      if (this.tag) {
+        this.POST_TEXT({ text: this.message, tag: this.tag })
+      } else {
+        this.POST_TEXT({ text: this.message })
+      }
       this.clearMessage()
     },
     clearMessage() {
