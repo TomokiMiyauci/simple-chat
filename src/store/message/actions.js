@@ -30,11 +30,15 @@ async function getLastVisible(query) {
 }
 
 function getFirstPath(payload) {
-  if (payload) {
-    return payload + '/'
+  if (payload.user.isAuth) {
+    return payload.user.id + '/'
   } else {
     return 'anonymous/'
   }
+}
+
+function scrollBottom() {
+  window.scrollTo(0, document.body.clientHeight)
 }
 
 export default {
@@ -134,6 +138,7 @@ export default {
 
   async [POST_TEXT]({ dispatch }, payload) {
     const { msg } = await dispatch(POST, payload)
+    scrollBottom()
     dispatch(INCREASE, msg)
   },
 
@@ -142,9 +147,10 @@ export default {
       imageURL: LOADING_IMAGE
     }
     const { ref, msg } = await dispatch(POST, addMsg)
+    scrollBottom()
     msg.text = IMAGE_MESSAGE
     dispatch(INCREASE, msg)
-    const firstPath = getFirstPath(rootState.user.isAuth)
+    const firstPath = getFirstPath(rootState)
     const filePath = firstPath + ref.id + '/' + payload.name
     const storageRef = firebase.storage().ref('images')
     const fileSnapshot = await storageRef.child(filePath).put(payload)

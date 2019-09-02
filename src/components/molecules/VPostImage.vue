@@ -20,14 +20,8 @@ export default {
   },
   methods: {
     ...mapActions('message', ['POST_IMAGE']),
-    async sendImage(file) {
-      await this.POST_IMAGE(file)
-      this.scrollBottom()
-    },
-    scrollBottom() {
-      this.$nextTick(() => {
-        window.scrollTo(0, document.body.clientHeight)
-      })
+    sendImage(file) {
+      this.POST_IMAGE(file)
     }
   }
 }

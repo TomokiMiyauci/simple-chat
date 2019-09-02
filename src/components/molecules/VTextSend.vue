@@ -22,21 +22,15 @@ export default {
 
   methods: {
     ...mapActions('message', ['POST_TEXT']),
-    async sendMessage() {
+    sendMessage() {
       if (!this.message) {
         return
       }
-      await this.POST_TEXT({ text: this.message })
+      this.POST_TEXT({ text: this.message })
       this.clearMessage()
-      this.scrollBottom()
     },
     clearMessage() {
       this.message = ''
-    },
-    scrollBottom() {
-      this.$nextTick(() => {
-        window.scrollTo(0, document.body.clientHeight)
-      })
     }
   }
 }
