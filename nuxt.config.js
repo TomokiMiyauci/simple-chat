@@ -35,7 +35,8 @@ export default {
     '~/plugins/firebase',
     '~/plugins/filter',
     '~/plugins/fcm.client',
-    '~/plugins/vuefire'
+    '~/plugins/vuefire',
+    { src: '~/plugins/localStorage', ssr: false }
   ],
   /*
    ** Nuxt.js modules

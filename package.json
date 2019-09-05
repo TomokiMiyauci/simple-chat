@@ -27,6 +27,7 @@
     "firebaseui": "^4.1.0",
     "nuxt": "^2.9.2",
     "vuefire": "^2.1.2",
+    "vuex-persistedstate": "^2.5.4",
     "vuexfire": "^3.1.2"
   },
   "devDependencies": {
