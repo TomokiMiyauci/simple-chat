@@ -6,10 +6,10 @@
           <v-post-image></v-post-image>
         </v-flex>
         <v-flex xs2>
-          <v-post-tag @onload="onload"></v-post-tag>
+          <v-post-tag></v-post-tag>
         </v-flex>
         <v-flex xs8>
-          <v-text-send :tag="tag"></v-text-send>
+          <v-text-send></v-text-send>
         </v-flex>
       </v-layout>
     </v-container>
@@ -25,16 +25,6 @@ export default {
     VTextSend,
     VPostImage,
     VPostTag
-  },
-  data() {
-    return {
-      tag: null
-    }
-  },
-  methods: {
-    onload(payload) {
-      this.tag = payload
-    }
   }
 }
 </script>

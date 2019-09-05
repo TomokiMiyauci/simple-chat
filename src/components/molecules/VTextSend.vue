@@ -9,38 +9,31 @@
     clearable
     clear-icon="mdi-close-circle"
     auto-grow
-    @click:append-outer="sendMessage"
+    @click:append-outer="post"
   ></v-textarea>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
+import { SET_TEXT, CLEAR, POST_TEXT } from '~/store/post/mutation-types'
 export default {
-  props: {
-    tag: {
-      type: Object,
-      default: () => {}
+  computed: {
+    ...mapState('post', ['text']),
+    message: {
+      get() {
+        return this.text
+      },
+      set(payload) {
+        this.SET_TEXT(payload)
+      }
     }
   },
-  data: () => ({
-    message: ''
-  }),
 
   methods: {
-    ...mapActions('message', ['POST_TEXT']),
-    sendMessage() {
-      if (!this.message) {
-        return
-      }
-      if (this.tag) {
-        this.POST_TEXT({ text: this.message, tag: this.tag })
-      } else {
-        this.POST_TEXT({ text: this.message })
-      }
-      this.clearMessage()
-    },
-    clearMessage() {
-      this.message = ''
+    ...mapActions('post', [SET_TEXT, CLEAR, POST_TEXT]),
+    post() {
+      this.POST_TEXT()
+      this.CLEAR()
     }
   }
 }

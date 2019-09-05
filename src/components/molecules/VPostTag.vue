@@ -2,26 +2,32 @@
   <div>
     <v-bottom-sheet-btn-icon ref="bottomSheet" :btn-icon="btnIcon">
       <template #content>
-        <v-tag @onload="onload"></v-tag>
+        <v-tag-list @onload="onload"></v-tag-list>
       </template>
     </v-bottom-sheet-btn-icon>
   </div>
 </template>
 <script>
-import VTag from '~/components/molecules/VTag'
+import { mapState } from 'vuex'
+import VTagList from '~/components/molecules/VTagList'
 import VBottomSheetBtnIcon from '~/components/molecules/VBottomSheetBtnIcon'
 export default {
-  components: { VBottomSheetBtnIcon, VTag },
-  data: () => ({
-    btnIcon: {
-      icon: 'mdi-tag'
+  components: { VBottomSheetBtnIcon, VTagList },
+
+  computed: {
+    ...mapState('post', ['tag']),
+    btnIcon() {
+      if (this.tag) {
+        return { icon: 'mdi-tag', btnColor: this.tag.color }
+      } else {
+        return { icon: 'mdi-tag', btnColor: '' }
+      }
     }
-  }),
+  },
+
   methods: {
-    onload(payload) {
+    onload() {
       this.$refs.bottomSheet.forceClose()
-      this.btnIcon.btnColor = payload.color
-      this.$emit('onload', payload)
     }
   }
 }

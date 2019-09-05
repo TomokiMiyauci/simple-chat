@@ -9,6 +9,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import { SET_IMAGE, POST_IMAGE } from '~/store/post/mutation-types'
 import VImage from '~/components/atoms/VImage'
 
 export default {
@@ -19,9 +20,10 @@ export default {
     ...mapState('user', ['isAuth'])
   },
   methods: {
-    ...mapActions('message', ['POST_IMAGE']),
-    sendImage(file) {
-      this.POST_IMAGE(file)
+    ...mapActions('post', [SET_IMAGE, POST_IMAGE]),
+    async sendImage(file) {
+      await this.SET_IMAGE(file)
+      this.POST_IMAGE()
     }
   }
 }
