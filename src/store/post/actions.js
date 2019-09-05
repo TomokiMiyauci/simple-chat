@@ -1,4 +1,53 @@
-import { SET_TEXT, SET_IMAGE, SET_TAG, CLEAR } from './mutation-types'
+import {
+  SET_TEXT,
+  SET_IMAGE,
+  SET_TAG,
+  CLEAR,
+  POST,
+  POST_TEXT,
+  POST_IMAGE,
+  INCREASE
+} from './mutation-types'
+import firebase from '~/plugins/firebase'
+import { collectionRef } from '~/store/room/actions'
+
+const TIMESTAMP = firebase.firestore.FieldValue.serverTimestamp()
+const IMAGE_MESSAGE = 'Image posted'
+const LOADING_IMAGE = require('~/assets/images/loader.gif')
+const ANONYMOUS_PATH = 'anonymous/'
+const IMAGE_STORAGE_ROOT = 'images'
+
+function scrollBottom() {
+  window.scrollTo(0, document.body.clientHeight)
+}
+
+function getBaseMsg(payload) {
+  const user = payload.user
+  const baseMsg = {
+    userID: user.id,
+    name: user.name,
+    profilePicUrl: user.photoURL,
+    timestamp: TIMESTAMP
+  }
+  return baseMsg
+}
+
+function getAddMsg(payload) {
+  if (payload.tag) {
+    return { text: payload.text, tag: payload.tag }
+  } else {
+    return { text: payload.text }
+  }
+}
+
+function getFirstPath(payload) {
+  const user = payload.user
+  if (user.isAuth) {
+    return user.id + '/'
+  } else {
+    return ANONYMOUS_PATH
+  }
+}
 
 export default {
   [SET_TEXT]({ commit }, payload) {
@@ -14,9 +63,8 @@ export default {
   },
 
   [CLEAR]({ dispatch }) {
-    dispatch('clearText')
-    dispatch('clearTag')
-    dispatch('clearImage')
+    const actions = ['clearText', 'clearTag', 'clearImage']
+    actions.forEach((action) => dispatch(action))
   },
 
   clearText({ commit }) {
@@ -29,5 +77,56 @@ export default {
 
   clearTag({ commit }) {
     commit(SET_TAG, null)
+  },
+
+  async [POST]({ dispatch, rootState }, payload) {
+    const docRef = collectionRef().doc(rootState.room.uid)
+    const baseMsg = getBaseMsg(rootState)
+    const msg = Object.assign(baseMsg, payload)
+
+    const ref = await docRef
+      .collection('messages')
+      .add(msg)
+      .catch((error) => console.log(error))
+
+    return { ref, msg }
+  },
+
+  async [INCREASE]({ dispatch }, payload) {
+    const recentMsg = {
+      recent: payload,
+      field: 'msgCount',
+      increment: 1
+    }
+    await dispatch(`room/${INCREASE}`, recentMsg, { root: true })
+  },
+
+  async [POST_TEXT]({ dispatch, state }) {
+    const addMsg = getAddMsg(state)
+    const { msg } = await dispatch('POST', addMsg)
+    scrollBottom()
+    dispatch(INCREASE, msg)
+    dispatch(CLEAR)
+  },
+
+  async [POST_IMAGE]({ dispatch, state, rootState }) {
+    const addMsg = {
+      imageURL: LOADING_IMAGE
+    }
+    const { ref, msg } = await dispatch('POST', addMsg)
+    scrollBottom()
+    msg.text = IMAGE_MESSAGE
+    dispatch(INCREASE, msg)
+    const firstPath = getFirstPath(rootState)
+    const filePath = firstPath + ref.id + '/' + state.image.name
+    const storageRef = firebase.storage().ref(IMAGE_STORAGE_ROOT)
+    const fileSnapshot = await storageRef.child(filePath).put(state.image)
+    const url = await fileSnapshot.ref.getDownloadURL()
+    ref
+      .update({
+        imageURL: url
+      })
+      .catch((error) => console.log(error))
+    dispatch(CLEAR)
   }
 }
