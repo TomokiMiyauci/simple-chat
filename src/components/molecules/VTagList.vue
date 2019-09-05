@@ -19,13 +19,19 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+import { SET_TAG } from '~/store/post/mutation-types'
 export default {
   data() {
     return {
-      checker: null,
       subheader: 'Chose Tag',
       tags: [
-        { icon: 'mdi-alert', text: 'Emergency', color: 'purple' },
+        {
+          icon: 'mdi-flash-alert',
+          text: 'Emergency',
+          color: 'yellow darken-1'
+        },
+        { icon: 'mdi-alert-decagram', text: 'Important', color: 'purple' },
         { icon: 'mdi-hand-okay', text: 'OK', color: 'success' },
         { icon: 'mdi-thumb-up', text: 'Like', color: 'red darken-1' },
         { icon: 'mdi-thumb-down', text: 'Bad', color: 'blue darken-1' }
@@ -33,19 +39,25 @@ export default {
     }
   },
 
+  computed: {
+    ...mapState('post', ['tag'])
+  },
+
   methods: {
+    ...mapActions('post', [SET_TAG]),
     click(payload) {
       if (this.isDuplicate(payload)) {
-        this.$emit('onload', {})
-        this.checker = null
+        this.SET_TAG(null)
       } else {
-        this.$emit('onload', payload)
-        this.checker = payload
+        this.SET_TAG(payload)
       }
+      this.$emit('onload')
     },
 
     isDuplicate(payload) {
-      if (this.checker && this.checker.icon === payload.icon) {
+      if (!this.tag) {
+        return false
+      } else if (this.tag.icon === payload.icon) {
         return true
       }
     }
