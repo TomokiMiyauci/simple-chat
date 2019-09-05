@@ -33,11 +33,13 @@ export default {
       field: 'viewer',
       increment: -1
     })
+    this.CLEAR()
   },
   methods: {
     ...mapMutations('room', ['setUid']),
     ...mapActions('message', [INIT]),
-    ...mapActions('room', [INCREASE])
+    ...mapActions('room', [INCREASE]),
+    ...mapActions('post', ['CLEAR'])
   }
 }
 </script>
