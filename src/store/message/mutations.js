@@ -1,4 +1,3 @@
-import { vuexfireMutations } from 'vuexfire'
 import {
   LOADING,
   END_OF_RECORD,
@@ -21,6 +20,5 @@ export default {
 
   [SET_MESSAGE](state, payload) {
     state.messages.push(payload)
-  },
-  ...vuexfireMutations
+  }
 }
