@@ -1,6 +1,8 @@
 <template>
   <div>
-    <v-btn-icon :icon="icon" xlarge @click="post"></v-btn-icon>
+    <v-audio-btm-sht-wrapper v-if="icon === 'mdi-microphone'" />
+
+    <v-btn-icon v-else :icon="icon" xlarge @click="post"></v-btn-icon>
   </div>
 </template>
 
@@ -8,10 +10,12 @@
 import { mapState, mapActions } from 'vuex'
 import { CLEAR, POST_TEXT } from '~/store/post/mutation-types'
 import VBtnIcon from '~/components/atoms/VBtnIcon'
+import VAudioBtmShtWrapper from '~/components/molecules/VAudioBtmShtWrapper'
 
 export default {
   components: {
-    VBtnIcon
+    VBtnIcon,
+    VAudioBtmShtWrapper
   },
   computed: {
     ...mapState('post', ['text']),
@@ -25,8 +29,6 @@ export default {
       if (this.icon === 'mdi-send') {
         this.POST_TEXT()
         this.CLEAR()
-      } else if (this.icon === 'mdi-microphone') {
-        alert()
       }
     }
   }
