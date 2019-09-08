@@ -2,10 +2,12 @@ import {
   SET_TEXT,
   SET_IMAGE,
   SET_TAG,
+  SET_AUDIO,
   CLEAR,
   POST,
   POST_TEXT,
   POST_IMAGE,
+  POST_AUDIO,
   INCREASE
 } from './mutation-types'
 import firebase from '~/plugins/firebase'
@@ -13,9 +15,11 @@ import { collectionRef } from '~/store/room/actions'
 
 const TIMESTAMP = firebase.firestore.FieldValue.serverTimestamp()
 const IMAGE_MESSAGE = 'Image posted'
+const AUDIO_MESSAGE = 'Audio posted'
 const LOADING_IMAGE = require('~/assets/images/loader.gif')
 const ANONYMOUS_PATH = 'anonymous/'
 const IMAGE_STORAGE_ROOT = 'images'
+const AUDIO_STORAGE_ROOT = 'audio'
 
 function scrollBottom() {
   window.scrollTo(0, document.body.clientHeight)
@@ -62,8 +66,12 @@ export default {
     commit(SET_TAG, payload)
   },
 
+  [SET_AUDIO]({ commit }, payload) {
+    commit(SET_AUDIO, payload)
+  },
+
   [CLEAR]({ dispatch }) {
-    const actions = ['clearText', 'clearTag', 'clearImage']
+    const actions = ['clearText', 'clearTag', 'clearImage', 'clearAudio']
     actions.forEach((action) => dispatch(action))
   },
 
@@ -77,6 +85,10 @@ export default {
 
   clearTag({ commit }) {
     commit(SET_TAG, null)
+  },
+
+  clearAudio({ commit }) {
+    commit(SET_AUDIO, null)
   },
 
   async [POST]({ dispatch, rootState }, payload) {
@@ -125,6 +137,32 @@ export default {
     ref
       .update({
         imageURL: url
+      })
+      .catch((error) => console.log(error))
+    dispatch(CLEAR)
+  },
+
+  async [POST_AUDIO]({ state, dispatch, rootState }) {
+    if (!state.audio) {
+      return
+    }
+    const addMsg = {
+      imageURL: LOADING_IMAGE
+    }
+    const { ref, msg } = await dispatch('POST', addMsg)
+    msg.text = AUDIO_MESSAGE
+    scrollBottom()
+
+    dispatch(INCREASE, msg)
+    const firstPath = getFirstPath(rootState)
+    const filePath = firstPath + ref.id + '/' + state.audio.size
+    const storageRef = firebase.storage().ref(AUDIO_STORAGE_ROOT)
+    const fileSnapshot = await storageRef.child(filePath).put(state.audio)
+    const url = await fileSnapshot.ref.getDownloadURL()
+    ref
+      .update({
+        audioURL: url,
+        imageURL: firebase.firestore.FieldValue.delete()
       })
       .catch((error) => console.log(error))
     dispatch(CLEAR)

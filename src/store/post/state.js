@@ -1,5 +1,6 @@
 export default () => ({
   text: null,
   image: null,
-  tag: null
+  tag: null,
+  audio: null
 })
