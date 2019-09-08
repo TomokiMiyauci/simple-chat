@@ -1,12 +1,11 @@
 <template>
-  <div>
-    <input
-      type="file"
-      :accept="accept"
-      style="visibility: hidden;"
-      @change="onFileChange"
-    />
-  </div>
+  <input
+    id="file"
+    type="file"
+    :accept="accept"
+    style="display:none"
+    @change="onFileChange"
+  />
 </template>
 
 <script>
@@ -19,7 +18,7 @@ export default {
   },
   methods: {
     onClick() {
-      document.querySelector('input[type=file]').click()
+      document.getElementById('file').click()
     },
     onFileChange(e) {
       const files = e.target.files || e.dataTransfer.files
