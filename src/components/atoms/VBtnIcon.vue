@@ -1,5 +1,10 @@
 <template>
-  <v-btn :color="btnColor" :icon="!btnText && !!icon" @click="click">
+  <v-btn
+    :x-large="xlarge"
+    :color="btnColor"
+    :icon="!btnText && !!icon"
+    @click="click"
+  >
     <v-icon v-if="icon">{{ icon }}</v-icon>
     {{ btnText }}
   </v-btn>
@@ -19,6 +24,10 @@ export default {
     icon: {
       type: String,
       default: ''
+    },
+    xlarge: {
+      type: Boolean,
+      defualt: false
     }
   },
 
