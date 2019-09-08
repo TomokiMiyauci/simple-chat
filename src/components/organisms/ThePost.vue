@@ -8,8 +8,11 @@
         <v-flex xs2>
           <v-post-tag></v-post-tag>
         </v-flex>
-        <v-flex xs8>
+        <v-flex xs6>
           <v-text-send></v-text-send>
+        </v-flex>
+        <v-flex xs2>
+          <v-sender></v-sender>
         </v-flex>
       </v-layout>
     </v-container>
@@ -20,11 +23,13 @@
 import VPostImage from '~/components/molecules/VPostImage'
 import VPostTag from '~/components/molecules/VPostTag'
 import VTextSend from '~/components/molecules/VTextSend'
+import VSender from '~/components/molecules/VSender'
 export default {
   components: {
     VTextSend,
     VPostImage,
-    VPostTag
+    VPostTag,
+    VSender
   }
 }
 </script>
