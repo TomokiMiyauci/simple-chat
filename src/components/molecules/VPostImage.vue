@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn text icon :disabled="!isAuth" @click="$refs.image.onClick()">
+    <v-btn text icon x-large :disabled="!isAuth" @click="$refs.image.onClick()">
       <v-icon>mdi-image</v-icon>
     </v-btn>
     <v-image ref="image" @onload="sendImage"></v-image>
