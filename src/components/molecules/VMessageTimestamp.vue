@@ -4,7 +4,10 @@
       <div class="timestamp pr-2 overline">
         {{ message.timestamp | toHHMM }}
       </div>
-      <v-callout v-if="message.text" :is-left="false">{{
+      <v-callout v-if="message.audioURL" :is-left="false"
+        ><v-audio :src="message.audioURL"></v-audio
+      ></v-callout>
+      <v-callout v-else-if="message.text" :is-left="false">{{
         message.text
       }}</v-callout>
       <v-callout v-else :is-left="false"
@@ -28,7 +31,10 @@
         <div class="overline py-1">
           {{ message.name || 'Anonimus' }}
         </div>
-        <v-callout v-if="message.text">{{ message.text }}</v-callout>
+        <v-callout v-if="message.audioURL"
+          ><v-audio :src="message.audioURL"></v-audio
+        ></v-callout>
+        <v-callout v-else-if="message.text">{{ message.text }}</v-callout>
         <v-callout v-else><v-img :src="message.imageURL"></v-img></v-callout>
         <div class="timestamp overline">{{ message.timestamp | toHHMM }}</div>
       </div>
@@ -38,9 +44,11 @@
 
 <script>
 import VCallout from '~/components/atoms/VCallout'
+import VAudio from '~/components/atoms/VAudio'
 export default {
   components: {
-    VCallout
+    VCallout,
+    VAudio
   },
   props: {
     message: {
