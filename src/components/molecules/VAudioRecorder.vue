@@ -2,9 +2,15 @@
   <v-card>
     <v-container grid-list-xs>
       <v-layout justify-center align-center>
-        <v-btn icon x-large fab outlined @click="record">
-          <v-icon>{{ icon }}</v-icon>
-        </v-btn>
+        <v-progress-circular
+          :indeterminate="recording"
+          :size="79"
+          color="yellow"
+        >
+          <v-btn icon x-large fab outlined @click="record">
+            <v-icon>{{ icon }}</v-icon>
+          </v-btn>
+        </v-progress-circular>
       </v-layout>
       <v-layout class="pt-2" justify-center align-center>
         <v-btn icon outlined :disabled="!audio || recording" @click="play">
@@ -63,7 +69,6 @@ export default {
       this.recorder.addEventListener('dataavailable', (e) => this.getBlob(e))
     },
     getBlob(e) {
-      console.log(e)
       if (e.data.size > 0) {
         const chunks = e.data
         this.SET_AUDIO(chunks)
@@ -72,7 +77,6 @@ export default {
         const player = document.getElementById('player')
 
         player.src = src
-        console.log(src)
       }
     },
     play() {
