@@ -36,7 +36,7 @@ export default {
     '~/plugins/filter',
     '~/plugins/fcm.client',
     '~/plugins/vuefire',
-    { src: '~/plugins/localStorage', ssr: false }
+    { src: '~/plugins/audioRecorderPolyfill', ssr: false }
   ],
   /*
    ** Nuxt.js modules
@@ -88,6 +88,8 @@ export default {
    */
   build: {
     analyze: true,
+
+    vendor: ['audio-recorder-polyfill'],
 
     /*
      ** You can extend webpack config here
