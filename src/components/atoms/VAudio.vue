@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import { setTimeout } from 'timers'
 import VBtnIcon from '~/components/atoms/VBtnIcon'
 export default {
   components: {
@@ -42,25 +41,22 @@ export default {
         return
       }
       this.playing = true
-      const audio = document.createElement('audio')
-      audio.src = this.src
-      audio.play()
+      const audio = new Audio(this.src)
 
-      audio.addEventListener('timeupdate', () => {
-        const duration = audio.duration
-        if (isFinite(duration)) {
-          this.currentTime = (audio.currentTime / duration) * 100
-        } else {
-          this.currentTime = audio.currentTime
-        }
-      })
+      audio.onloadedmetadata = () => {
+        audio.play()
+      }
 
-      audio.addEventListener('ended', () => {
+      audio.ontimeupdate = () => {
+        this.currentTime = (audio.currentTime / audio.duration) * 100
+      }
+
+      audio.onended = () => {
         setTimeout(() => {
           this.playing = false
           this.currentTime = 0
         }, 700)
-      })
+      }
     }
   }
 }
