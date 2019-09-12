@@ -29,6 +29,13 @@ export default {
    */
   css: [],
   /*
+   ** Middleware to apply Global
+   */
+  router: {
+    middleware: 'authenticated'
+  },
+
+  /*
    ** Plugins to load before mounting the App
    */
   plugins: [
@@ -47,6 +54,7 @@ export default {
     '@nuxtjs/eslint-module',
     '@nuxtjs/device'
   ],
+
   buildModules: ['@nuxtjs/vuetify'],
   manifest: {
     name: 'Simple Chat',
