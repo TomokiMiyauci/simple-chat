@@ -10,15 +10,9 @@ import {
 import firebase from '~/plugins/firebase'
 
 export default {
-  async [LOGIN]({ commit, dispatch }) {
-    const provider = new firebase.auth.GoogleAuthProvider()
-    await firebase
-      .auth()
-      .signInWithPopup(provider)
-      .then(() => {
-        const user = firebase.auth().currentUser
-        dispatch(SET_USERS, user)
-      })
+  [LOGIN]({ commit, dispatch }, payload) {
+    const user = payload
+    dispatch(SET_USERS, user)
   },
   async [LOGOUT]({ commit }) {
     await firebase
