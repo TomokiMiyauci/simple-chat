@@ -1,6 +1,6 @@
 <template>
-  <v-container grid-list-xs>
-    <v-row justify="center" align="center" style="height: 600px;">
+  <v-container grid-list-xs class="fill-height">
+    <v-row justify="center" align="center">
       <firebase-ui></firebase-ui>
     </v-row>
   </v-container>
