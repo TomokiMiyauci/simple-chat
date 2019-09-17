@@ -2,11 +2,6 @@ export default () => ({
   id: null,
   name: null,
   photoURL: null,
-  isAuth: null
+  isAuth: null,
+  new: { photo: null, name: null }
 })
-// user:{
-//   uuid:String,
-//   name:String,
-//   createdAt:Date,
-//   deletedAt:Date
-// }

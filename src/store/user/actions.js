@@ -2,18 +2,23 @@ import {
   SET_ID,
   SET_NAME,
   SET_PHOTO_URL,
-  SET_USERS,
+  SET_USER,
+  SET_PHOTO,
+  SET_NEW_NAME,
   IS_AUTH,
   LOGIN,
-  LOGOUT
+  LOGOUT,
+  UPDATE
 } from './mutation-types'
 import firebase from '~/plugins/firebase'
 
+const PROFILE_PHOTO_STORAGE_ROOT = 'profilePhoto'
 export default {
   [LOGIN]({ commit, dispatch }, payload) {
     const user = payload
-    dispatch(SET_USERS, user)
+    dispatch(SET_USER, user)
   },
+
   async [LOGOUT]({ commit }) {
     await firebase
       .auth()
@@ -26,10 +31,44 @@ export default {
       })
       .catch((error) => console.log(error))
   },
-  [SET_USERS]({ commit }, payload) {
+
+  [SET_USER]({ commit }, payload) {
     commit(SET_ID, payload.uid)
     commit(SET_NAME, payload.displayName)
     commit(SET_PHOTO_URL, payload.photoURL)
     commit(IS_AUTH, !!payload)
+  },
+
+  [SET_PHOTO]({ commit }, payload) {
+    commit(SET_PHOTO, payload)
+  },
+
+  [SET_NEW_NAME]({ commit }, payload) {
+    commit(SET_NEW_NAME, payload)
+  },
+
+  async [UPDATE]({ state, dispatch }) {
+    const user = firebase.auth().currentUser
+    if (!state.new.photo) {
+      await user.updateProfile({
+        displayName: state.new.name
+      })
+      dispatch(SET_USER, user)
+    } else {
+      const filePath = state.uid + '/' + state.new.photo.name
+      const ref = firebase
+        .storage()
+        .ref(PROFILE_PHOTO_STORAGE_ROOT)
+        .child(filePath)
+      const snapshot = await ref.put(state.new.photo)
+      const url = await snapshot.ref.getDownloadURL()
+      if (user) {
+        await user.updateProfile({
+          displayName: state.new.name,
+          photoURL: url
+        })
+        dispatch(SET_USER, user)
+      }
+    }
   }
 }
