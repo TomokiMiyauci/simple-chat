@@ -1,36 +1,50 @@
 <template>
   <div>
-    <v-avatar @click="dialog = true">
-      <v-img :src="photoSrc" alt="avatar" />
-    </v-avatar>
-    <v-dialog v-model="dialog" max-width="400px" persistent>
-      <v-profile @close="dialog = false"></v-profile>
-    </v-dialog>
+    <v-btn v-if="!isAuth" icon to="/login">
+      <v-icon>mdi-login-variant</v-icon>
+    </v-btn>
+    <template v-else>
+      <v-avatar @click="click">
+        <v-img :src="photoSrc" alt="avatar" />
+      </v-avatar>
+      <v-dialog v-model="dialog" fullscreen>
+        <the-settings ref="dialog" @close="dialog = false"></the-settings>
+      </v-dialog>
+    </template>
   </div>
 </template>
 
 <script>
-import VProfile from '~/components/molecules/VProfile'
+import { mapState, mapGetters } from 'vuex'
+import TheSettings from '~/components/organisms/TheSettings'
 export default {
   components: {
-    VProfile
+    TheSettings
   },
-  props: {
-    src: {
-      type: String,
-      required: true
-    }
-  },
+
   data: () => ({
     dialog: false
   }),
+
   computed: {
+    ...mapState('user', ['isAuth']),
+    ...mapGetters('user', ['photoURL']),
+
     photoSrc() {
-      if (!this.src) {
-        return require('~/assets/images/anonymous.jpg')
+      if (this.photoURL) {
+        return this.photoURL
       } else {
-        return this.src
+        return require('~/assets/images/anonymous.jpg')
       }
+    }
+  },
+
+  methods: {
+    click() {
+      this.dialog = true
+      setTimeout(() => {
+        this.$refs.dialog.open()
+      }, 0)
     }
   }
 }

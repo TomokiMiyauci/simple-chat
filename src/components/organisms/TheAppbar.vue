@@ -8,15 +8,15 @@
     ></v-text-field>
     <v-spacer />
     <the-create-room></the-create-room>
-    <the-firebase-ui />
+    <the-avatar />
   </v-app-bar>
 </template>
 <script>
-import TheFirebaseUi from '~/components/organisms/TheFirebaseUi'
+import TheAvatar from '~/components/organisms/TheAvatar'
 import TheCreateRoom from '~/components/organisms/TheCreateRoom'
 export default {
   components: {
-    TheFirebaseUi,
+    TheAvatar,
     TheCreateRoom
   },
   props: {
