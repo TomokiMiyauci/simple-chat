@@ -1,30 +1,30 @@
 <template>
   <v-app-bar dark app>
-    <v-text-field
-      rounded
-      hide-details
-      prepend-inner-icon="mdi-comment-search"
-      single-line
-    ></v-text-field>
+    <v-toolbar-title>Roomy</v-toolbar-title>
     <v-spacer />
-    <the-create-room></the-create-room>
     <the-avatar />
+
+    <template v-slot:extension>
+      <the-create-room></the-create-room>
+      <v-btn-icon class="ml-12" icon="mdi-comment-search"></v-btn-icon>
+
+      <v-spacer />
+      <v-btn-icon icon="mdi-sort-descending"></v-btn-icon>
+      <v-toggle-btn></v-toggle-btn>
+    </template>
   </v-app-bar>
 </template>
 <script>
+import VToggleBtn from '~/components/molecules/VToggleBtn'
+import VBtnIcon from '~/components/atoms/VBtnIcon'
 import TheAvatar from '~/components/organisms/TheAvatar'
 import TheCreateRoom from '~/components/organisms/TheCreateRoom'
 export default {
   components: {
     TheAvatar,
-    TheCreateRoom
-  },
-  props: {
-    backTo: {
-      type: String,
-      default: null
-    }
-  },
-  computed: {}
+    TheCreateRoom,
+    VBtnIcon,
+    VToggleBtn
+  }
 }
 </script>
