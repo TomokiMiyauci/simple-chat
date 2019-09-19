@@ -1,14 +1,15 @@
 <template>
   <v-card class="mx-auto" flat>
-    <v-list two-line>
+    <v-list two-line subheader>
+      <v-subheader inset>Latest</v-subheader>
       <template v-for="(item, index) in rooms">
         <v-list-item :key="item.uid" :to="`/rooms/${item.id}`">
-          <v-list-item-avatar>
+          <v-list-item-avatar tile>
             <v-img
               :src="
                 item.roomPicUrl
                   ? item.roomPicUrl
-                  : require('~/assets/images/new.png')
+                  : require('~/assets/images/new-room.png')
               "
             />
           </v-list-item-avatar>

@@ -22,7 +22,12 @@ export default {
   data() {
     return {
       btnIcon: {
-        icon: 'mdi-pencil-box-outline'
+        icon: 'mdi-home-plus',
+        absolute: true,
+        left: true,
+        fab: true,
+        bottom: true,
+        btnColor: 'cyan'
       }
     }
   },
