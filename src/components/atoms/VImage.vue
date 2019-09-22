@@ -20,11 +20,13 @@ export default {
     onClick() {
       document.getElementById('file').click()
     },
+
     onFileChange(e) {
       const files = e.target.files || e.dataTransfer.files
       if (!files.length) return
       const file = files[0]
       this.$emit('onload', file)
+      document.getElementById('file').value = ''
     }
   }
 }
