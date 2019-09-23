@@ -9,6 +9,7 @@
       </v-avatar>
       <v-dialog v-model="dialog" fullscreen>
         <the-settings ref="dialog" @close="dialog = false"></the-settings>
+        <the-avatar-cropper></the-avatar-cropper>
       </v-dialog>
     </template>
   </div>
@@ -16,10 +17,12 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+import TheAvatarCropper from '~/components/organisms/TheAvatarCropper'
 import TheSettings from '~/components/organisms/TheSettings'
 export default {
   components: {
-    TheSettings
+    TheSettings,
+    TheAvatarCropper
   },
 
   data: () => ({
@@ -42,9 +45,6 @@ export default {
   methods: {
     click() {
       this.dialog = true
-      setTimeout(() => {
-        this.$refs.dialog.open()
-      }, 0)
     }
   }
 }
