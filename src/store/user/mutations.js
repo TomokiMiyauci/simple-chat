@@ -4,6 +4,9 @@ import {
   SET_PHOTO_URL,
   SET_PHOTO,
   SET_NEW_NAME,
+  SET_NEW_ORIGINAL_PHOTO_URL,
+  SET_NEW_ORIGINAL_PHOTO,
+  SET_NEW_PHOTO_URL,
   IS_AUTH
 } from './mutation-types'
 export default {
@@ -25,6 +28,18 @@ export default {
 
   [SET_PHOTO](state, payload) {
     state.new.photo = payload
+  },
+
+  [SET_NEW_ORIGINAL_PHOTO](state, payload) {
+    state.new.origPhoto = payload
+  },
+
+  [SET_NEW_ORIGINAL_PHOTO_URL](state, payload) {
+    state.new.origPhotoURL = payload
+  },
+
+  [SET_NEW_PHOTO_URL](state, payload) {
+    state.new.photoURL = payload
   },
 
   [SET_NEW_NAME](state, payload) {

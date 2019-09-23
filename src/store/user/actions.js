@@ -5,6 +5,9 @@ import {
   SET_USER,
   SET_PHOTO,
   SET_NEW_NAME,
+  SET_NEW_ORIGINAL_PHOTO_URL,
+  SET_NEW_PHOTO_URL,
+  SET_NEW_ORIGINAL_PHOTO,
   IS_AUTH,
   LOGIN,
   LOGOUT,
@@ -13,6 +16,7 @@ import {
 import firebase from '~/plugins/firebase'
 
 const PROFILE_PHOTO_STORAGE_ROOT = 'profilePhoto'
+
 export default {
   [LOGIN]({ commit, dispatch }, payload) {
     const user = payload
@@ -41,6 +45,22 @@ export default {
 
   [SET_PHOTO]({ commit }, payload) {
     commit(SET_PHOTO, payload)
+  },
+
+  [SET_NEW_ORIGINAL_PHOTO]({ commit }, payload) {
+    commit(SET_NEW_ORIGINAL_PHOTO, payload)
+  },
+
+  [SET_NEW_ORIGINAL_PHOTO_URL]({ commit, state }) {
+    const render = new FileReader()
+    render.readAsDataURL(state.new.origPhoto)
+    render.onload = () => {
+      commit(SET_NEW_ORIGINAL_PHOTO_URL, render.result)
+    }
+  },
+
+  [SET_NEW_PHOTO_URL]({ commit }) {
+    commit()
   },
 
   [SET_NEW_NAME]({ commit }, payload) {
