@@ -4,7 +4,7 @@
       <v-subheader inset>Latest</v-subheader>
       <template v-for="(item, index) in rooms">
         <v-list-item :key="item.uid" :to="`/rooms/${item.id}`">
-          <v-list-item-avatar tile>
+          <v-list-item-avatar tile size="50">
             <v-img
               :src="
                 item.roomPicUrl
@@ -43,9 +43,7 @@
             </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-btn icon @click.prevent="click">
-              <v-icon color="grey lighten-1">mdi-qrcode</v-icon>
-            </v-btn>
+            <v-qrcode-btn :value="item.id"></v-qrcode-btn>
           </v-list-item-action>
         </v-list-item>
         <v-divider :key="index" :inset="item.inset" />
@@ -55,13 +53,19 @@
 </template>
 
 <script>
+import VQrcodeBtn from '~/components/molecules/VQrcodeBtn'
 export default {
+  components: {
+    VQrcodeBtn
+  },
+
   props: {
     rooms: {
       type: Array,
       required: true
     }
   },
+
   methods: {
     click() {
       alert()
