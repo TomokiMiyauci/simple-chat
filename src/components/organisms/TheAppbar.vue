@@ -5,7 +5,7 @@
     <the-avatar />
 
     <template v-slot:extension>
-      <the-create-room></the-create-room>
+      <v-create-room-btn></v-create-room-btn>
       <v-btn-icon class="ml-12" icon="mdi-comment-search"></v-btn-icon>
 
       <v-spacer />
@@ -18,11 +18,11 @@
 import VToggleBtn from '~/components/molecules/VToggleBtn'
 import VBtnIcon from '~/components/atoms/VBtnIcon'
 import TheAvatar from '~/components/organisms/TheAvatar'
-import TheCreateRoom from '~/components/organisms/TheCreateRoom'
+import VCreateRoomBtn from '~/components/molecules/VCreateRoomBtn'
 export default {
   components: {
     TheAvatar,
-    TheCreateRoom,
+    VCreateRoomBtn,
     VBtnIcon,
     VToggleBtn
   }

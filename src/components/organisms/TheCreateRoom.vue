@@ -1,42 +1,82 @@
 <template>
-  <v-dialog-btn-icon
-    ref="dialog"
-    :fullscreen="true"
-    transition="dialog-bottom-transition"
-    :btn-icon="btnIcon"
-  >
-    <template #content>
-      <v-create-room @click="forceClose"></v-create-room>
-    </template>
-  </v-dialog-btn-icon>
+  <v-card>
+    <v-app-bar-close-btn @close="$emit('click')">
+      <template #content>
+        <v-toolbar-title>New Room</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-toolbar-items>
+          <v-btn :disabled="disabled" text @click="create">Create</v-btn>
+        </v-toolbar-items>
+      </template>
+    </v-app-bar-close-btn>
+
+    <v-tabs v-model="select" icons-and-text grow>
+      <v-tab href="#quick"> Quick <v-icon>mdi-clock-fast</v-icon> </v-tab>
+
+      <v-tab href="#custom"> Customize<v-icon>mdi-tools</v-icon> </v-tab>
+
+      <v-tabs-items v-model="select">
+        <v-tab-item value="quick">
+          <v-container class="fill-height" grid-list-xs>
+            <v-row justify="center" align="center">
+              <v-col cols="12" sm="8" md="4">
+                <v-create-room-quickly @valid="valid"></v-create-room-quickly>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-tab-item>
+        <v-tab-item value="custom">
+          <v-container class="fill-height" grid-list-xs>
+            <v-row justify="center" align="center">
+              <v-col cols="12" sm="8" md="4">
+                <v-create-room-custom></v-create-room-custom> </v-col
+            ></v-row>
+          </v-container>
+        </v-tab-item>
+      </v-tabs-items>
+    </v-tabs>
+  </v-card>
 </template>
 
 <script>
-import VDialogBtnIcon from '~/components/molecules/VDialogBtnIcon'
-import VCreateRoom from '~/components/molecules/VCreateRoom'
+import { mapActions } from 'vuex'
+import VAppBarCloseBtn from '~/components/molecules/VAppBarCloseBtn'
+import VCreateRoomQuickly from '~/components/molecules/VCreateRoomQuickly'
+import VCreateRoomCustom from '~/components/molecules/VCreateRoomCustom'
+import { CREATE } from '~/store/room/mutation-types'
 export default {
   components: {
-    VDialogBtnIcon,
-    VCreateRoom
+    VCreateRoomCustom,
+    VCreateRoomQuickly,
+    VAppBarCloseBtn
   },
+
   data() {
     return {
-      btnIcon: {
-        icon: 'mdi-home-plus',
-        absolute: true,
-        left: true,
-        fab: true,
-        bottom: true,
-        btnColor: 'cyan'
-      }
+      select: null,
+      disabled: false
     }
   },
   methods: {
-    forceClose() {
-      this.$refs.dialog.forceClose()
+    ...mapActions('room', [CREATE]),
+
+    create() {
+      this.CREATE()
+      this.click()
+    },
+
+    valid(payload) {
+      this.disabled = payload
     }
   }
 }
 </script>
 
-<style></style>
+<style scoped>
+.v-tab__items,
+.v-window-item,
+.v-window >>> div.v-window__container {
+  /* ここが重要 */
+  height: 100%;
+}
+</style>
