@@ -7,7 +7,7 @@
       <v-icon>mdi-phone-in-talk</v-icon>
     </v-btn>
     <the-pull-to-refresh></the-pull-to-refresh>
-    <the-settings-room></the-settings-room>
+    <v-settings-room-btn></v-settings-room-btn>
     <the-avatar />
     <template v-if="extended" v-slot:extension>
       <v-tab-phone-video @click="extended = !extended"></v-tab-phone-video>
@@ -19,28 +19,30 @@ import { mapState } from 'vuex'
 import ThePullToRefresh from '~/components/organisms/ThePullToRefresh'
 import VBackIcon from '~/components/atoms/VBackIcon'
 import TheAvatar from '~/components/organisms/TheAvatar'
-import TheSettingsRoom from '~/components/organisms/TheSettingsRoom'
+import VSettingsRoomBtn from '~/components/molecules/VSettingsRoomBtn'
 import VTabPhoneVideo from '~/components/molecules/VTabPhoneVideo'
 export default {
   components: {
     TheAvatar,
     VBackIcon,
     ThePullToRefresh,
-    TheSettingsRoom,
+    VSettingsRoomBtn,
     VTabPhoneVideo
   },
+
   props: {
     backTo: {
       type: String,
       default: null
     }
   },
+
   data() {
     return {
-      extended: false,
-      dialog: false
+      extended: false
     }
   },
+
   computed: {
     ...mapState('navbar', ['title'])
   }

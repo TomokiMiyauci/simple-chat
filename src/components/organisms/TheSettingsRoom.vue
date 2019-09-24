@@ -1,36 +1,65 @@
 <template>
-  <div>
-    <v-dialog-btn-icon
-      ref="dialog"
-      :btn-icon="btnIcon"
-      fullscreen
-      transition="dialog-bottom-transition"
-    >
+  <v-card>
+    <v-app-bar-close-btn @close="$emit('click')">
       <template #content>
-        <v-settings-room @click="forceClose"></v-settings-room>
+        <v-toolbar-title>Settings</v-toolbar-title>
+        <v-spacer> </v-spacer>
+        <v-toolbar-items>
+          <v-btn text @click="update">update</v-btn>
+        </v-toolbar-items>
       </template>
-    </v-dialog-btn-icon>
-  </div>
+    </v-app-bar-close-btn>
+    <v-container grid-list-xs>
+      <v-card>
+        <v-card-text>
+          <v-text-field
+            v-model="roomName"
+            outlined
+            prepend-inner-icon="mdi-rename-box"
+            label="Room Name"
+          ></v-text-field>
+        </v-card-text>
+      </v-card>
+    </v-container>
+  </v-card>
 </template>
 
 <script>
-import VDialogBtnIcon from '~/components/molecules/VDialogBtnIcon'
-import VSettingsRoom from '~/components/molecules/VSettingsRoom'
+import { mapState, mapActions } from 'vuex'
+import VAppBarCloseBtn from '~/components/molecules/VAppBarCloseBtn'
+import { UPDATE } from '~/store/room/mutation-types'
 export default {
   components: {
-    VDialogBtnIcon,
-    VSettingsRoom
+    VAppBarCloseBtn
   },
+
   data() {
     return {
-      btnIcon: {
-        icon: 'mdi-dots-vertical'
-      }
+      roomName: null
     }
   },
+
+  computed: {
+    ...mapState('room', ['uid'])
+  },
+
+  created() {
+    this.init()
+  },
+
   methods: {
-    forceClose() {
-      this.$refs.dialog.forceClose()
+    ...mapActions('room', ['getOne', UPDATE]),
+
+    async init() {
+      const documentSnapshot = await this.getOne()
+      const data = documentSnapshot.data()
+      console.log(data)
+      this.roomName = data.name
+    },
+
+    update() {
+      this.UPDATE({ name: this.roomName })
+      this.$emit('click')
     }
   }
 }
