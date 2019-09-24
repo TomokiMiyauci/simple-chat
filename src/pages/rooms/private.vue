@@ -1,26 +1,28 @@
 <template>
   <div>
-    <the-rooms :rooms="rooms"></the-rooms>
+    <the-rooms :rooms="privateRooms"></the-rooms>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
 import TheRooms from '~/components/organisms/TheRooms'
-import { INIT } from '~/store/room/mutation-types'
+import { INIT_PRIVATE } from '~/store/room/mutation-types'
 export default {
   components: {
     TheRooms
   },
+
   computed: {
-    ...mapState('room', ['rooms'])
+    ...mapState('room', ['privateRooms'])
   },
+
   created() {
-    this.INIT()
+    this.INIT_PRIVATE()
   },
 
   methods: {
-    ...mapActions('room', [INIT])
+    ...mapActions('room', [INIT_PRIVATE])
   }
 }
 </script>

@@ -5,7 +5,7 @@
 <script>
 export default {
   created() {
-    this.$router.push('/rooms')
+    this.$router.push('/rooms/public')
   }
 }
 </script>
