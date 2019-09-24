@@ -43,6 +43,7 @@ export default {
     '~/plugins/filter',
     '~/plugins/fcm.client',
     '~/plugins/vuefire',
+    '~/plugins/vue-qrcode-reader.client',
     { src: '~/plugins/audioRecorderPolyfill', ssr: false }
   ],
   /*
