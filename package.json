@@ -22,6 +22,7 @@
     }
   },
   "dependencies": {
+    "@chenfengyuan/vue-qrcode": "^1.0.1",
     "@nuxtjs/device": "^1.2.3",
     "@nuxtjs/pwa": "^3.0.0-beta.19",
     "audio-recorder-polyfill": "^0.1.6",
