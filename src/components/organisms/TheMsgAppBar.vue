@@ -1,7 +1,6 @@
 <template>
   <v-app-bar dark app :extended="extended">
-    <v-back-icon v-if="backTo" :back-to="backTo"></v-back-icon>
-
+    <v-btn-back></v-btn-back>
     <v-spacer />
     <v-btn icon @click="extended = !extended">
       <v-icon>mdi-phone-in-talk</v-icon>
@@ -17,24 +16,17 @@
 <script>
 import { mapState } from 'vuex'
 import ThePullToRefresh from '~/components/organisms/ThePullToRefresh'
-import VBackIcon from '~/components/atoms/VBackIcon'
+import VBtnBack from '~/components/atoms/VBtnBack'
 import TheAvatar from '~/components/organisms/TheAvatar'
 import VSettingsRoomBtn from '~/components/molecules/VSettingsRoomBtn'
 import VTabPhoneVideo from '~/components/molecules/VTabPhoneVideo'
 export default {
   components: {
     TheAvatar,
-    VBackIcon,
+    VBtnBack,
     ThePullToRefresh,
     VSettingsRoomBtn,
     VTabPhoneVideo
-  },
-
-  props: {
-    backTo: {
-      type: String,
-      default: null
-    }
   },
 
   data() {
