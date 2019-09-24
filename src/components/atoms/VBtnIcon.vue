@@ -7,7 +7,7 @@
     :bottom="bottom"
     :left="left"
     :absolute="absolute"
-    @click="click"
+    @click.prevent="click"
   >
     <v-icon v-if="icon">{{ icon }}</v-icon>
     {{ btnText }}
