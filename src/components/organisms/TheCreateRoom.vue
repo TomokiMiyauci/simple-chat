@@ -62,7 +62,7 @@ export default {
 
     create() {
       this.CREATE()
-      this.click()
+      this.$emit('click')
     },
 
     valid(payload) {
