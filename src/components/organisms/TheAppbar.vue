@@ -9,6 +9,7 @@
       <v-create-room-btn v-else></v-create-room-btn>
 
       <v-btn-icon class="ml-12" icon="mdi-comment-search"></v-btn-icon>
+      <v-scanner-btn v-if="isPrivate"></v-scanner-btn>
 
       <v-spacer />
       <v-btn-icon icon="mdi-sort-descending"></v-btn-icon>
@@ -17,6 +18,7 @@
   </v-app-bar>
 </template>
 <script>
+import VScannerBtn from '~/components/molecules/VScannerBtn'
 import VCreatePrivateRoomBtn from '~/components/molecules/VCreatePrivateRoomBtn'
 import VToggleBtn from '~/components/molecules/VToggleBtn'
 import VBtnIcon from '~/components/atoms/VBtnIcon'
@@ -28,7 +30,8 @@ export default {
     VCreateRoomBtn,
     VBtnIcon,
     VToggleBtn,
-    VCreatePrivateRoomBtn
+    VCreatePrivateRoomBtn,
+    VScannerBtn
   },
 
   computed: {
