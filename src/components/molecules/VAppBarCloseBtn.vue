@@ -1,27 +1,37 @@
 <template>
   <v-app-bar>
-    <v-btn-icon v-if="!removeBackBtn" icon="mdi-arrow-left" @click="close" />
+    <template v-if="!noButton">
+      <v-btn-icon v-if="!enableBack" :icon="icon" @click="$emit('close')" />
+      <v-btn-back v-else></v-btn-back>
+    </template>
+
     <slot name="content"></slot>
   </v-app-bar>
 </template>
 
 <script>
 import VBtnIcon from '~/components/atoms/VBtnIcon'
+import VBtnBack from '~/components/atoms/VBtnBack'
 export default {
   components: {
-    VBtnIcon
+    VBtnIcon,
+    VBtnBack
   },
 
   props: {
-    removeBackBtn: {
+    enableBack: {
       type: Boolean,
       default: false
-    }
-  },
+    },
 
-  methods: {
-    close() {
-      this.$emit('close')
+    icon: {
+      type: String,
+      default: 'mdi-close'
+    },
+
+    noButton: {
+      type: Boolean,
+      defalut: false
     }
   }
 }
