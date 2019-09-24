@@ -5,7 +5,8 @@ import {
   CREATE,
   CREATE_PRIVATE,
   UPDATE,
-  INCREASE
+  INCREASE,
+  ENTER
 } from './mutation-types'
 import firebase from '~/plugins/firebase'
 
@@ -85,5 +86,13 @@ export default {
     const { field, increment, ...rest } = payload
     rest[field] = firebase.firestore.FieldValue.increment(increment)
     dispatch(UPDATE, rest)
+  },
+
+  [ENTER]({ rootState }, payload) {
+    return collectionRef()
+      .doc(payload)
+      .update({
+        members: firebase.firestore.FieldValue.arrayUnion(rootState.user.id)
+      })
   }
 }
