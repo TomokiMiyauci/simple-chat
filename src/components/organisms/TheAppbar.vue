@@ -5,7 +5,9 @@
     <the-avatar />
 
     <template v-slot:extension>
-      <v-create-room-btn></v-create-room-btn>
+      <v-create-private-room-btn v-if="isPrivate"></v-create-private-room-btn>
+      <v-create-room-btn v-else></v-create-room-btn>
+
       <v-btn-icon class="ml-12" icon="mdi-comment-search"></v-btn-icon>
 
       <v-spacer />
@@ -15,6 +17,7 @@
   </v-app-bar>
 </template>
 <script>
+import VCreatePrivateRoomBtn from '~/components/molecules/VCreatePrivateRoomBtn'
 import VToggleBtn from '~/components/molecules/VToggleBtn'
 import VBtnIcon from '~/components/atoms/VBtnIcon'
 import TheAvatar from '~/components/organisms/TheAvatar'
@@ -24,7 +27,15 @@ export default {
     TheAvatar,
     VCreateRoomBtn,
     VBtnIcon,
-    VToggleBtn
+    VToggleBtn,
+    VCreatePrivateRoomBtn
+  },
+
+  computed: {
+    isPrivate() {
+      const re = /\/rooms\/private$/
+      return re.test(this.$route.path)
+    }
   }
 }
 </script>
