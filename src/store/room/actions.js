@@ -1,21 +1,45 @@
 import { firestoreAction } from 'vuexfire'
-import { INIT, CREATE, UPDATE, INCREASE } from './mutation-types'
+import {
+  INIT,
+  INIT_PRIVATE,
+  CREATE,
+  CREATE_PRIVATE,
+  UPDATE,
+  INCREASE
+} from './mutation-types'
 import firebase from '~/plugins/firebase'
 
 export function collectionRef() {
   return firebase.firestore().collection('rooms')
 }
+const timestamp = firebase.firestore.FieldValue.serverTimestamp()
 
 export default {
   bindRoomsRef: firestoreAction(({ bindFirestoreRef }) => {
     bindFirestoreRef(
       'rooms',
-      collectionRef().orderBy('recent.timestamp', 'desc')
+      collectionRef()
+        .where('scope', '==', 'PUBLIC')
+        .orderBy('recent.timestamp', 'desc')
+    )
+  }),
+
+  bindPrivateRoomsRef: firestoreAction(({ bindFirestoreRef, rootState }) => {
+    bindFirestoreRef(
+      'privateRooms',
+      collectionRef()
+        .where('scope', '==', 'PRIVATE')
+        .where('members', 'array-contains', rootState.user.id)
+        .orderBy('recent.timestamp', 'desc')
     )
   }),
 
   [INIT]({ dispatch }) {
     dispatch('bindRoomsRef')
+  },
+
+  [INIT_PRIVATE]({ dispatch }) {
+    dispatch('bindPrivateRoomsRef')
   },
 
   getOne({ state }, payload) {
@@ -25,7 +49,6 @@ export default {
   },
 
   [CREATE]() {
-    const timestamp = firebase.firestore.FieldValue.serverTimestamp()
     collectionRef().add({
       name: 'New Room',
       timestamp,
@@ -33,7 +56,22 @@ export default {
         timestamp
       },
       msgCount: 0,
-      viewer: 0
+      viewer: 0,
+      scope: 'PUBLIC'
+    })
+  },
+
+  [CREATE_PRIVATE]({ rootState }) {
+    collectionRef().add({
+      name: 'New Room',
+      timestamp,
+      recent: {
+        timestamp
+      },
+      msgCount: 0,
+      viewer: 0,
+      scope: 'PRIVATE',
+      members: [rootState.user.id]
     })
   },
 

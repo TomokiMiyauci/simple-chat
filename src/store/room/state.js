@@ -1,4 +1,5 @@
 export default () => ({
   uid: null,
-  rooms: []
+  rooms: [],
+  privateRooms: []
 })
