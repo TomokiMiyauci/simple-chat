@@ -31,7 +31,7 @@
     "nuxt": "^2.9.2",
     "skyway-js": "^2.0.3",
     "vue-cropperjs": "^4.0.0",
-    "vue-qrcode-reader": "^2.0.4",
+    "vue-qrcode-reader": "^2.1.0",
     "vuefire": "^2.1.2",
     "vuex-persistedstate": "^2.5.4",
     "vuexfire": "^3.1.2"
