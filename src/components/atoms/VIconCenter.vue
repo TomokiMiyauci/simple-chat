@@ -1,5 +1,7 @@
 <template>
-  <v-icon :size="size" :color="color" class="icon">{{ icon }}</v-icon>
+  <v-fade-transition>
+    <v-icon :size="size" :color="color" class="icon">{{ icon }}</v-icon>
+  </v-fade-transition>
 </template>
 
 <script>
