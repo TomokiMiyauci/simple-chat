@@ -88,11 +88,16 @@ export default {
     dispatch(UPDATE, rest)
   },
 
-  [ENTER]({ rootState }, payload) {
-    return collectionRef()
-      .doc(payload)
-      .update({
-        members: firebase.firestore.FieldValue.arrayUnion(rootState.user.id)
-      })
+  async [ENTER]({ rootState }, payload) {
+    try {
+      await collectionRef()
+        .doc(payload)
+        .update({
+          members: firebase.firestore.FieldValue.arrayUnion(rootState.user.id)
+        })
+      return true
+    } catch {
+      return false
+    }
   }
 }
