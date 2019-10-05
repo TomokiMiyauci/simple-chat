@@ -64,7 +64,7 @@ export default {
     lang: 'ja',
     theme_color: '#2994e9',
     background_color: '#f5fbff',
-    display: 'standalone',
+    display: 'browser',
     gcm_sender_id: '103953800507'
   },
 
