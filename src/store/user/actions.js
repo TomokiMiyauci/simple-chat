@@ -80,7 +80,7 @@ export default {
         .storage()
         .ref(PROFILE_PHOTO_STORAGE_ROOT)
         .child(filePath)
-      const snapshot = await ref.put(state.new.photo)
+      const snapshot = await ref.putString(state.new.photo, 'data_url')
       const url = await snapshot.ref.getDownloadURL()
       if (user) {
         await user.updateProfile({

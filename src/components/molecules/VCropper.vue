@@ -96,7 +96,7 @@ export default {
     },
 
     getCrop() {
-      return this.$refs.cropper.getCroppedCanvas().toDataURL()
+      return this.$refs.cropper.getCroppedCanvas().toDataURL('image/png', 0.8)
     },
 
     crop() {
