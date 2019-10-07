@@ -1,24 +1,29 @@
 <template>
-  <v-dialog-btn-icon
-    ref="dialog"
-    :fullscreen="true"
-    transition="dialog-bottom-transition"
-    :btn-icon="btnIcon"
-  >
-    <template #content>
-      <the-create-room @click="forceClose"></the-create-room>
-    </template>
-  </v-dialog-btn-icon>
+  <div>
+    <v-btn-icon v-bind="btnIcon" @click="SHOW($options._componentTag)" />
+
+    <v-dialog-wrapper
+      fullscreen
+      transition="dialog-bottom-transition"
+      :name="$options._componentTag"
+    >
+      <the-create-room></the-create-room>
+    </v-dialog-wrapper>
+  </div>
 </template>
 
 <script>
-import VDialogBtnIcon from '~/components/molecules/VDialogBtnIcon'
+import { mapActions } from 'vuex'
+import VBtnIcon from '~/components/atoms/VBtnIcon'
+import VDialogWrapper from '~/components/molecules/VDialogWrapper'
 import TheCreateRoom from '~/components/organisms/TheCreateRoom'
 export default {
   components: {
-    VDialogBtnIcon,
+    VBtnIcon,
+    VDialogWrapper,
     TheCreateRoom
   },
+
   data() {
     return {
       btnIcon: {
@@ -31,10 +36,9 @@ export default {
       }
     }
   },
+
   methods: {
-    forceClose() {
-      this.$refs.dialog.forceClose()
-    }
+    ...mapActions('dialog', ['SHOW'])
   }
 }
 </script>

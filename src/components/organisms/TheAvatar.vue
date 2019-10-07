@@ -4,31 +4,16 @@
       <v-icon>mdi-login-variant</v-icon>
     </v-btn>
     <template v-else>
-      <v-avatar @click="click">
+      <v-avatar @click="$router.push('/user/settings')">
         <v-img :src="photoSrc" alt="avatar" />
       </v-avatar>
-      <v-dialog v-model="dialog" fullscreen>
-        <the-settings ref="dialog" @close="dialog = false"></the-settings>
-        <the-avatar-cropper></the-avatar-cropper>
-      </v-dialog>
     </template>
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
-import TheAvatarCropper from '~/components/organisms/TheAvatarCropper'
-import TheSettings from '~/components/organisms/TheSettings'
+import { mapState, mapGetters, mapActions } from 'vuex'
 export default {
-  components: {
-    TheSettings,
-    TheAvatarCropper
-  },
-
-  data: () => ({
-    dialog: false
-  }),
-
   computed: {
     ...mapState('user', ['isAuth']),
     ...mapGetters('user', ['photoURL']),
@@ -43,9 +28,7 @@ export default {
   },
 
   methods: {
-    click() {
-      this.dialog = true
-    }
+    ...mapActions('dialog', ['SHOW'])
   }
 }
 </script>

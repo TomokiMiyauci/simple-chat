@@ -1,11 +1,13 @@
 <template>
   <v-card>
-    <v-toolbar>
-      <v-btn icon @click="close">
-        <v-icon>mdi-close</v-icon>
-      </v-btn>
+    <v-app-bar-close-btn enable-back>
       <v-toolbar-title>Settings</v-toolbar-title>
-    </v-toolbar>
+    </v-app-bar-close-btn>
+
+    <v-dialog-wrapper fullscreen name="the-avatar-cropper">
+      <the-avatar-cropper></the-avatar-cropper>
+    </v-dialog-wrapper>
+
     <v-tabs v-model="select" fixed-tabs>
       <v-tab href="#profile">
         <v-icon>mdi-account-edit</v-icon>
@@ -19,10 +21,7 @@
           <v-container class="fill-height" grid-list-xs>
             <v-row justify="center" align="center">
               <v-col cols="12" sm="8" md="4">
-                <v-settings-profile
-                  ref="profile"
-                  @close="close"
-                ></v-settings-profile> </v-col
+                <v-settings-profile ref="profile"></v-settings-profile> </v-col
             ></v-row>
           </v-container>
         </v-tab-item>
@@ -40,12 +39,18 @@
 </template>
 
 <script>
+import TheAvatarCropper from '~/components/organisms/TheAvatarCropper'
+import VDialogWrapper from '~/components/molecules/VDialogWrapper'
+import VAppBarCloseBtn from '~/components/molecules/VAppBarCloseBtn'
 import VSettingsProfile from '~/components/molecules/VSettingsProfile'
 import VSettingsProps from '~/components/molecules/VSettingsProps'
 export default {
   components: {
+    TheAvatarCropper,
+    VDialogWrapper,
     VSettingsProfile,
-    VSettingsProps
+    VSettingsProps,
+    VAppBarCloseBtn
   },
 
   data() {
@@ -55,10 +60,6 @@ export default {
   },
 
   methods: {
-    close() {
-      this.$emit('close')
-    },
-
     open() {
       this.$refs.profile.init()
     }

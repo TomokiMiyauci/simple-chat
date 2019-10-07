@@ -1,9 +1,7 @@
 <template>
   <v-card>
-    <v-app-bar-close-btn @close="$emit('close')">
-      <template #content>
-        <v-toolbar-title>Invitation</v-toolbar-title>
-      </template>
+    <v-app-bar-close-btn>
+      <v-toolbar-title>Invitation</v-toolbar-title>
     </v-app-bar-close-btn>
     <v-container grid-list-xs>
       <v-row justify="center">

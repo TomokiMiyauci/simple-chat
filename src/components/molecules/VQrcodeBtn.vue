@@ -1,20 +1,22 @@
 <template>
-  <v-dialog-btn-icon ref="dialog" fullscreen :btn-icon="btnIcon">
-    <template #content>
-      <the-qrcode
-        :value="value"
-        @close="$refs.dialog.forceClose()"
-      ></the-qrcode>
-    </template>
-  </v-dialog-btn-icon>
+  <div>
+    <v-btn-icon v-bind="btnIcon" @click="SHOW($options._componentTag)">
+    </v-btn-icon>
+    <v-dialog-wrapper fullscreen :name="$options._componentTag">
+      <the-qrcode :value="value"></the-qrcode>
+    </v-dialog-wrapper>
+  </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import VBtnIcon from '~/components/atoms/VBtnIcon'
+import VDialogWrapper from '~/components/molecules/VDialogWrapper'
 import TheQrcode from '~/components/organisms/TheQrcode'
-import VDialogBtnIcon from '~/components/molecules/VDialogBtnIcon'
 export default {
   components: {
-    VDialogBtnIcon,
+    VBtnIcon,
+    VDialogWrapper,
     TheQrcode
   },
 
@@ -31,6 +33,10 @@ export default {
         icon: 'mdi-qrcode'
       }
     }
+  },
+
+  methods: {
+    ...mapActions('dialog', ['SHOW'])
   }
 }
 </script>

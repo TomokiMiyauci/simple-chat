@@ -1,29 +1,27 @@
 <template>
   <v-dialog
-    v-model="dialog"
-    width="dialogWidth"
+    :width="dialogWidth"
     :fullscreen="fullscreen"
     :hide-overlay="fullscreen"
     :transition="transition"
+    :value="isHas(name)"
+    @click:outside="HIDE(name)"
   >
-    <template v-slot:activator="{ on }">
-      <v-btn-icon v-bind="btnIcon" v-on="on"></v-btn-icon>
-    </template>
-    <slot name="content"></slot>
+    <slot></slot>
   </v-dialog>
 </template>
 
 <script>
-import VBtnIcon from '~/components/atoms/VBtnIcon'
+import { mapGetters, mapActions } from 'vuex'
+import { HIDE } from '~/store/dialog/mutation-types'
+
 export default {
-  components: {
-    VBtnIcon
-  },
   props: {
     fullscreen: {
       type: Boolean,
       default: false
     },
+
     transition: {
       type: String,
       default: 'dialog-transition'
@@ -33,20 +31,19 @@ export default {
       type: [String, Number],
       default: 500
     },
-    btnIcon: {
-      type: Object,
-      default: () => {}
+
+    name: {
+      type: String,
+      required: true
     }
   },
-  data() {
-    return {
-      dialog: false
-    }
+
+  computed: {
+    ...mapGetters('dialog', ['isHas'])
   },
+
   methods: {
-    forceClose() {
-      this.dialog = false
-    }
+    ...mapActions('dialog', [HIDE])
   }
 }
 </script>

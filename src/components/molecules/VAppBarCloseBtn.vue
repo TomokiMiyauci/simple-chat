@@ -1,15 +1,16 @@
 <template>
   <v-app-bar>
     <template v-if="!noButton">
-      <v-btn-icon v-if="!enableBack" :icon="icon" @click="$emit('close')" />
+      <v-btn-icon v-if="!enableBack" :icon="icon" :name="name" @click="click" />
       <v-btn-back v-else></v-btn-back>
     </template>
 
-    <slot name="content"></slot>
+    <slot></slot>
   </v-app-bar>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import VBtnIcon from '~/components/atoms/VBtnIcon'
 import VBtnBack from '~/components/atoms/VBtnBack'
 export default {
@@ -32,6 +33,20 @@ export default {
     noButton: {
       type: Boolean,
       defalut: false
+    },
+
+    name: {
+      type: String,
+      default: ''
+    }
+  },
+
+  methods: {
+    ...mapActions('dialog', ['HIDE']),
+
+    click() {
+      this.$emit('beforeClose')
+      this.HIDE(name)
     }
   }
 }

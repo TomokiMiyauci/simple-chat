@@ -1,25 +1,30 @@
 <template>
   <div>
-    <v-dialog-btn-icon
-      ref="dialog"
-      :btn-icon="btnIcon"
+    <v-btn-icon
+      v-bind="btnIcon"
+      @click="SHOW($options._componentTag)"
+    ></v-btn-icon>
+
+    <v-dialog-wrapper
       fullscreen
       transition="dialog-bottom-transition"
+      :name="$options._componentTag"
     >
-      <template #content>
-        <the-settings-room @click="forceClose"></the-settings-room>
-      </template>
-    </v-dialog-btn-icon>
+      <the-settings-room></the-settings-room>
+    </v-dialog-wrapper>
   </div>
 </template>
 
 <script>
-import VDialogBtnIcon from '~/components/molecules/VDialogBtnIcon'
+import { mapActions } from 'vuex'
+import VBtnIcon from '~/components/atoms/VBtnIcon'
+import VDialogWrapper from '~/components/molecules/VDialogWrapper'
 import TheSettingsRoom from '~/components/organisms/TheSettingsRoom'
 export default {
   components: {
-    VDialogBtnIcon,
-    TheSettingsRoom
+    VDialogWrapper,
+    TheSettingsRoom,
+    VBtnIcon
   },
 
   data() {
@@ -31,9 +36,7 @@ export default {
   },
 
   methods: {
-    forceClose() {
-      this.$refs.dialog.forceClose()
-    }
+    ...mapActions('dialog', ['SHOW'])
   }
 }
 </script>

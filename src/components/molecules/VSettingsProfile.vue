@@ -81,10 +81,12 @@ export default {
       SET_NEW_ORIGINAL_PHOTO,
       SET_NEW_ORIGINAL_PHOTO_URL
     ]),
+    ...mapActions('dialog', ['SHOW']),
 
     load(payload) {
       this.SET_NEW_ORIGINAL_PHOTO(payload)
       this.SET_NEW_ORIGINAL_PHOTO_URL()
+      this.SHOW('the-avatar-cropper')
     },
 
     logout() {
@@ -93,7 +95,6 @@ export default {
 
     async updateImageOrName() {
       await this.UPDATE()
-      this.$emit('close')
     }
   }
 }

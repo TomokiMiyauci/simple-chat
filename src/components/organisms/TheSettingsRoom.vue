@@ -1,13 +1,11 @@
 <template>
   <v-card>
-    <v-app-bar-close-btn @close="$emit('click')">
-      <template #content>
-        <v-toolbar-title>Settings</v-toolbar-title>
-        <v-spacer> </v-spacer>
-        <v-toolbar-items>
-          <v-btn text @click="update">update</v-btn>
-        </v-toolbar-items>
-      </template>
+    <v-app-bar-close-btn>
+      <v-toolbar-title>Settings</v-toolbar-title>
+      <v-spacer> </v-spacer>
+      <v-toolbar-items>
+        <v-btn text @click="update">update</v-btn>
+      </v-toolbar-items>
     </v-app-bar-close-btn>
     <v-container grid-list-xs>
       <v-card>
@@ -49,17 +47,17 @@ export default {
 
   methods: {
     ...mapActions('room', ['getOne', UPDATE]),
+    ...mapActions('dialog', ['HIDE']),
 
     async init() {
       const documentSnapshot = await this.getOne()
       const data = documentSnapshot.data()
-      console.log(data)
       this.roomName = data.name
     },
 
     update() {
       this.UPDATE({ name: this.roomName })
-      this.$emit('click')
+      this.HIDE()
     }
   }
 }

@@ -1,13 +1,11 @@
 <template>
   <v-card>
-    <v-app-bar-close-btn @close="$emit('click')">
-      <template #content>
-        <v-toolbar-title>New Room</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-toolbar-items>
-          <v-btn :disabled="disabled" text @click="create">Create</v-btn>
-        </v-toolbar-items>
-      </template>
+    <v-app-bar-close-btn>
+      <v-toolbar-title>New Room</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn :disabled="disabled" text @click="create">Create</v-btn>
+      </v-toolbar-items>
     </v-app-bar-close-btn>
 
     <v-tabs v-model="select" icons-and-text grow>
@@ -59,10 +57,11 @@ export default {
   },
   methods: {
     ...mapActions('room', [CREATE]),
+    ...mapActions('dialog', ['HIDE']),
 
     create() {
       this.CREATE()
-      this.$emit('click')
+      this.HIDE()
     },
 
     valid(payload) {
@@ -72,11 +71,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.v-tab__items,
-.v-window-item,
-.v-window >>> div.v-window__container {
-  /* ここが重要 */
-  height: 100%;
-}
-</style>
+<style scoped></style>

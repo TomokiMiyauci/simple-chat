@@ -1,17 +1,21 @@
 <template>
-  <v-dialog-btn-icon ref="dialog" fullscreen :btn-icon="btnIcon">
-    <template #content>
-      <the-scanner @close="$refs.dialog.forceClose()"></the-scanner>
-    </template>
-  </v-dialog-btn-icon>
+  <div>
+    <v-btn-icon v-bind="btnIcon" @click="SHOW($options._componentTag)" />
+    <v-dialog-wrapper fullscreen :name="$options._componentTag">
+      <the-scanner></the-scanner>
+    </v-dialog-wrapper>
+  </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import VBtnIcon from '~/components/atoms/VBtnIcon'
+import VDialogWrapper from '~/components/molecules/VDialogWrapper'
 import TheScanner from '~/components/organisms/TheScanner'
-import VDialogBtnIcon from '~/components/molecules/VDialogBtnIcon'
 export default {
   components: {
-    VDialogBtnIcon,
+    VBtnIcon,
+    VDialogWrapper,
     TheScanner
   },
 
@@ -21,6 +25,10 @@ export default {
         icon: 'mdi-qrcode-scan'
       }
     }
+  },
+
+  methods: {
+    ...mapActions('dialog', ['SHOW'])
   }
 }
 </script>
