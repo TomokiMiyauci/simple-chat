@@ -2,7 +2,7 @@
   <v-app-bar>
     <template v-if="!noButton">
       <v-btn-icon v-if="!enableBack" :icon="icon" :name="name" @click="click" />
-      <v-btn-back v-else></v-btn-back>
+      <v-btn-back v-else @beforeBack="$emit('beforeBack')"></v-btn-back>
     </template>
 
     <slot></slot>
