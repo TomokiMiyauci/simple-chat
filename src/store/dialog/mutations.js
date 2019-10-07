@@ -11,6 +11,6 @@ export default {
   },
 
   [HIDE_ALL](state) {
-    state.dialogs.length = 0
+    state.dialogs = []
   }
 }
