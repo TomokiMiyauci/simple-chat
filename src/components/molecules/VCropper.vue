@@ -10,7 +10,7 @@
         :min-container-height="180"
         :min-crop-box-height="100"
         :img-style="{ width: '100%', height: '400px' }"
-        :cropmove="cropmove"
+        :cropend="cropend"
         :aspect-ratio="1"
         :highlite="false"
         :view-mode="1"
@@ -42,26 +42,24 @@
     </div>
     <v-container grid-list-xs>
       <v-list>
-        <v-subheader>Pre</v-subheader>
         <v-subheader>Avatar</v-subheader>
         <v-avatar size="30px">
-          <v-img :src="image" />
+          <v-img eager :src="image" />
         </v-avatar>
-        <v-avatar>
-          <v-img :src="image" />
+        <v-avatar class="ml-2">
+          <v-img eager :src="image" />
         </v-avatar>
-        <v-avatar size="60px">
-          <v-img :src="image" />
+        <v-avatar class="ml-2" size="60px">
+          <v-img eager :src="image" />
         </v-avatar>
-        <v-subheader>Icon</v-subheader>
-        <v-avatar tile size="30px">
-          <v-img :src="image" />
+        <v-avatar class="ml-4" tile size="30px">
+          <v-img eager :src="image" />
         </v-avatar>
-        <v-avatar tile>
-          <v-img :src="image" />
+        <v-avatar class="ml-2" tile>
+          <v-img eager :src="image" />
         </v-avatar>
-        <v-avatar tile size="60px">
-          <v-img :src="image" />
+        <v-avatar class="ml-2" tile size="60px">
+          <v-img eager :src="image" />
         </v-avatar>
       </v-list>
     </v-container>
@@ -104,7 +102,7 @@ export default {
       this.$emit('crop', cropImage)
     },
 
-    cropmove() {
+    cropend() {
       this.image = this.getCrop()
     },
 
@@ -135,6 +133,10 @@ export default {
       this.isScale.y = false
       this.$refs.cropper.reset()
       this.image = this.getCrop()
+    },
+
+    replace(payload) {
+      this.$refs.cropper.replace(payload)
     }
   }
 }
