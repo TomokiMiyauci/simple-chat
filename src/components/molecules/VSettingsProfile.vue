@@ -3,10 +3,12 @@
     <v-dialog-wrapper fullscreen name="the-avatar-cropper">
       <the-avatar-cropper ref="cropper"></the-avatar-cropper>
     </v-dialog-wrapper>
+
     <v-form v-model="valid">
       <v-hover v-slot:default="{ hover }">
         <v-card>
           <v-subheader><v-icon left>mdi-account-box</v-icon>Avatar</v-subheader>
+
           <v-img eager :aspect-ratio="1 / 1" :src="src">
             <v-fade-transition>
               <v-overlay v-if="hover" absolute color="#036358">
@@ -28,6 +30,7 @@
           <v-card-actions>
             <v-btn block @click="logout">logout</v-btn>
           </v-card-actions>
+          <v-progress></v-progress>
         </v-card>
       </v-hover>
     </v-form>
@@ -44,6 +47,8 @@ import {
   SET_NEW_ORIGINAL_PHOTO,
   RESET_NEW
 } from '~/store/user/mutation-types'
+import VProgress from '~/components/molecules/VProgress'
+
 import VImage from '~/components/atoms/VImage'
 import TheAvatarCropper from '~/components/organisms/TheAvatarCropper'
 import VDialogWrapper from '~/components/molecules/VDialogWrapper'
@@ -52,7 +57,8 @@ export default {
   components: {
     VImage,
     TheAvatarCropper,
-    VDialogWrapper
+    VDialogWrapper,
+    VProgress
   },
 
   data() {
@@ -105,6 +111,7 @@ export default {
     ]),
 
     ...mapActions('dialog', ['SHOW']),
+    ...mapActions('progress', ['PROGRESS', 'SUCCEED']),
 
     async load(payload) {
       this.SET_NEW_ORIGINAL_PHOTO(payload)
@@ -116,7 +123,9 @@ export default {
     },
 
     async updateImageOrName() {
+      this.PROGRESS()
       await this.UPDATE()
+      await this.SUCCEED()
       this.RESET_NEW()
       this.$router.back()
     }
