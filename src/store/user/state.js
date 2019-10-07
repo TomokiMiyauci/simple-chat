@@ -5,9 +5,8 @@ export default () => ({
   isAuth: null,
   new: {
     origPhoto: null,
-    photo: null,
-    origPhotoURL: null,
-    photoURL: null,
+    origPhotoURI: null,
+    photoURI: null,
     name: null
   }
 })

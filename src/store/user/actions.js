@@ -3,15 +3,15 @@ import {
   SET_NAME,
   SET_PHOTO_URL,
   SET_USER,
-  SET_PHOTO,
   SET_NEW_NAME,
-  SET_NEW_ORIGINAL_PHOTO_URL,
-  SET_NEW_PHOTO_URL,
+  SET_NEW_ORIGINAL_PHOTO_URI,
+  SET_NEW_PHOTO_URI,
   SET_NEW_ORIGINAL_PHOTO,
   IS_AUTH,
   LOGIN,
   LOGOUT,
-  UPDATE
+  UPDATE,
+  RESET_NEW
 } from './mutation-types'
 import firebase from '~/plugins/firebase'
 
@@ -24,6 +24,7 @@ export default {
   },
 
   async [LOGOUT]({ commit }) {
+    this.$router.push('/')
     await firebase
       .auth()
       .signOut()
@@ -43,48 +44,56 @@ export default {
     commit(IS_AUTH, !!payload)
   },
 
-  [SET_PHOTO]({ commit }, payload) {
-    commit(SET_PHOTO, payload)
-  },
-
   [SET_NEW_ORIGINAL_PHOTO]({ commit }, payload) {
     commit(SET_NEW_ORIGINAL_PHOTO, payload)
   },
 
-  [SET_NEW_ORIGINAL_PHOTO_URL]({ commit, state }) {
+  [SET_NEW_ORIGINAL_PHOTO_URI]({ commit, state, dispatch }) {
     const render = new FileReader()
     render.readAsDataURL(state.new.origPhoto)
     render.onload = () => {
-      commit(SET_NEW_ORIGINAL_PHOTO_URL, render.result)
+      commit(SET_NEW_ORIGINAL_PHOTO_URI, render.result)
+      dispatch('dialog/SHOW', 'the-avatar-cropper', { root: true })
     }
   },
 
-  [SET_NEW_PHOTO_URL]({ commit }) {
-    commit()
+  [SET_NEW_PHOTO_URI]({ commit }, payload) {
+    commit(SET_NEW_PHOTO_URI, payload)
   },
 
   [SET_NEW_NAME]({ commit }, payload) {
     commit(SET_NEW_NAME, payload)
   },
 
+  [RESET_NEW]({ commit }) {
+    const mutations = [
+      SET_NEW_ORIGINAL_PHOTO,
+      SET_NEW_ORIGINAL_PHOTO_URI,
+      SET_NEW_PHOTO_URI
+    ]
+    mutations.forEach((mutation) => {
+      commit(mutation, null)
+    })
+  },
+
   async [UPDATE]({ state, dispatch }) {
     const user = firebase.auth().currentUser
-    if (!state.new.photo) {
+    if (!state.new.photoURI) {
       await user.updateProfile({
         displayName: state.new.name
       })
       dispatch(SET_USER, user)
     } else {
-      const filePath = state.uid + '/' + state.new.photo.name
+      const filePath = state.id + '/newPhotoURL'
       const ref = firebase
         .storage()
         .ref(PROFILE_PHOTO_STORAGE_ROOT)
         .child(filePath)
-      const snapshot = await ref.putString(state.new.photo, 'data_url')
+      const snapshot = await ref.putString(state.new.photoURI, 'data_url')
       const url = await snapshot.ref.getDownloadURL()
       if (user) {
         await user.updateProfile({
-          displayName: state.new.name,
+          displayName: state.new.name || state.name,
           photoURL: url
         })
         dispatch(SET_USER, user)
