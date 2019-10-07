@@ -1,0 +1,5 @@
+export const CHANGE = 'CHANGE'
+export const PROGRESS = 'PROGRESS'
+export const SUCCEED = 'SUCCEED'
+export const FAIL = 'FAIL'
+export const DONE = 'DONE'
