@@ -1,32 +1,37 @@
 <template>
-  <v-form v-model="valid">
-    <v-hover v-slot:default="{ hover }">
-      <v-card>
-        <v-subheader><v-icon left>mdi-account-box</v-icon>Avatar</v-subheader>
-        <v-img :aspect-ratio="3 / 2" :src="src">
-          <v-fade-transition>
-            <v-overlay v-if="hover" absolute color="#036358">
-              <v-btn @click="$refs.image.onClick()">upload image</v-btn>
-            </v-overlay>
-          </v-fade-transition>
-          <v-image ref="image" @onload="load"></v-image
-        ></v-img>
+  <div>
+    <v-dialog-wrapper fullscreen name="the-avatar-cropper">
+      <the-avatar-cropper ref="cropper"></the-avatar-cropper>
+    </v-dialog-wrapper>
+    <v-form v-model="valid">
+      <v-hover v-slot:default="{ hover }">
+        <v-card>
+          <v-subheader><v-icon left>mdi-account-box</v-icon>Avatar</v-subheader>
+          <v-img eager :aspect-ratio="1 / 1" :src="src">
+            <v-fade-transition>
+              <v-overlay v-if="hover" absolute color="#036358">
+                <v-btn @click="$refs.image.onClick()">upload image</v-btn>
+              </v-overlay>
+            </v-fade-transition>
+            <v-image ref="image" @onload="load"></v-image
+          ></v-img>
 
-        <v-card-text>
-          <v-text-field
-            v-model="newName"
-            prepend-inner-icon="mdi-account"
-            label="Name"
-            :rules="[(v) => !!v || 'Name is required']"
-          ></v-text-field>
-          <v-btn :disabled="!valid" @click="updateImageOrName">update</v-btn>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn block @click="logout">logout</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-hover>
-  </v-form>
+          <v-card-text>
+            <v-text-field
+              v-model="newName"
+              prepend-inner-icon="mdi-account"
+              label="Name"
+              :rules="[(v) => !!v || 'Name is required']"
+            ></v-text-field>
+            <v-btn :disabled="!valid" @click="updateImageOrName">update</v-btn>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn block @click="logout">logout</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-hover>
+    </v-form>
+  </div>
 </template>
 
 <script>
@@ -35,13 +40,19 @@ import {
   UPDATE,
   LOGOUT,
   SET_NEW_NAME,
-  SET_NEW_ORIGINAL_PHOTO_URL,
-  SET_NEW_ORIGINAL_PHOTO
+  SET_NEW_ORIGINAL_PHOTO_URI,
+  SET_NEW_ORIGINAL_PHOTO,
+  RESET_NEW
 } from '~/store/user/mutation-types'
 import VImage from '~/components/atoms/VImage'
+import TheAvatarCropper from '~/components/organisms/TheAvatarCropper'
+import VDialogWrapper from '~/components/molecules/VDialogWrapper'
+
 export default {
   components: {
-    VImage
+    VImage,
+    TheAvatarCropper,
+    VDialogWrapper
   },
 
   data() {
@@ -54,8 +65,8 @@ export default {
     ...mapState('user', ['name', 'photoURL', 'new']),
 
     src() {
-      if (this.new.photo) {
-        return this.new.photo
+      if (this.new.photoURI) {
+        return this.new.photoURI
       } else if (this.photoURL) {
         return this.photoURL
       } else {
@@ -67,8 +78,18 @@ export default {
       get() {
         return this.name
       },
+
       set(payload) {
         this.SET_NEW_NAME(payload)
+      }
+    }
+  },
+
+  watch: {
+    async 'new.origPhotoURI'() {
+      if (this.new.origPhotoURI) {
+        await this.$nextTick()
+        this.$refs.cropper.replace(this.new.origPhotoURI)
       }
     }
   },
@@ -79,14 +100,15 @@ export default {
       LOGOUT,
       SET_NEW_NAME,
       SET_NEW_ORIGINAL_PHOTO,
-      SET_NEW_ORIGINAL_PHOTO_URL
+      SET_NEW_ORIGINAL_PHOTO_URI,
+      RESET_NEW
     ]),
+
     ...mapActions('dialog', ['SHOW']),
 
-    load(payload) {
+    async load(payload) {
       this.SET_NEW_ORIGINAL_PHOTO(payload)
-      this.SET_NEW_ORIGINAL_PHOTO_URL()
-      this.SHOW('the-avatar-cropper')
+      await this.SET_NEW_ORIGINAL_PHOTO_URI()
     },
 
     logout() {
@@ -95,6 +117,8 @@ export default {
 
     async updateImageOrName() {
       await this.UPDATE()
+      this.RESET_NEW()
+      this.$router.back()
     }
   }
 }

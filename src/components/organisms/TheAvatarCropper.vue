@@ -1,12 +1,14 @@
 <template>
   <v-card>
-    <v-app-bar-close-btn></v-app-bar-close-btn>
-    <v-cropper :img-src="imgSrc" @crop="crop"></v-cropper>
+    <v-app-bar-close-btn @beforeClose="close">
+      <v-toolbar-title>Cropper</v-toolbar-title>
+    </v-app-bar-close-btn>
+    <v-cropper ref="cropper" :img-src="imgSrc" @crop="crop"></v-cropper>
   </v-card>
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import VAppBarCloseBtn from '~/components/molecules/VAppBarCloseBtn'
 import VCropper from '~/components/molecules/VCropper'
 export default {
@@ -19,35 +21,26 @@ export default {
     ...mapState('user', ['new']),
 
     imgSrc() {
-      return this.new.origPhotoURL ? this.new.origPhotoURL : ''
-    }
-  },
-
-  watch: {
-    'new.origPhotoURL'() {
-      if (this.new.origPhotoURL) {
-      }
+      return this.new.origPhotoURI ? this.new.origPhotoURI : ''
     }
   },
 
   methods: {
-    ...mapMutations('user', [
-      'SET_NEW_ORIGINAL_PHOTO_URL',
-      'SET_NEW_PHOTO_URL',
-      'SET_PHOTO',
-      'SET_NEW_ORIGINAL_PHOTO'
-    ]),
+    ...mapActions('user', ['SET_NEW_PHOTO_URI', 'RESET_NEW']),
 
     ...mapActions('dialog', ['HIDE']),
 
     close() {
-      this.SET_NEW_ORIGINAL_PHOTO(null)
-      this.SET_NEW_ORIGINAL_PHOTO_URL(null)
+      this.RESET_NEW()
     },
 
     crop(payload) {
-      this.SET_PHOTO(payload)
+      this.SET_NEW_PHOTO_URI(payload)
       this.HIDE('the-avatar-cropper')
+    },
+
+    replace(payload) {
+      this.$refs.cropper.replace(payload)
     }
   }
 }
