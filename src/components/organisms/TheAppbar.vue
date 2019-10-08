@@ -4,28 +4,29 @@
     <v-create-room-btn v-else></v-create-room-btn>
     <v-spacer />
 
-    <v-btn-icon icon="mdi-comment-search"></v-btn-icon>
+    <v-search-btn></v-search-btn>
     <v-scanner-btn v-if="isPrivate"></v-scanner-btn>
     <v-sort-btn></v-sort-btn>
-    <v-toggle-btn></v-toggle-btn>
+    <v-align-btn></v-align-btn>
     <the-avatar />
   </v-app-bar>
 </template>
+
 <script>
+import VAlignBtn from '~/components/molecules/ValignBtn'
+import VSearchBtn from '~/components/molecules/VSearchBtn'
 import VSortBtn from '~/components/molecules/VSortBtn'
 import VScannerBtn from '~/components/molecules/VScannerBtn'
 import VCreatePrivateRoomBtn from '~/components/molecules/VCreatePrivateRoomBtn'
-import VToggleBtn from '~/components/molecules/VToggleBtn'
-import VBtnIcon from '~/components/atoms/VBtnIcon'
 import TheAvatar from '~/components/organisms/TheAvatar'
 import VCreateRoomBtn from '~/components/molecules/VCreateRoomBtn'
 export default {
   components: {
+    VAlignBtn,
+    VSearchBtn,
     VSortBtn,
     TheAvatar,
     VCreateRoomBtn,
-    VBtnIcon,
-    VToggleBtn,
     VCreatePrivateRoomBtn,
     VScannerBtn
   },
