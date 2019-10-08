@@ -1,23 +1,18 @@
 <template>
   <v-app-bar dark app>
-    <v-toolbar-title>Roomy</v-toolbar-title>
+    <v-create-private-room-btn v-if="isPrivate"></v-create-private-room-btn>
+    <v-create-room-btn v-else></v-create-room-btn>
     <v-spacer />
+
+    <v-btn-icon icon="mdi-comment-search"></v-btn-icon>
+    <v-scanner-btn v-if="isPrivate"></v-scanner-btn>
+    <v-sort-btn></v-sort-btn>
+    <v-toggle-btn></v-toggle-btn>
     <the-avatar />
-
-    <template v-slot:extension>
-      <v-create-private-room-btn v-if="isPrivate"></v-create-private-room-btn>
-      <v-create-room-btn v-else></v-create-room-btn>
-
-      <v-btn-icon class="ml-12" icon="mdi-comment-search"></v-btn-icon>
-      <v-scanner-btn v-if="isPrivate"></v-scanner-btn>
-
-      <v-spacer />
-      <v-btn-icon icon="mdi-sort-descending"></v-btn-icon>
-      <v-toggle-btn></v-toggle-btn>
-    </template>
   </v-app-bar>
 </template>
 <script>
+import VSortBtn from '~/components/molecules/VSortBtn'
 import VScannerBtn from '~/components/molecules/VScannerBtn'
 import VCreatePrivateRoomBtn from '~/components/molecules/VCreatePrivateRoomBtn'
 import VToggleBtn from '~/components/molecules/VToggleBtn'
@@ -26,6 +21,7 @@ import TheAvatar from '~/components/organisms/TheAvatar'
 import VCreateRoomBtn from '~/components/molecules/VCreateRoomBtn'
 export default {
   components: {
+    VSortBtn,
     TheAvatar,
     VCreateRoomBtn,
     VBtnIcon,

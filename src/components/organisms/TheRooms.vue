@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" flat>
     <v-list two-line subheader>
-      <v-subheader inset>Latest</v-subheader>
+      <v-subheader inset>{{ sortedByName }}</v-subheader>
       <template v-for="(item, index) in rooms">
         <v-list-item :key="item.uid" :to="`/rooms/${item.id}`">
           <v-list-item-avatar tile size="50">
@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import VQrcodeBtn from '~/components/molecules/VQrcodeBtn'
 export default {
   components: {
@@ -64,6 +65,10 @@ export default {
       type: Array,
       required: true
     }
+  },
+
+  computed: {
+    ...mapGetters('user', ['sortedByName'])
   },
 
   methods: {
