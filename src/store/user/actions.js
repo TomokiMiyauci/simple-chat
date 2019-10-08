@@ -11,7 +11,8 @@ import {
   LOGIN,
   LOGOUT,
   UPDATE,
-  RESET_NEW
+  RESET_NEW,
+  SORTED_BY
 } from './mutation-types'
 import firebase from '~/plugins/firebase'
 
@@ -98,6 +99,14 @@ export default {
         })
         dispatch(SET_USER, user)
       }
+    }
+  },
+
+  async [SORTED_BY]({ commit, dispatch, state }, payload) {
+    await commit(SORTED_BY, payload)
+    dispatch('room/INIT', null, { root: true })
+    if (state.isAuth) {
+      dispatch('room/INIT_PRIVATE', null, { root: true })
     }
   }
 }

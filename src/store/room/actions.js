@@ -13,27 +13,30 @@ import firebase from '~/plugins/firebase'
 export function collectionRef() {
   return firebase.firestore().collection('rooms')
 }
+
 const timestamp = firebase.firestore.FieldValue.serverTimestamp()
 
 export default {
-  bindRoomsRef: firestoreAction(({ bindFirestoreRef }) => {
+  bindRoomsRef: firestoreAction(({ bindFirestoreRef, rootGetters }) => {
     bindFirestoreRef(
       'rooms',
       collectionRef()
         .where('scope', '==', 'PUBLIC')
-        .orderBy('recent.timestamp', 'desc')
+        .orderBy(rootGetters['user/sortedBy'], 'desc')
     )
   }),
 
-  bindPrivateRoomsRef: firestoreAction(({ bindFirestoreRef, rootState }) => {
-    bindFirestoreRef(
-      'privateRooms',
-      collectionRef()
-        .where('scope', '==', 'PRIVATE')
-        .where('members', 'array-contains', rootState.user.id)
-        .orderBy('recent.timestamp', 'desc')
-    )
-  }),
+  bindPrivateRoomsRef: firestoreAction(
+    ({ bindFirestoreRef, rootState, rootGetters }) => {
+      bindFirestoreRef(
+        'privateRooms',
+        collectionRef()
+          .where('scope', '==', 'PRIVATE')
+          .where('members', 'array-contains', rootState.user.id)
+          .orderBy(rootGetters['user/sortedBy'], 'desc')
+      )
+    }
+  ),
 
   [INIT]({ dispatch }) {
     dispatch('bindRoomsRef')

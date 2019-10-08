@@ -6,7 +6,8 @@ import {
   SET_NEW_ORIGINAL_PHOTO_URI,
   SET_NEW_ORIGINAL_PHOTO,
   SET_NEW_PHOTO_URI,
-  IS_AUTH
+  IS_AUTH,
+  SORTED_BY
 } from './mutation-types'
 export default {
   [SET_ID](state, payload) {
@@ -39,5 +40,9 @@ export default {
 
   [SET_NEW_NAME](state, payload) {
     state.new.name = payload
+  },
+
+  [SORTED_BY](state, payload) {
+    state.sortedBy = payload
   }
 }

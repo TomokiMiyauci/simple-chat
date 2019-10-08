@@ -8,5 +8,6 @@ export default () => ({
     origPhotoURI: null,
     photoURI: null,
     name: null
-  }
+  },
+  sortedBy: 'LATEST'
 })
