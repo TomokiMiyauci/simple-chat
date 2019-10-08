@@ -12,7 +12,8 @@ import {
   LOGOUT,
   UPDATE,
   RESET_NEW,
-  SORTED_BY
+  SORTED_BY,
+  ALIGNED_BY
 } from './mutation-types'
 import firebase from '~/plugins/firebase'
 
@@ -108,5 +109,9 @@ export default {
     if (state.isAuth) {
       dispatch('room/INIT_PRIVATE', null, { root: true })
     }
+  },
+
+  [ALIGNED_BY]({ commit }, payload) {
+    commit(ALIGNED_BY, payload)
   }
 }

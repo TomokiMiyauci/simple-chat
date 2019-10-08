@@ -33,5 +33,9 @@ export default {
 
   sortedByName(state) {
     return capFirst(state.sortedBy)
+  },
+
+  alignedBy(state) {
+    return state.alignedBy
   }
 }

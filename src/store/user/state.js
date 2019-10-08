@@ -9,5 +9,6 @@ export default () => ({
     photoURI: null,
     name: null
   },
-  sortedBy: 'LATEST'
+  sortedBy: 'LATEST',
+  alignedBy: 'LINE'
 })
