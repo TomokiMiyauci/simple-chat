@@ -14,7 +14,6 @@
   </v-app-bar>
 </template>
 <script>
-import { mapState } from 'vuex'
 import ThePullToRefresh from '~/components/organisms/ThePullToRefresh'
 import VBtnBack from '~/components/atoms/VBtnBack'
 import TheAvatar from '~/components/organisms/TheAvatar'
@@ -33,10 +32,6 @@ export default {
     return {
       extended: false
     }
-  },
-
-  computed: {
-    ...mapState('navbar', ['title'])
   }
 }
 </script>
