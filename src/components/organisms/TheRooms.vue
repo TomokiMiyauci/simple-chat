@@ -1,79 +1,36 @@
 <template>
-  <v-card class="mx-auto" flat>
-    <v-list two-line subheader>
-      <v-subheader inset>{{ sortedByName }}</v-subheader>
-      <template v-for="(item, index) in rooms">
-        <v-list-item :key="item.uid" :to="`/rooms/${item.id}`">
-          <v-list-item-avatar tile size="50">
-            <v-img
-              :src="
-                item.roomPicUrl
-                  ? item.roomPicUrl
-                  : require('~/assets/images/new-room.png')
-              "
-            />
-          </v-list-item-avatar>
-
-          <v-list-item-content>
-            <v-list-item-title>{{
-              item.name ? item.name : 'New Room'
-            }}</v-list-item-title>
-            <v-list-item-subtitle v-if="item.recent.text" class="pt-1">
-              <v-avatar size="30">
-                <v-img
-                  :src="
-                    item.recent.profilePicUrl
-                      ? item.recent.profilePicUrl
-                      : require('~/assets/images/anonymous.jpg')
-                  "
-              /></v-avatar>
-              {{ item.recent.text }}</v-list-item-subtitle
-            >
-            <v-list-item-subtitle v-else class="pt-1"
-              >No message</v-list-item-subtitle
-            >
-            <v-list-item-subtitle class="pt-1">
-              <v-chip label color="yellow darken-3" outlined>
-                <v-icon left>mdi-eye</v-icon>{{ item.viewer }}</v-chip
-              >
-              <v-chip label color="blue darken-1" outlined>
-                <v-icon left>mdi-message-text</v-icon
-                >{{ item.msgCount }}</v-chip
-              >
-            </v-list-item-subtitle>
-          </v-list-item-content>
-          <v-list-item-action>
-            <v-qrcode-btn :value="item.id"></v-qrcode-btn>
-          </v-list-item-action>
-        </v-list-item>
-        <v-divider :key="index" :inset="item.inset" />
-      </template>
-    </v-list>
-  </v-card>
+  <div>
+    <v-subheader inset>{{ sortedByName }}</v-subheader>
+    <v-room-line v-if="alignedBy === 'LINE'" :rooms="getRooms"> </v-room-line>
+    <v-room-block-wrapper
+      v-else-if="alignedBy === 'BLOCK'"
+      :rooms="getRooms"
+    ></v-room-block-wrapper>
+  </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import VQrcodeBtn from '~/components/molecules/VQrcodeBtn'
+import { mapState, mapGetters } from 'vuex'
+import VRoomBlockWrapper from '~/components/molecules/VRoomBlockWrapper'
+import VRoomLine from '~/components/molecules/VRoomLine'
 export default {
   components: {
-    VQrcodeBtn
-  },
-
-  props: {
-    rooms: {
-      type: Array,
-      required: true
-    }
+    VRoomLine,
+    VRoomBlockWrapper
   },
 
   computed: {
-    ...mapGetters('user', ['sortedByName'])
-  },
+    ...mapState('room', ['rooms', 'privateRooms']),
+    ...mapGetters('user', ['alignedBy']),
+    ...mapGetters('user', ['sortedByName']),
 
-  methods: {
-    click() {
-      alert()
+    getRooms() {
+      return this.isPrivate ? this.privateRooms : this.rooms
+    },
+
+    isPrivate() {
+      const re = /\/rooms\/private$/
+      return re.test(this.$route.path)
     }
   }
 }
