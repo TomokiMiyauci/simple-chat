@@ -1,5 +1,5 @@
 <template>
-  <v-card height="170px" width="170px" class="ma-2 " @click="click">
+  <v-card height="170px" width="170px" class="ma-2 " @click="click(room)">
     <v-img
       :src="
         room.roomPicUrl
@@ -37,7 +37,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { INIT } from '~/store/message/mutation-types'
+
 export default {
   props: {
     room: {
@@ -51,8 +53,13 @@ export default {
   },
 
   methods: {
-    click() {
-      this.$router.push(`/rooms/${this.room.id}`)
+    ...mapMutations('room', ['setUid']),
+
+    ...mapActions('message', [INIT]),
+
+    click(payload) {
+      this.setUid(payload.id)
+      this.INIT()
     }
   }
 }

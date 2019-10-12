@@ -1,8 +1,13 @@
 <template>
-  <v-card class="mx-auto" flat>
+  <v-card style="overflow: scroll;" height="78vh">
     <v-list two-line subheader>
-      <template v-for="(item, index) in rooms">
-        <v-list-item :key="item.uid" :to="`/rooms/${item.id}`">
+      <v-list-item-group>
+        <v-list-item
+          v-for="item in rooms"
+          :key="item.uid"
+          color="indigo"
+          @click.stop="click(item.id)"
+        >
           <v-list-item-avatar tile size="50">
             <v-img
               :src="
@@ -45,14 +50,16 @@
             <v-qrcode-btn :value="item.id"></v-qrcode-btn>
           </v-list-item-action>
         </v-list-item>
-        <v-divider :key="index" :inset="item.inset" />
-      </template>
+      </v-list-item-group>
+
+      <v-divider />
     </v-list>
   </v-card>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { INIT } from '~/store/message/mutation-types'
 import VQrcodeBtn from '~/components/molecules/VQrcodeBtn'
 export default {
   components: {
@@ -68,6 +75,17 @@ export default {
 
   computed: {
     ...mapGetters('user', ['sortedByName'])
+  },
+
+  methods: {
+    ...mapMutations('room', ['setUid']),
+
+    ...mapActions('message', [INIT]),
+
+    click(payload) {
+      this.setUid(payload)
+      this.INIT()
+    }
   }
 }
 </script>
