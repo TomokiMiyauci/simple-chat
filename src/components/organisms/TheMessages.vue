@@ -1,36 +1,45 @@
 <template>
-  <div>
-    <template v-for="(message, index) in messages">
-      <v-message-date
-        v-show="changeMessageNo.includes(index)"
-        :key="index + 'date'"
-        :message="message"
-      ></v-message-date>
-      <v-message-line :key="index" :message="message"></v-message-line>
+  <v-card class="wrapper">
+    <span v-if="!uid" class="grey--text no-select display-1">Select Room</span>
+    <template v-else>
+      <div class="page-body">
+        <template v-for="(message, index) in messages">
+          <v-message-date
+            v-show="changeMessageNo.includes(index)"
+            :key="index + 'date'"
+            :message="message"
+          ></v-message-date>
+          <v-message-line :key="index" :message="message"></v-message-line>
+        </template>
+      </div>
+      <the-post> </the-post>
     </template>
-  </div>
+  </v-card>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
+import ThePost from '~/components/organisms/ThePost'
 import VMessageDate from '~/components/organisms/VMessageDate'
 import VMessageLine from '~/components/organisms/VMessageLine'
 
 export default {
   components: {
     VMessageLine,
-    VMessageDate
+    VMessageDate,
+    ThePost
   },
-  props: {
-    messages: {
-      type: Array,
-      default: () => []
-    }
-  },
+
   data: () => ({ timestamps: [], changeMessageNo: [] }),
+
   computed: {
-    ...mapGetters('user', ['isSignin'])
+    ...mapGetters('user', ['isSignin']),
+
+    ...mapGetters('message', ['messages']),
+
+    ...mapState('room', ['uid'])
   },
+
   watch: {
     messages() {
       this.refreshRender()
@@ -54,3 +63,24 @@ export default {
   }
 }
 </script>
+
+<style>
+.wrapper {
+  height: 82vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.page-body {
+  flex-grow: 1;
+}
+
+.no-select {
+  position: absolute;
+  top: 50%;
+  left: 43%;
+}
+</style>
