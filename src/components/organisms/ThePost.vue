@@ -1,22 +1,23 @@
 <template>
-  <div class="post">
-    <v-container grid-list-xs class="container">
-      <v-layout row wrap>
-        <v-flex xs2>
-          <v-post-image></v-post-image>
-        </v-flex>
-        <v-flex xs2>
-          <v-post-tag></v-post-tag>
-        </v-flex>
-        <v-flex xs6>
-          <v-text-send></v-text-send>
-        </v-flex>
-        <v-flex xs2>
-          <v-sender></v-sender>
-        </v-flex>
-      </v-layout>
-    </v-container>
-  </div>
+  <v-container class="container">
+    <v-row justify="center" align="center">
+      <v-col cols="auto">
+        <v-post-image></v-post-image>
+      </v-col>
+
+      <v-col cols="auto">
+        <v-post-tag></v-post-tag>
+      </v-col>
+
+      <v-col cols="auto">
+        <v-text-send></v-text-send>
+      </v-col>
+
+      <v-col cols="auto">
+        <v-sender></v-sender>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -35,11 +36,9 @@ export default {
 </script>
 
 <style scoped>
-.post {
-  width: 100%;
-}
 .container {
-  max-width: 600px;
+  position: sticky;
+  bottom: 0;
   background: rgba(250, 250, 250, 0.95);
   padding: 0;
 }
