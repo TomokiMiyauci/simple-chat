@@ -1,7 +1,7 @@
 <template>
   <v-row class="ma-1">
-    <v-col xs="12" sm="12" md="6" lg="6" xl="6">
-      <v-card>
+    <v-col cols="12" sm="12" md="6" lg="6" xl="6">
+      <div v-show="isOnlyRoom">
         <v-subheader inset>{{ sortedByName }}</v-subheader>
         <v-room-line v-if="alignedBy === 'LINE'" :rooms="getRooms">
         </v-room-line>
@@ -9,10 +9,10 @@
           v-else-if="alignedBy === 'BLOCK'"
           :rooms="getRooms"
         ></v-room-block-wrapper>
-      </v-card>
+      </div>
     </v-col>
-    <v-col xs="12" sm="12" md="6" lg="6" xl="6">
-      <the-messages> </the-messages>
+    <v-col cols="12" sm="12" md="6" lg="6" xl="6">
+      <the-messages v-if="isOnlyMsg"> </the-messages>
     </v-col>
   </v-row>
 </template>
@@ -30,7 +30,7 @@ export default {
   },
 
   computed: {
-    ...mapState('room', ['rooms', 'privateRooms']),
+    ...mapState('room', ['rooms', 'privateRooms', 'uid']),
     ...mapGetters('user', ['alignedBy']),
     ...mapGetters('user', ['sortedByName']),
 
@@ -41,6 +41,24 @@ export default {
     isPrivate() {
       const re = /\/rooms\/private$/
       return re.test(this.$route.path)
+    },
+
+    ismobile() {
+      return this.$vuetify.breakpoint.smAndDown
+    },
+
+    isOnlyMsg() {
+      if (this.ismobile && !this.uid) {
+        return false
+      }
+      return true
+    },
+
+    isOnlyRoom() {
+      if (this.ismobile && !!this.uid) {
+        return false
+      }
+      return true
     }
   }
 }
