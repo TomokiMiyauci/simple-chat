@@ -1,7 +1,29 @@
 <template>
   <v-card class="wrapper">
-    <span v-if="!uid" class="grey--text no-select display-1">Select Room</span>
+    <template v-if="!uid">
+      <span class="grey--text no-select display-1">
+        <p class="text-center">
+          <v-icon class="text-center" size="50">mdi-forum</v-icon>
+        </p>
+
+        Select Room</span
+      >
+    </template>
+
     <template v-else>
+      <v-alert
+        v-if="!messages.length"
+        outlined
+        type="success"
+        prominent
+        border="left"
+        icon="mdi-alert-decagram"
+        transition="scale-transition"
+        dismissible
+        dense
+      >
+        A new room has been created, but there is nothing yet.
+      </v-alert>
       <div class="page-body">
         <template v-for="(message, index) in messages">
           <v-message-date
