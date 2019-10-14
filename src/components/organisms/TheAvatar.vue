@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn v-if="!isAuth" icon to="/login">
+    <v-btn v-if="!isAuth" icon to="/user/login">
       <v-icon>mdi-login-variant</v-icon>
     </v-btn>
     <template v-else>
