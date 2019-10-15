@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xl style="max-width: 600px;">
+  <v-container grid-list-xl>
     <v-layout column :align-end="isOwnPost(message)">
       <v-flex>
         <v-messageTimestamp :is-own="isOwnPost(message)" :message="message">
