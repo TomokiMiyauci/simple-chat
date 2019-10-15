@@ -1,19 +1,29 @@
 <template>
-  <div>
-    <v-btn v-if="!isAuth" icon to="/user/login">
+  <div :class="{ active: isActive }">
+    <v-btn v-if="!isAuth" fab color="purple" to="/user/login">
       <v-icon>mdi-login-variant</v-icon>
     </v-btn>
-    <template v-else>
-      <v-avatar @click="$router.push('/user/settings')">
-        <v-img :src="photoSrc" alt="avatar" />
-      </v-avatar>
-    </template>
+    <v-avatar
+      v-else
+      size="56px"
+      absolute
+      @click="$router.push('/user/settings')"
+    >
+      <v-img :src="photoSrc" alt="avatar" />
+    </v-avatar>
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
 export default {
+  props: {
+    isActive: {
+      type: Boolean,
+      required: true
+    }
+  },
+
   computed: {
     ...mapState('user', ['isAuth']),
     ...mapGetters('user', ['photoURL']),
@@ -33,4 +43,10 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.active {
+  position: absolute;
+  left: -26px;
+  top: 4px;
+}
+</style>
