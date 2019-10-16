@@ -14,18 +14,49 @@
         ><v-img :src="message.imageURL"></v-img
       ></v-callout>
     </div>
+
     <template v-else>
       <div class="avatar">
-        <v-avatar>
-          <v-img
-            :src="
-              message.profilePicUrl
-                ? message.profilePicUrl
-                : require('~/assets/images/anonymous.jpg')
-            "
-            alt="avatar"
-          />
-        </v-avatar>
+        <v-menu>
+          <template #activator="{on}">
+            <v-hover #default="{hover}">
+              <v-avatar :class="hover ? 'elevation-5' : ''" v-on="on">
+                <v-img
+                  :src="
+                    message.profilePicUrl
+                      ? message.profilePicUrl
+                      : require('~/assets/images/anonymous.jpg')
+                  "
+                  alt="avatar"
+                />
+              </v-avatar>
+            </v-hover>
+          </template>
+          <v-card max-width="200px" class="elevation-10">
+            <div style="width:200px;">
+              <v-row justify="center">
+                <v-col cols="auto">
+                  <v-avatar class="text-center" size="100">
+                    <v-img
+                      :src="
+                        message.profilePicUrl
+                          ? message.profilePicUrl
+                          : require('~/assets/images/anonymous.jpg')
+                      "
+                      alt="avatar"
+                    />
+                  </v-avatar>
+                </v-col>
+              </v-row>
+
+              <p class="text-center">{{ message.name || 'Anonimus' }}</p>
+            </div>
+            <v-divider />
+            <v-card-actions>
+              <v-btn text>invite</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-menu>
       </div>
       <div class="nameMessage">
         <div class="overline py-1">
