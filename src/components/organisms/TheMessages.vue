@@ -88,7 +88,7 @@ export default {
 
 <style>
 .wrapper {
-  height: 82vh;
+  height: 74vh;
   position: relative;
   display: flex;
   flex-direction: column;
