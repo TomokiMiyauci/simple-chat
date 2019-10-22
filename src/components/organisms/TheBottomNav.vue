@@ -38,7 +38,7 @@ export default {
   methods: {
     login() {
       if (this.isAuth) {
-        this.$router.push('/room/private')
+        this.$router.push('/rooms/private')
       }
     }
   }
