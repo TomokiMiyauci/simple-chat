@@ -1,5 +1,5 @@
 <template>
-  <v-card style="overflow: scroll;" height="74vh">
+  <v-card style="overflow: scroll;height:calc(100% - 48px);">
     <v-list two-line subheader>
       <v-list-item-group>
         <v-list-item
