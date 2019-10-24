@@ -3,8 +3,8 @@
     <the-mixing-app-bar />
     <v-content>
       <nuxt />
+      <the-bottom-nav></the-bottom-nav>
     </v-content>
-    <the-bottom-nav></the-bottom-nav>
   </v-app>
 </template>
 
