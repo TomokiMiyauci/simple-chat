@@ -1,14 +1,14 @@
 <template>
   <v-card class="wrapper">
-    <template v-if="!uid">
-      <span class="grey--text no-select display-1">
-        <p class="text-center">
-          <v-icon class="text-center" size="50">mdi-forum</v-icon>
-        </p>
+    <div v-if="!uid" class="grey--text no-select display-1">
+      <p class="text-center">
+        <v-icon size="50">mdi-forum</v-icon>
+      </p>
 
-        Select Room</span
-      >
-    </template>
+      <p class="text-center">
+        Select Room
+      </p>
+    </div>
 
     <template v-else>
       <v-alert
@@ -88,7 +88,7 @@ export default {
 
 <style>
 .wrapper {
-  height: 74vh;
+  height: 85vh;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -101,8 +101,12 @@ export default {
 }
 
 .no-select {
+  height: 10px;
   position: absolute;
-  top: 50%;
-  left: 43%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
 }
 </style>
