@@ -1,17 +1,36 @@
 <template>
-  <v-row class="ma-1">
-    <v-col v-if="isOnlyRoom" cols="12" sm="12" md="6" lg="6" xl="6">
-      <v-subheader inset>{{ sortedByName }}</v-subheader>
-      <v-room-line v-if="alignedBy === 'LINE'" :rooms="getRooms"> </v-room-line>
-      <v-room-block-wrapper
-        v-else-if="alignedBy === 'BLOCK'"
-        :rooms="getRooms"
-      ></v-room-block-wrapper>
-    </v-col>
-    <v-col v-if="isOnlyMsg" cols="12" sm="12" md="6" lg="6" xl="6">
-      <the-messages> </the-messages>
-    </v-col>
-  </v-row>
+  <v-container style="height:calc(100vh - 116px);">
+    <v-row class="fill-height">
+      <v-col
+        class="fill-height"
+        cols="12"
+        sm="6"
+        md="6"
+        lg="6"
+        xl="6"
+        :class="{ 'hidden-xs-only': !isOnlyRoom }"
+      >
+        <v-subheader inset>{{ sortedByName }}</v-subheader>
+        <v-room-line v-if="alignedBy === 'LINE'" :rooms="getRooms">
+        </v-room-line>
+        <v-room-block-wrapper
+          v-else-if="alignedBy === 'BLOCK'"
+          :rooms="getRooms"
+        ></v-room-block-wrapper>
+      </v-col>
+      <v-col
+        class="fill-height"
+        cols="12"
+        sm="6"
+        md="6"
+        lg="6"
+        xl="6"
+        :class="{ 'hidden-xs-only': isOnlyRoom }"
+      >
+        <the-messages> </the-messages>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
