@@ -1,7 +1,7 @@
 <template>
-  <v-row class="child-flex">
-    <div v-if="isOnlyRoom" style="padding:0px 0 0 12px;">
-      <v-app-bar :app="ismobile">
+  <v-app-bar app dark>
+    <v-row class="child-flex">
+      <v-toolbar v-if="isOnlyRoom" flat>
         <v-create-private-room-btn v-if="isPrivate"></v-create-private-room-btn>
         <v-create-room-btn v-else></v-create-room-btn>
         <v-spacer />
@@ -9,16 +9,14 @@
         <v-scanner-btn v-if="isPrivate"></v-scanner-btn>
         <v-sort-btn></v-sort-btn>
         <v-align-btn></v-align-btn>
-        <the-avatar :is-active="false" class="hidden-md-and-up" />
-      </v-app-bar>
-    </div>
+        <the-avatar :is-active="false" class="hidden-sm-and-up" />
+      </v-toolbar>
 
-    <div v-if="isOnlyMsg" style="padding:0px 12px 0 0;">
-      <v-app-bar :app="ismobile" dark :extended="extended">
-        <the-avatar :is-active="!ismobile" class="hidden-md-and-down" />
+      <v-toolbar v-if="isOnlyMsg" dark flat>
+        <the-avatar :is-active="!ismobile" class="hidden-xs-only" />
 
         <v-btn-icon
-          class="hidden-md-and-up"
+          class="hidden-sm-and-up"
           icon="mdi-arrow-left"
           @click="click"
         ></v-btn-icon>
@@ -31,10 +29,10 @@
         <template v-if="extended" v-slot:extension>
           <v-tab-phone-video @click="extended = !extended"></v-tab-phone-video>
         </template>
-        <the-avatar :is-active="false" class="hidden-md-and-up" />
-      </v-app-bar>
-    </div>
-  </v-row>
+        <the-avatar :is-active="false" class="hidden-sm-and-up" />
+      </v-toolbar>
+    </v-row>
+  </v-app-bar>
 </template>
 
 <script>
