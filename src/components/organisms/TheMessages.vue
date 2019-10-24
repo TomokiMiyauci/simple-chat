@@ -1,13 +1,13 @@
 <template>
   <v-card class="wrapper">
-    <div v-if="!uid" class="grey--text no-select display-1">
-      <p class="text-center">
+    <div v-if="!uid" class="grey--text no-select display-1 text-center">
+      <div>
         <v-icon size="50">mdi-forum</v-icon>
-      </p>
+      </div>
 
-      <p class="text-center">
+      <div>
         Select Room
-      </p>
+      </div>
     </div>
 
     <template v-else>
