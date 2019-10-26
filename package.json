@@ -11,6 +11,7 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
+    "storybook": "start-storybook -p 3001",
     "dev-debug": "node --inspect-brk=9229 node_modules/nuxt/bin/nuxt"
   },
   "lint-staged": {
@@ -26,6 +27,7 @@
     "@nuxtjs/device": "^1.2.3",
     "@nuxtjs/pwa": "^3.0.0-beta.19",
     "audio-recorder-polyfill": "^0.1.6",
+    "core-js": "^2.6.10",
     "firebase": "^7.2.0",
     "firebaseui": "^4.2.0",
     "nuxt": "^2.10.2",
@@ -40,10 +42,12 @@
     "@nuxtjs/eslint-config": "^1.1.2",
     "@nuxtjs/eslint-module": "^1.1.0",
     "@nuxtjs/vuetify": "^1.9.0",
+    "@storybook/vue": "^5.2.5",
     "@vue/test-utils": "^1.0.0-beta.27",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
+    "babel-preset-vue": "^2.0.2",
     "eslint": "^5.15.1",
     "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-nuxt": "^0.4.3",
