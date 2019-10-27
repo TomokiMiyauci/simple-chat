@@ -4,8 +4,11 @@ import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.css'; 
 
 Vue.use(Vuetify);
+
 function loadStories() {
-  require('../stories/index.js');
-}
- 
-configure(loadStories, module);
+    const req = require.context('~/stories', true, /\.stories\.js$/);
+    req.keys().forEach(filename => req(filename));
+  
+  }
+  
+  configure(loadStories, module);
