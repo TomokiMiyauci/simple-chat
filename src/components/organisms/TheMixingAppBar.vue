@@ -21,14 +21,10 @@
           @click="click"
         ></v-btn-icon>
         <v-spacer />
-        <v-btn icon @click="extended = !extended">
-          <v-icon>mdi-phone-in-talk</v-icon>
-        </v-btn>
+        <v-btn-phone></v-btn-phone>
         <the-pull-to-refresh></the-pull-to-refresh>
         <v-settings-room-btn></v-settings-room-btn>
-        <template v-if="extended" v-slot:extension>
-          <v-tab-phone-video @click="extended = !extended"></v-tab-phone-video>
-        </template>
+
         <the-avatar :is-active="false" class="hidden-sm-and-up" />
       </v-toolbar>
     </v-row>
@@ -37,10 +33,10 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import VBtnPhone from '~/components/molecules/VBtnPhone'
 import VBtnIcon from '~/components/atoms/VBtnIcon'
 import ThePullToRefresh from '~/components/organisms/ThePullToRefresh'
 import VSettingsRoomBtn from '~/components/molecules/VSettingsRoomBtn'
-import VTabPhoneVideo from '~/components/molecules/VTabPhoneVideo'
 import VAlignBtn from '~/components/molecules/ValignBtn'
 import VSearchBtn from '~/components/molecules/VSearchBtn'
 import VSortBtn from '~/components/molecules/VSortBtn'
@@ -50,6 +46,7 @@ import TheAvatar from '~/components/organisms/TheAvatar'
 import VCreateRoomBtn from '~/components/molecules/VCreateRoomBtn'
 export default {
   components: {
+    VBtnPhone,
     VAlignBtn,
     VSearchBtn,
     VSortBtn,
@@ -59,14 +56,7 @@ export default {
     VScannerBtn,
     ThePullToRefresh,
     VSettingsRoomBtn,
-    VTabPhoneVideo,
     VBtnIcon
-  },
-
-  data() {
-    return {
-      extended: false
-    }
   },
 
   computed: {
