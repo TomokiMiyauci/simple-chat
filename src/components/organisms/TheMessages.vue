@@ -1,5 +1,6 @@
 <template>
   <v-card class="wrapper">
+    <v-btn-phone-video></v-btn-phone-video>
     <div v-if="!uid" class="grey--text no-select display-1 text-center">
       <div>
         <v-icon size="50">mdi-forum</v-icon>
@@ -41,12 +42,14 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+import VBtnPhoneVideo from '~/components/molecules/VBtnPhoneVideo'
 import ThePost from '~/components/organisms/ThePost'
 import VMessageDate from '~/components/organisms/VMessageDate'
 import VMessageLine from '~/components/organisms/VMessageLine'
 
 export default {
   components: {
+    VBtnPhoneVideo,
     VMessageLine,
     VMessageDate,
     ThePost
