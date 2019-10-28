@@ -6,7 +6,7 @@ import 'vuetify/dist/vuetify.css';
 Vue.use(Vuetify);
 
 function loadStories() {
-    const req = require.context('~/stories', true, /\.stories\.js$/);
+    const req = require.context('../stories', true, /\.stories\.js$/);
     req.keys().forEach(filename => req(filename));
   
   }
