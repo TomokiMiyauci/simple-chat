@@ -1,14 +1,8 @@
 import { configure } from '@storybook/vue';
 import Vue from 'vue';
 import Vuetify from 'vuetify';
-import 'vuetify/dist/vuetify.css'; 
+import 'vuetify/dist/vuetify.min.css'; 
 
 Vue.use(Vuetify);
 
-function loadStories() {
-    const req = require.context('../stories', true, /\.stories\.js$/);
-    req.keys().forEach(filename => req(filename));
-  
-  }
-  
-  configure(loadStories, module);
+configure(require.context('../stories', true, /\.stories\.js$/), module);

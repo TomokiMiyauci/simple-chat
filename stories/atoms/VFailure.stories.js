@@ -1,7 +1,10 @@
-import { storiesOf } from '@storybook/vue'
 import VFailure from '~/components/atoms/VFailure'
 
-storiesOf('atoms/VFailure', module).add('default', () => ({
+export default {
+  title: 'atoms|VFailure'
+}
+
+export const defaults = () => ({
   components: { VFailure },
-  template: '<v-failure />'
-}))
+  template: '<v-failure />>'
+})
