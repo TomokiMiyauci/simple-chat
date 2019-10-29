@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <the-mixing-app-bar />
+    <the-appbar />
     <v-content>
       <nuxt />
     </v-content>
@@ -9,11 +9,11 @@
 </template>
 
 <script>
+import TheAppbar from '~/components/organisms/TheAppbar'
 import TheBottomNav from '~/components/organisms/TheBottomNav'
-import TheMixingAppBar from '~/components/organisms/TheMixingAppBar.vue'
 export default {
   components: {
-    TheMixingAppBar,
+    TheAppbar,
     TheBottomNav
   }
 }

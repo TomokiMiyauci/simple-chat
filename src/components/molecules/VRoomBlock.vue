@@ -60,6 +60,7 @@ export default {
     click(payload) {
       this.setUid(payload.id)
       this.INIT()
+      this.$router.push({ path: 'chat', append: true })
     }
   }
 }
