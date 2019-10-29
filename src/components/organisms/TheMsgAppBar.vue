@@ -18,14 +18,12 @@ import ThePullToRefresh from '~/components/organisms/ThePullToRefresh'
 import VBtnBack from '~/components/atoms/VBtnBack'
 import TheAvatar from '~/components/organisms/TheAvatar'
 import VSettingsRoomBtn from '~/components/molecules/VSettingsRoomBtn'
-import VTabPhoneVideo from '~/components/molecules/VTabPhoneVideo'
 export default {
   components: {
     TheAvatar,
     VBtnBack,
     ThePullToRefresh,
-    VSettingsRoomBtn,
-    VTabPhoneVideo
+    VSettingsRoomBtn
   },
 
   data() {
