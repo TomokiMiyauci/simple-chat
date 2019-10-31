@@ -13,7 +13,8 @@
     "generate": "nuxt generate",
     "storybook": "start-storybook -p 6006",
     "dev-debug": "node --inspect-brk=9229 node_modules/nuxt/bin/nuxt",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "hygen":"hygen components new"
   },
   "lint-staged": {
     "*.{js,vue}": "yarn lint"
@@ -59,6 +60,7 @@
     "eslint-plugin-nuxt": "^0.4.3",
     "eslint-plugin-prettier": "^3.1.1",
     "husky": "^3.0.8",
+    "hygen": "^5.0.1",
     "jest": "^24.9.0",
     "lint-staged": "^9.4.2",
     "nodemon": "^1.18.9",
