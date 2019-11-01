@@ -14,7 +14,8 @@
     "storybook": "start-storybook -p 6006",
     "dev-debug": "node --inspect-brk=9229 node_modules/nuxt/bin/nuxt",
     "build-storybook": "build-storybook",
-    "hygen":"hygen components new"
+    "hygen":"hygen components new",
+    "hygen:vuex":"hygen vuex new"
   },
   "lint-staged": {
     "*.{js,vue}": "yarn lint"
