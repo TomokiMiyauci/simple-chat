@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-btn icon x-large :disabled="disabled" @click="$refs.file.onClick()">
+    <v-btn icon :disabled="disabled" @click="$refs.file.onClick()">
       <v-icon>{{ icon }}</v-icon>
     </v-btn>
-    <v-file ref="file" @onload="$emit('onload')"></v-file>
+    <v-file ref="file" @onload="onLoad"></v-file>
   </div>
 </template>
 
@@ -24,6 +24,12 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    }
+  },
+
+  methods: {
+    onLoad(file) {
+      this.$emit('onload', file)
     }
   }
 }
