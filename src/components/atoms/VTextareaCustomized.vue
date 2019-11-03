@@ -1,6 +1,6 @@
 <template>
   <v-textarea
-    :value="text"
+    v-model="value"
     :background-color="backgroundColor"
     :clear-icon="clearIcon"
     :placeholder="placeholder"
@@ -12,7 +12,7 @@
     clearable
     dense
     auto-grow
-    @change="$emit('change', text)"
+    @input="$emit('change', value)"
   ></v-textarea>
 </template>
 
@@ -37,6 +37,18 @@ export default {
     clearIcon: {
       type: String,
       default: 'mdi-close-circle'
+    }
+  },
+
+  data() {
+    return {
+      value: this.text
+    }
+  },
+
+  watch: {
+    text() {
+      this.value = this.text
     }
   }
 }
