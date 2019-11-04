@@ -1,11 +1,31 @@
 <template>
-  <v-btn icon :disabled="disabled" @click="onClick">
-    <v-icon>{{ icon }}</v-icon>
-  </v-btn>
+  <v-menu :disabled="!disabled" offset-y open-on-hover top :nudge-right="-107">
+    <template v-slot:activator="{ on: menu }">
+      <v-tooltip top :disabled="disabled">
+        <template #activator="{on: tooltip}">
+          <v-btn
+            :color="color"
+            icon
+            v-on="{ ...tooltip, ...menu }"
+            @click="onClick"
+          >
+            <v-icon>{{ icon }}</v-icon>
+          </v-btn>
+        </template>
+        <span>{{ tooltip }}</span>
+      </v-tooltip>
+    </template>
+    <v-login-induction></v-login-induction>
+  </v-menu>
 </template>
 
 <script>
+import VLoginInduction from '~/components/molecules/VLoginInduction'
 export default {
+  components: {
+    VLoginInduction
+  },
+
   props: {
     text: {
       type: String,
@@ -35,6 +55,20 @@ export default {
 
     disabled() {
       return this.icon === this.iconMic && !this.isAuth
+    },
+
+    tooltip() {
+      if (this.icon === this.iconSend) {
+        return 'Send'
+      }
+      return 'Voice Message'
+    },
+
+    color() {
+      if (this.disabled) {
+        return 'grey lighten-1'
+      }
+      return ''
     }
   },
 
