@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app style="background: linear-gradient(to top right, skyblue, orange);">
     <the-appbar />
     <v-content>
       <nuxt />
