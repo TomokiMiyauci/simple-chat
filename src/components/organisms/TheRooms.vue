@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col cols="10">
+    <v-row justify="center">
+      <v-col cols="12" sm="8" md="8" lg="5" xl="4">
         <v-subheader inset>{{ sortedByName }}</v-subheader>
         <v-room-line v-if="alignedBy === 'LINE'" :rooms="getRooms">
         </v-room-line>
