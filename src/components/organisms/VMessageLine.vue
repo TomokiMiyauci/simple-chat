@@ -1,12 +1,10 @@
 <template>
-  <v-container grid-list-xl>
-    <v-layout column :align-end="isOwnPost(message)">
-      <v-flex>
-        <v-messageTimestamp :is-own="isOwnPost(message)" :message="message">
-        </v-messageTimestamp>
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <v-row :justify="justify(message)" align-content="center">
+    <v-col cols="auto">
+      <v-messageTimestamp :is-own="isOwnPost(message)" :message="message">
+      </v-messageTimestamp>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -22,15 +20,21 @@ export default {
       default: () => {}
     }
   },
+
   computed: {
     ...mapState('user', ['id'])
   },
+
   methods: {
     isOwnPost(val) {
       if (val.userID && this.id === val.userID) {
         return true
       }
       return false
+    },
+
+    justify(pay) {
+      return this.isOwnPost(pay) ? 'end' : 'start'
     }
   }
 }
