@@ -76,7 +76,7 @@ export default {
   },
 
   clearText({ commit }) {
-    commit(SET_TEXT, null)
+    commit(SET_TEXT, '')
   },
 
   clearImage({ commit }) {
