@@ -1,45 +1,84 @@
 <template>
-  <v-container class="container">
-    <v-row justify="center" align="center">
-      <v-col cols="auto">
-        <v-post-image></v-post-image>
-      </v-col>
+  <v-row justify="center" dense align-content="center">
+    <v-col cols="auto">
+      <v-btn-image :disabled="!isAuth" @onload="sendImage"></v-btn-image>
+    </v-col>
 
-      <v-col cols="auto">
-        <v-post-tag></v-post-tag>
-      </v-col>
+    <v-col cols="auto">
+      <v-post-tag></v-post-tag>
+    </v-col>
 
-      <v-col cols="auto">
-        <v-text-send></v-text-send>
-      </v-col>
+    <v-col cols="7" sm="5" md="4" lg="3">
+      <v-textarea-customized :text="text" @change="SET"></v-textarea-customized>
+    </v-col>
 
-      <v-col cols="auto">
-        <v-sender></v-sender>
-      </v-col>
-    </v-row>
-  </v-container>
+    <v-col cols="auto">
+      <v-btn-send-or-mic
+        :is-auth="isAuth"
+        :text="text"
+        @click="post"
+      ></v-btn-send-or-mic>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
-import VPostImage from '~/components/molecules/VPostImage'
+import { mapState, mapActions } from 'vuex'
+import {
+  SET_TEXT,
+  SET_IMAGE,
+  POST_IMAGE,
+  CLEAR,
+  POST_TEXT
+} from '~/store/post/mutation-types'
+import VTextareaCustomized from '~/components/atoms/VTextareaCustomized'
+import VBtnImage from '~/components/molecules/VBtnImage'
 import VPostTag from '~/components/molecules/VPostTag'
-import VTextSend from '~/components/molecules/VTextSend'
-import VSender from '~/components/molecules/VSender'
+import VBtnSendOrMic from '~/components/molecules/VBtnSendOrMic'
+
 export default {
   components: {
-    VTextSend,
-    VPostImage,
+    VTextareaCustomized,
+    VBtnImage,
     VPostTag,
-    VSender
+    VBtnSendOrMic
+  },
+
+  computed: {
+    ...mapState('post', ['text']),
+    ...mapState('user', ['isAuth'])
+  },
+
+  methods: {
+    ...mapActions('post', [SET_TEXT, SET_IMAGE, POST_IMAGE, CLEAR, POST_TEXT]),
+    ...mapActions('modal', ['SHOW']),
+
+    SET(payload) {
+      console.log(payload)
+      this.SET_TEXT(payload)
+    },
+
+    async sendImage(file) {
+      await this.SET_IMAGE(file)
+      this.POST_IMAGE()
+    },
+
+    post(payload) {
+      switch (payload) {
+        case 'SEND':
+          this.POST_TEXT()
+          this.CLEAR()
+          break
+        case 'MIC':
+          if (!this.isAuth) {
+            return
+          }
+          this.SHOW('v-btm-sheet-wrapper')
+          break
+      }
+    }
   }
 }
 </script>
 
-<style scoped>
-.container {
-  position: sticky;
-  bottom: 0;
-  background: rgba(250, 250, 250, 0.95);
-  padding: 0;
-}
-</style>
+<style scoped></style>
