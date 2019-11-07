@@ -56,7 +56,12 @@ export default {
     '@nuxtjs/device'
   ],
 
-  buildModules: ['@nuxtjs/vuetify'],
+  buildModules: ['@nuxtjs/vuetify', '@nuxtjs/dotenv'],
+
+  dotenv: {
+    path: process.cwd()
+  },
+
   manifest: {
     name: 'Simple Chat',
     short_name: 'Simple Chat',
@@ -92,6 +97,7 @@ export default {
       }
     }
   },
+
   /*
    ** Build configuration
    */
